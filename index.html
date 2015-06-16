@@ -114,7 +114,7 @@
 				
 				<section class="switch-part switch-part2">
 					<div class="widget tagcloud" id="js-tagcloud">
-						<a href="/tags/Tools/" style="font-size: 20px;">Tools</a> <a href="/tags/后端技术/" style="font-size: 10px;">后端技术</a> <a href="/tags/架构/" style="font-size: 10px;">架构</a>
+						<a href="/tags/NoSQL/" style="font-size: 10px;">NoSQL</a> <a href="/tags/Tools/" style="font-size: 20px;">Tools</a> <a href="/tags/后端技术/" style="font-size: 10px;">后端技术</a> <a href="/tags/架构/" style="font-size: 10px;">架构</a>
 					</div>
 				</section>
 				
@@ -185,6 +185,69 @@
 	</div>
 </nav>
       <div class="body-wrap">
+  
+    <article id="post-在Ubuntu系统中安装Redis" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/06/16/在Ubuntu系统中安装Redis/" class="article-date">
+  	<time datetime="2015-06-16T15:41:59.000Z" itemprop="datePublished">2015-06-16</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/06/16/在Ubuntu系统中安装Redis/">在Ubuntu系统中安装/卸载Redis</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="安装Redis服务器端">安装Redis服务器端</h2><pre><code>sudo apt-get <span class="operator"><span class="keyword">install</span> redis-<span class="keyword">server</span></span>
+</code></pre><p>安装完成后，Redis服务器会自动启动，我们可以检查Redis服务器程序：</p>
+<h3 id="检查Redis服务器系统进程">检查Redis服务器系统进程</h3><pre><code><span class="keyword">ps</span> -aux|<span class="keyword">grep</span> redis
+</code></pre><p>redis     4162  0.1  0.0  10676  1420 ?        Ss   23:24   0:00 /usr/bin/</p>
+<pre><code>redis-<span class="keyword">server</span> /etc/redis/redis.conf
+</code></pre><p>conan     4172  0.0  0.0  11064   924 pts/0    S+   23:26   0:00 grep —color=auto redis</p>
+<h4 id="通过启动命令检查Redis服务器状态">通过启动命令检查Redis服务器状态</h4><pre><code>netstat -nlt<span class="string">|grep 6379</span>
+</code></pre><p>tcp        0      0 127.0.0.1:6379          0.0.0.0:*               LISTEN</p>
+<h4 id="通过启动命令检查Redis服务器状态-1">通过启动命令检查Redis服务器状态</h4><pre><code>sudo /etc/init.d/redis-<span class="keyword">server</span> status
+</code></pre><p>redis-server is running</p>
+<h2 id="卸载Redis">卸载Redis</h2><pre><code>sudo apt-<span class="keyword">get</span> purge <span class="comment">--auto-remove redis-server</span>
+</code></pre>
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/NoSQL/">NoSQL</a></li></ul>
+	</div>
+
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
   
     <article id="post-HttpClient4-0-Http连接池" class="article article-type-post" itemscope itemprop="blogPost">
   
