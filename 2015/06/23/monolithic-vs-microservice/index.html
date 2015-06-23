@@ -3,21 +3,28 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Hexo安装配置 | fwwdn&#39;s blog</title>
+  <title>monolithic vs microservice | fwwdn&#39;s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
-Quick">
+  <meta name="description" content="微服务（ Microservice ）是最近几年出现在架构领域的新的术语，无数的人根据自己的理解去解读微服务，一时间它成了秒杀单体应用（Monolithic ）、解决任何问题的灵丹妙药。
+微服务真的是终极解决方案？单体应用真的没必要？什么时候适合单体应用？什么时候需要拆分服务？一个大的分布式系统如何从简单的单体应用成长为复杂的分布式微服务？本文将尝试回答这些问题。
+
+用 1 个程序实现所有的功能，">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hexo安装配置">
-<meta property="og:url" content="http://yoursite.com/2015/06/07/Hexo安装配置/index.html">
+<meta property="og:title" content="monolithic vs microservice">
+<meta property="og:url" content="http://yoursite.com/2015/06/23/monolithic-vs-microservice/index.html">
 <meta property="og:site_name" content="fwwdn's blog">
-<meta property="og:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
-Quick">
-<meta property="og:updated_time" content="2015-06-09T15:25:16.937Z">
+<meta property="og:description" content="微服务（ Microservice ）是最近几年出现在架构领域的新的术语，无数的人根据自己的理解去解读微服务，一时间它成了秒杀单体应用（Monolithic ）、解决任何问题的灵丹妙药。
+微服务真的是终极解决方案？单体应用真的没必要？什么时候适合单体应用？什么时候需要拆分服务？一个大的分布式系统如何从简单的单体应用成长为复杂的分布式微服务？本文将尝试回答这些问题。
+
+用 1 个程序实现所有的功能，">
+<meta property="og:image" content="http://img2001.static.suishenyun.net/25ece6711a70a7938cb1105810f59bd3/047f460133c6d0f9184d9ebc684867a0.png!w480.jpg">
+<meta property="og:updated_time" content="2015-06-23T14:26:52.188Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hexo安装配置">
-<meta name="twitter:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
-Quick">
+<meta name="twitter:title" content="monolithic vs microservice">
+<meta name="twitter:description" content="微服务（ Microservice ）是最近几年出现在架构领域的新的术语，无数的人根据自己的理解去解读微服务，一时间它成了秒杀单体应用（Monolithic ）、解决任何问题的灵丹妙药。
+微服务真的是终极解决方案？单体应用真的没必要？什么时候适合单体应用？什么时候需要拆分服务？一个大的分布式系统如何从简单的单体应用成长为复杂的分布式微服务？本文将尝试回答这些问题。
+
+用 1 个程序实现所有的功能，">
   
     <link rel="alternative" href="/atom.xml" title="fwwdn&#39;s blog" type="application/atom+xml">
   
@@ -188,11 +195,11 @@ Quick">
 		</header>				
 	</div>
 </nav>
-      <div class="body-wrap"><article id="post-Hexo安装配置" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-monolithic-vs-microservice" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2015/06/07/Hexo安装配置/" class="article-date">
-  	<time datetime="2015-06-07T14:34:23.000Z" itemprop="datePublished">2015-06-07</time>
+      <a href="/2015/06/23/monolithic-vs-microservice/" class="article-date">
+  	<time datetime="2015-06-23T13:49:47.000Z" itemprop="datePublished">2015-06-23</time>
 </a>
     </div>
   
@@ -205,7 +212,7 @@ Quick">
         
   
     <h1 class="article-title" itemprop="name">
-      Hexo安装配置
+      monolithic vs microservice
     </h1>
   
 
@@ -214,7 +221,7 @@ Quick">
       <div class="article-info article-info-post">
         
 	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Tools/">Tools</a></li></ul>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/架构/">架构</a></li></ul>
 	</div>
 
         
@@ -225,15 +232,43 @@ Quick">
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>Welcome to <a href="http://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="http://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="http://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
-<h2 id="Quick_Start">Quick Start</h2><h3 id="Create_a_new_post">Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
-<h3 id="Run_server">Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
-<h3 id="Generate_static_files">Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
-<h3 id="Deploy_to_remote_sites">Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
+        <p>微服务（ Microservice ）是最近几年出现在架构领域的新的术语，无数的人根据自己的理解去解读微服务，一时间它成了秒杀单体应用（Monolithic ）、解决任何问题的灵丹妙药。</p>
+<p>微服务真的是终极解决方案？单体应用真的没必要？什么时候适合单体应用？什么时候需要拆分服务？一个大的分布式系统如何从简单的单体应用成长为复杂的分布式微服务？本文将尝试回答这些问题。</p>
+<p><img src="http://img2001.static.suishenyun.net/25ece6711a70a7938cb1105810f59bd3/047f460133c6d0f9184d9ebc684867a0.png!w480.jpg" alt=""></p>
+<p>用 1 个程序实现所有的功能，这是一个单体（Monolithic ）应用。运行程序，所有的功能都属于同一个进程，它们之间的调用属于进程内通信。这就保证功能模块之间的同步通信，调用速度快。单体应用可能存在的问题包括：<br>一个进程集成了所有的功能，意味着它需要更多的系统资源。是否存在能够提供这些资源的主机？用户是否能够或者愿意负担这样的主机？<br>修改或者升级任何功能模块，必须先停止运行整个应用，导致应用暂时不可用。</p>
+<p>把所有的功能划分为 n 个部分，分别用 1 个程序实现，这就是一个多体应用。多体应用既可以部署在单机上，也可以部署在多机上。</p>
+<p>分布式应用的不同进程需要相互配合和协调，才能够完成指定的任务。这就要求在承认异步的前提下，提供可靠的故障检测机制、可靠的点对点通信和群组通信、可靠的数据一致性（核心点之一是定义逻辑顺序）等。这正是分布式系统研究的核心内容。</p>
+<p>再看微服务（ Microservice ）的概念。首先，「微」意味着要拆分所有的功能，且分得相对较小，再实现为对应的程序；其次，「服务」意味着这个程序有多个（种）消费者，这些消费者的编程语言、框架和支撑系统不尽相同。这就要求提供标准化的命名和发现机制、访问协议和交换数据格式。像现在流行的一种实现方式，是以 RESTful 风格 API 形式提供微服务，用 DNS 作为服务命名和发现机制， HTTP(S) 作为访问协议， JSON 作为数据格式。</p>
+<p>对于一个分布式系统，在设计架构时，我们需要考虑下列问题：</p>
+<ul>
+<li><p>要不要拆分功能，拆分的粒度多大？</p>
+</li>
+<li><p>拆分后的不同组件，是部署在单机上还是多机上？</p>
+</li>
+<li><p>其中的一些组件，需要为多个（种）消费者提供服务吗？</p>
+</li>
+<li><p>各个服务间如何通信？</p>
+</li>
+<li><p>一个服务挂掉如何保证其他依赖此服务的服务的可用性？</p>
+</li>
+<li><p>分布式事务如何保证？</p>
+</li>
+</ul>
+<p>对于初创公司，要以实现业务功能为先，此时，由于人力、财力都较少，所以适合单体应用，快速开发、部署。</p>
+<p>后面随着业务的发展，人员的增加，开发、运维人员的完整，系统也逐渐发展变大，一些公共的功能可以拆分出去作为独立的服务，交由专门团队维护，这样做，一是提高复用，避免重复造轮子；二是，减少依赖；</p>
+<p>再然后，业务继续发展，人员继续增加，此时我们的系统已经相当庞大了。需要将一些核心功能拆分，将大系统拆分为多个微服务，分开部署。提高开发效率。但这样不可避免的增加了运维的成本；</p>
+<p>基本上，大的互联网系统都是按照上面的路子演化而来。君不见，淘宝最初也只是一个php写的bbs。</p>
+<p>一个大型的分布式系统，最核心是做好下面四点：</p>
+<ul>
+<li><p>大规模分布式缓存系统。单靠数据库当然不可能，几台redis、mongo啥的也不够，需要上百台内存存储。并做好可靠的故障转移，冷然数据处理。</p>
+</li>
+<li><p>高效可靠的队列系统：亿级pv意味随时有大量数据从用户端产生，并且有一套复杂的后端系统，任意数据提交都需要考虑对这些分布式存储、服务的影响。高效可靠的队列服务必不可少。</p>
+</li>
+<li><p>细粒度的数据服务系统：用户数据读写、统一id生成、图片视频的写入读取、核心业务对象(例如电商商品订单)的读写都需要独立服务化与子系统化，并能与其它系统实现高效方便的rpc通讯。</p>
+</li>
+<li><p>强大的线上监控、部署系统。能应对突发故障、流量。</p>
+</li>
+</ul>
 
       
     </div>
@@ -243,18 +278,9 @@ Quick">
     
 <nav id="article-nav">
   
-    <a href="/2015/06/09/架构随想/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption"><</strong>
-      <div class="article-nav-title">
-        
-          架构随想
-        
-      </div>
-    </a>
   
-  
-    <a href="/2015/06/07/Git安装配置/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">Git安装配置</div>
+    <a href="/2015/06/20/100-cpu-usage-issue/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">一次线上环境CPU过高问题解决过程</div>
       <strong class="article-nav-caption">></strong>
     </a>
   
@@ -283,7 +309,7 @@ Quick">
 
 <div class="duoshuo">
 	<!-- 多说评论框 start -->
-	<div class="ds-thread" data-thread-key="Hexo安装配置" data-title="Hexo安装配置" data-url="http://yoursite.com/2015/06/07/Hexo安装配置/"></div>
+	<div class="ds-thread" data-thread-key="monolithic-vs-microservice" data-title="monolithic vs microservice" data-url="http://yoursite.com/2015/06/23/monolithic-vs-microservice/"></div>
 	<!-- 多说评论框 end -->
 	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 	<script type="text/javascript">
