@@ -3,27 +3,30 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Git配置多账号 | fwwdn&#39;s blog</title>
+  <title>动态配置多个Git账号 | fwwdn&#39;s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="前言因为公司用gitbucket搭建了自己的代码库，要求使用公司的邮箱作为账号。而我自己又有一些开源代码放在github上，所以必须配置多个git账号，下面总结下我的配置过程：
-取消git全局设置很多同学照着网上的教程，都会对git进行全局设置，例如：
-git config --global user.name &quot;username&quot;
-git config --global user.email">
+SSH配置使用ssh-keygen分别生成gitbucket和 github的密钥：
+cd ~/.ssh/
+ssh-keygen -C &quot;gitbucket email&quot; -t rsa 
+Enter file in whi">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Git配置多账号">
-<meta property="og:url" content="http://yoursite.com/2015/07/01/Git配置多账号/index.html">
+<meta property="og:title" content="动态配置多个Git账号">
+<meta property="og:url" content="http://yoursite.com/2015/07/01/configure-many-git-account/index.html">
 <meta property="og:site_name" content="fwwdn's blog">
 <meta property="og:description" content="前言因为公司用gitbucket搭建了自己的代码库，要求使用公司的邮箱作为账号。而我自己又有一些开源代码放在github上，所以必须配置多个git账号，下面总结下我的配置过程：
-取消git全局设置很多同学照着网上的教程，都会对git进行全局设置，例如：
-git config --global user.name &quot;username&quot;
-git config --global user.email">
-<meta property="og:updated_time" content="2015-07-01T15:10:00.000Z">
+SSH配置使用ssh-keygen分别生成gitbucket和 github的密钥：
+cd ~/.ssh/
+ssh-keygen -C &quot;gitbucket email&quot; -t rsa 
+Enter file in whi">
+<meta property="og:updated_time" content="2015-07-02T16:28:08.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Git配置多账号">
+<meta name="twitter:title" content="动态配置多个Git账号">
 <meta name="twitter:description" content="前言因为公司用gitbucket搭建了自己的代码库，要求使用公司的邮箱作为账号。而我自己又有一些开源代码放在github上，所以必须配置多个git账号，下面总结下我的配置过程：
-取消git全局设置很多同学照着网上的教程，都会对git进行全局设置，例如：
-git config --global user.name &quot;username&quot;
-git config --global user.email">
+SSH配置使用ssh-keygen分别生成gitbucket和 github的密钥：
+cd ~/.ssh/
+ssh-keygen -C &quot;gitbucket email&quot; -t rsa 
+Enter file in whi">
   
     <link rel="alternative" href="/atom.xml" title="fwwdn&#39;s blog" type="application/atom+xml">
   
@@ -194,10 +197,10 @@ git config --global user.email">
 		</header>				
 	</div>
 </nav>
-      <div class="body-wrap"><article id="post-Git配置多账号" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-configure-many-git-account" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2015/07/01/Git配置多账号/" class="article-date">
+      <a href="/2015/07/01/configure-many-git-account/" class="article-date">
   	<time datetime="2015-07-01T14:30:45.000Z" itemprop="datePublished">2015-07-01</time>
 </a>
     </div>
@@ -211,7 +214,7 @@ git config --global user.email">
         
   
     <h1 class="article-title" itemprop="name">
-      Git配置多账号
+      动态配置多个Git账号
     </h1>
   
 
@@ -232,25 +235,6 @@ git config --global user.email">
     <div class="article-entry" itemprop="articleBody">
       
         <h2 id="前言">前言</h2><p>因为公司用gitbucket搭建了自己的代码库，要求使用公司的邮箱作为账号。而我自己又有一些开源代码放在github上，所以必须配置多个git账号，下面总结下我的配置过程：</p>
-<h3 id="取消git全局设置">取消git全局设置</h3><p>很多同学照着网上的教程，都会对git进行全局设置，例如：</p>
-<pre><code>git config --global user<span class="class">.name</span> <span class="string">"username"</span>
-git config --global user<span class="class">.email</span>  <span class="string">"email"</span>
-</code></pre><p>因为我们要配置多个账号，所以我们首先需要取消git的全局设置</p>
-<pre><code><span class="comment">git</span> <span class="comment">config</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">global</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">unset</span> <span class="comment">user</span><span class="string">.</span><span class="comment">name</span>
-<span class="comment">git</span> <span class="comment">config</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">global</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">unset</span> <span class="comment">user</span><span class="string">.</span><span class="comment">email</span>
-</code></pre><h3 id="针对每个项目，单独设置用户名和邮箱">针对每个项目，单独设置用户名和邮箱</h3><p>设置方法如下：</p>
-<pre><code>mkdir /gitbucket <span class="comment">// gitbucket检出目录</span>
-cd /gitbucket
-git init
-git config user<span class="class">.name</span> <span class="string">"username"</span>
-git config user<span class="class">.email</span> <span class="string">"email"</span>
-
-mkdir /github <span class="comment">// github检出目录</span>
-cd /github
-git init
-git config user<span class="class">.name</span> <span class="string">"username"</span>
-git config user<span class="class">.email</span> <span class="string">"email"</span>
-</code></pre><p>说白了，也就是进入到你的git项目相对根目录下，然后执行<em>git config</em>设置记录</p>
 <h3 id="SSH配置">SSH配置</h3><p>使用ssh-keygen分别生成gitbucket和 github的密钥：</p>
 <pre><code><span class="keyword">cd</span> ~/.ssh/
 ssh-keygen -C <span class="string">"gitbucket email"</span> -t rsa 
@@ -274,6 +258,55 @@ IdentityFile ~/.ssh/id_rsa_github
 </code></pre><h3 id="检出服务端项目代码">检出服务端项目代码</h3><p>这里需要注意，使用.ssh目录下的host代替真实的hostname，这样才能让git识别出来,如：</p>
 <pre><code>git clone git<span class="variable">@github</span><span class="symbol">:fwwdn/sensitive-words</span>.git
 </code></pre><p>这里使用github代替@github.com</p>
+<h3 id="解决commit后不能正常显示头像信息问题">解决commit后不能正常显示头像信息问题</h3><p>按上面的方法配置后，在你执行git commit -m “XXX”命令时会有如下提示：</p>
+<pre><code>Your name <span class="keyword">and</span> email address were configured automatically based
+<span class="literal">on</span> your username <span class="keyword">and</span> hostname. Please check <span class="literal">that</span> they are accurate.
+ou can suppress <span class="keyword">this</span> message <span class="keyword">by</span> setting them <span class="attribute">explicitly</span>:
+
+git config --<span class="built_in">global</span> user.name <span class="string">"Your Name"</span>
+git config --<span class="built_in">global</span> user.email you<span class="property">@example</span>.com
+
+After doing <span class="keyword">this</span>, you may fix the identity used <span class="keyword">for</span> <span class="keyword">this</span> commit <span class="attribute">with</span>:
+
+git commit --amend --reset-author
+</code></pre><p>当然，这并不会影响你push代码，但因为你的user name和你的user email配置有误，所以你的头像将不能在提交日志中正常显示。解决的办法如下：</p>
+<h4 id="1、最笨的办法：">1、最笨的办法：</h4><p>取消git全局设置，很多同学照着网上的教程，都会对git进行全局设置，例如：</p>
+<pre><code>git config --global user<span class="class">.name</span> <span class="string">"username"</span>
+git config --global user<span class="class">.email</span>  <span class="string">"email"</span>
+</code></pre><p>因为我们要配置多个账号，所以我们首先需要取消git的全局设置</p>
+<pre><code><span class="comment">git</span> <span class="comment">config</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">global</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">unset</span> <span class="comment">user</span><span class="string">.</span><span class="comment">name</span>
+<span class="comment">git</span> <span class="comment">config</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">global</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">unset</span> <span class="comment">user</span><span class="string">.</span><span class="comment">email</span>
+</code></pre><p>针对每个项目，单独设置用户名和邮箱</p>
+<p>设置方法如下：</p>
+<pre><code>cd gitbucket/project
+git config user<span class="class">.name</span> <span class="string">"gitbucket_username"</span>
+git config user<span class="class">.email</span> <span class="string">"gitbucket_email"</span>
+
+cd github/project
+git config user<span class="class">.name</span> <span class="string">"github_username"</span>
+git config user<span class="class">.email</span> <span class="string">"github_email"</span>
+</code></pre><h4 id="2、半自动化方法：">2、半自动化方法：</h4><pre><code><span class="keyword">cd</span> ~
+<span class="built_in">mkdir</span> .git-scripts
+<span class="keyword">vim</span> ~/.git-scripts/account-config.<span class="keyword">sh</span>
+</code></pre><p>shell脚本内容如下：</p>
+<pre><code><span class="shebang">#!/bin/bash
+</span>
+remote=`git remote -v | awk <span class="string">'/\(push\)$/ {print $2}'</span>`
+
+email=<span class="string">"gitbucket_email"</span>
+name=<span class="string">"gitbucket_name"</span>
+
+<span class="keyword">if</span> [[ <span class="variable">$remote</span> == *github* ]]; <span class="keyword">then</span>
+    email=<span class="string">"github_email"</span>
+    name=<span class="string">"github_name"</span>
+<span class="keyword">fi</span>
+
+<span class="built_in">echo</span> <span class="string">"Configuring user.email as <span class="variable">$email</span>"</span>
+<span class="built_in">echo</span> <span class="string">"Configuring user.name as <span class="variable">$name</span>"</span>
+
+git config user.email <span class="variable">$email</span>
+git config user.name <span class="variable">$name</span>
+</code></pre><p> 然后只需在每次git clone 项目之后，执行<strong>git account-config</strong> ，即可一步配置git account信息 。</p>
 <p>至此，我们就可以使用多个git账号愉快的玩耍了。:)</p>
 
       
@@ -315,7 +348,7 @@ IdentityFile ~/.ssh/id_rsa_github
 
 <div class="duoshuo">
 	<!-- 多说评论框 start -->
-	<div class="ds-thread" data-thread-key="Git配置多账号" data-title="Git配置多账号" data-url="http://yoursite.com/2015/07/01/Git配置多账号/"></div>
+	<div class="ds-thread" data-thread-key="configure-many-git-account" data-title="动态配置多个Git账号" data-url="http://yoursite.com/2015/07/01/configure-many-git-account/"></div>
 	<!-- 多说评论框 end -->
 	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 	<script type="text/javascript">
