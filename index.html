@@ -114,7 +114,7 @@
 				
 				<section class="switch-part switch-part2">
 					<div class="widget tagcloud" id="js-tagcloud">
-						<a href="/tags/NoSQL/" style="font-size: 10px;">NoSQL</a> <a href="/tags/NoSQL-Redis/" style="font-size: 10px;">NoSQL Redis</a> <a href="/tags/Tools/" style="font-size: 20px;">Tools</a> <a href="/tags/java/" style="font-size: 20px;">java</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/后端技术/" style="font-size: 10px;">后端技术</a> <a href="/tags/收藏/" style="font-size: 15px;">收藏</a> <a href="/tags/架构/" style="font-size: 15px;">架构</a> <a href="/tags/电商/" style="font-size: 10px;">电商</a> <a href="/tags/随笔/" style="font-size: 10px;">随笔</a>
+						<a href="/tags/NoSQL/" style="font-size: 10px;">NoSQL</a> <a href="/tags/NoSQL-Redis/" style="font-size: 10px;">NoSQL Redis</a> <a href="/tags/Tools/" style="font-size: 20px;">Tools</a> <a href="/tags/java/" style="font-size: 16.67px;">java</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/后端技术/" style="font-size: 10px;">后端技术</a> <a href="/tags/收藏/" style="font-size: 13.33px;">收藏</a> <a href="/tags/架构/" style="font-size: 13.33px;">架构</a> <a href="/tags/电商/" style="font-size: 10px;">电商</a> <a href="/tags/随笔/" style="font-size: 10px;">随笔</a>
 					</div>
 				</section>
 				
@@ -185,6 +185,115 @@
 	</div>
 </nav>
       <div class="body-wrap">
+  
+    <article id="post-github-permission-denied-publickey" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/07/21/github-permission-denied-publickey/" class="article-date">
+  	<time datetime="2015-07-21T13:45:54.000Z" itemprop="datePublished">2015-07-21</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/07/21/github-permission-denied-publickey/">github-permission-denied-publickey</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>今天在Mac下使用git提交代码到github时一直失败，错误信息：</p>
+<pre><code>Permission denied <span class="list">(<span class="keyword">publickey</span>)</span>
+</code></pre><p>试了各种解决办法，重新生成key，依旧不行，后来发现是因为我的ip地址变了，需要将其添加到know host中，使用下面命令：</p>
+<pre><code><span class="label">ssh</span>-<span class="keyword">add </span>~/.ssh/id_rsa_github
+</code></pre><p>OK，完美解决。</p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Tools/">Tools</a></li></ul>
+	</div>
+
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+  
+    <article id="post-hessian_learning" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/07/14/hessian_learning/" class="article-date">
+  	<time datetime="2015-07-14T09:46:19.000Z" itemprop="datePublished">2015-07-14</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="Hessian">Hessian</h2><pre><code>Exception <span class="keyword">in</span> thread <span class="string">"main"</span> java<span class="class">.lang</span><span class="class">.reflect</span><span class="class">.UndeclaredThrowableException</span>
+    at com<span class="class">.sun</span><span class="class">.proxy</span>.<span class="variable">$Proxy0</span>.<span class="function"><span class="title">getUser</span><span class="params">(Unknown Source)</span></span>
+    at com<span class="class">.fwwdn</span><span class="class">.hessian</span><span class="class">.Test</span><span class="class">.main</span>(Test<span class="class">.java</span>:<span class="number">15</span>)
+Caused by: java<span class="class">.io</span><span class="class">.IOException</span>: Premature EOF
+    at sun<span class="class">.net</span><span class="class">.www</span><span class="class">.http</span><span class="class">.ChunkedInputStream</span><span class="class">.readAheadBlocking</span>(ChunkedInputStream<span class="class">.java</span>:<span class="number">565</span>)
+    at sun<span class="class">.net</span><span class="class">.www</span><span class="class">.http</span><span class="class">.ChunkedInputStream</span><span class="class">.readAhead</span>(ChunkedInputStream<span class="class">.java</span>:<span class="number">609</span>)
+    at sun<span class="class">.net</span><span class="class">.www</span><span class="class">.http</span><span class="class">.ChunkedInputStream</span><span class="class">.read</span>(ChunkedInputStream<span class="class">.java</span>:<span class="number">696</span>)
+    at java<span class="class">.io</span><span class="class">.FilterInputStream</span><span class="class">.read</span>(FilterInputStream<span class="class">.java</span>:<span class="number">133</span>)
+    at sun<span class="class">.net</span><span class="class">.www</span><span class="class">.protocol</span><span class="class">.http</span><span class="class">.HttpURLConnection</span><span class="variable">$HttpInputStream</span>.<span class="function"><span class="title">read</span><span class="params">(HttpURLConnection.java:<span class="number">3335</span>)</span></span>
+    at com<span class="class">.caucho</span><span class="class">.hessian</span><span class="class">.io</span><span class="class">.Hessian2Input</span><span class="class">.readBuffer</span>(Hessian2Input<span class="class">.java</span>:<span class="number">2844</span>)
+    at com<span class="class">.caucho</span><span class="class">.hessian</span><span class="class">.io</span><span class="class">.Hessian2Input</span><span class="class">.read</span>(Hessian2Input<span class="class">.java</span>:<span class="number">2816</span>)
+    at com<span class="class">.caucho</span><span class="class">.hessian</span><span class="class">.io</span><span class="class">.Hessian2Input</span><span class="class">.readObject</span>(Hessian2Input<span class="class">.java</span>:<span class="number">1679</span>)
+    at com<span class="class">.caucho</span><span class="class">.hessian</span><span class="class">.io</span><span class="class">.Hessian2Input</span><span class="class">.readReply</span>(Hessian2Input<span class="class">.java</span>:<span class="number">382</span>)
+    at com<span class="class">.caucho</span><span class="class">.hessian</span><span class="class">.client</span><span class="class">.HessianProxy</span><span class="class">.invoke</span>(HessianProxy<span class="class">.java</span>:<span class="number">195</span>)
+    ... <span class="number">2</span> more
+</code></pre>
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
   
     <article id="post-happy-work" class="article article-type-post" itemscope itemprop="blogPost">
   
@@ -848,228 +957,6 @@ git config user.name <span class="variable">$name</span>
       
 	<div class="article-tag tagcloud">
 		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/架构/">架构</a></li></ul>
-	</div>
-
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-  
-    <article id="post-100-cpu-usage-issue" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2015/06/20/100-cpu-usage-issue/" class="article-date">
-  	<time datetime="2015-06-20T15:40:09.000Z" itemprop="datePublished">2015-06-20</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/06/20/100-cpu-usage-issue/">一次线上环境CPU过高问题解决过程</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>今天早晨，发现海外版的一个线上服务响应很慢，接口要刷新半天。ssh上去看了内存、磁盘都正常;用top查看cpu时发现Java进程cpu占用超过100%。tail -f 看了日志，发现几个error和warn但都感觉和cpu占用高关系不大。<br>所以初步怀疑是某些线程有问题：</p>
-<ul>
-<li>使用top查找出最耗cpu的进程号（PID）<br><img src="http://img2001.static.suishenyun.net/25ece6711a70a7938cb1105810f59bd3/acb9edd3e1ad94ea83e38a8ff956653e.jpg!w480.jpg" alt=""></li>
-</ul>
-<p>发现最占CPU的进程是 1414</p>
-<ul>
-<li>使用jstack dump对应PID的堆栈信息保存备查</li>
-</ul>
-<p>jstack是JDK内置的性能调优工具，对于分析线程堆栈非常有用。直接  jstack 1414 &gt; jstack.out</p>
-<p><img src="http://img2001.static.suishenyun.net/25ece6711a70a7938cb1105810f59bd3/bcf29f1958e24af7e7bbe2172a5b658c.jpg!w480.jpg" alt=""></p>
-<ul>
-<li>再次使用top查出对应PID中最耗cpu的子进程（java线程）</li>
-</ul>
-<p>top -p 1414 -H</p>
-<p><img src="http://img2001.static.suishenyun.net/25ece6711a70a7938cb1105810f59bd3/c8a8b0a93c57992b636427f96e6607ee.jpg!w480.jpg" alt=""></p>
-<p>找到1462  1482 2个线程。</p>
-<ul>
-<li>从dump下来的堆栈信息中查找耗费性能的代码块</li>
-</ul>
-<p>从上面开到，我们用top找出来的pid是十进制的。而dump下来的nid是十六进制的。利用printf命令格式化来转换一下进制（当然，也可以用其他方式）：</p>
-<p><img src="http://img2001.static.suishenyun.net/25ece6711a70a7938cb1105810f59bd3/e9199514d71fbe272723db9b1a17c97d.jpg!w480.jpg" alt=""></p>
-<p>通过vim查找之前保存的线程堆栈信息，就能找到问题代码所在了。 </p>
-<p><img src="http://img2001.static.suishenyun.net/25ece6711a70a7938cb1105810f59bd3/4ab6e1bbe2e147681deec8d615ad2721.jpg!w480.jpg" alt=""></p>
-<p>发现是之前的用RabbitMQ来检查业务系统更新的线程有问题， 跟了下代码，这块逻辑之前是国内版用的，海外版有了新的接口，所以直接停掉这个后台任务，部署， cpu降下来了；<br> ​<br><img src="http://img2001.static.suishenyun.net/25ece6711a70a7938cb1105810f59bd3/b60ab6ae60752f709d0c35e7f859787f.jpg!w480.jpg" alt=""></p>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/">java</a></li></ul>
-	</div>
-
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-  
-    <article id="post-the-teach-stack-of-java-backend-develop" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2015/06/19/the-teach-stack-of-java-backend-develop/" class="article-date">
-  	<time datetime="2015-06-19T13:55:47.000Z" itemprop="datePublished">2015-06-19</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/06/19/the-teach-stack-of-java-backend-develop/">Java后端开发技术选型</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="Web">Web</h2><ul>
-<li><p>MVC Framwork： SpringMVC3.0 Restful的风格终于回归了MVC框架的简单本质，对比之下Struts2概念太复杂更新又太懒了。</p>
-</li>
-<li><p>Template：JSP2.0且尽量使用JSP EL而不是taglib，万一要写taglib也用纯JSP来编写，一向是SpringSide的推荐，Freemarker们始终有点小众, 而Thymeleaf与美工配合度非常高，可惜也是太少用户了。</p>
-</li>
-<li><p>Layout Decoration： Tiles的配置都太复杂了，<a href="https://github.com/sitemesh/sitemesh2" target="_blank" rel="external">SiteMesh2</a>好些，但Sitemesh3烂尾了。</p>
-</li>
-<li><p>Javascript Library： 随大流用了<a href="http://www.jquery.com/" target="_blank" rel="external">JQuery</a>。其实Dojo的面向对象语法更优美，但用户数和插件社区差了点。</p>
-</li>
-<li><p>CSS Framework： 最热火的<a href="http://twitter.github.com/bootstrap/" target="_blank" rel="external">Twitter Bootstrap</a>，提供了简便的布局能力和基本的页面美化。</p>
-</li>
-<li><p>JavaScript/CSS Compressor: 还是随便选的<a href="http://developer.yahoo.com/yui/compressor/" target="_blank" rel="external">YUI Compressor</a>。</p>
-</li>
-<li><p>Validation: <a href="http://jqueryvalidation.org/" target="_blank" rel="external">JQuery Validation Plugin</a>这种客户端校验的客户体验更好，而Spring MVC集成Hibernate Valiator的服务端校验则可以避免恶意用户跳过页面直接发送请求，校验规则也更多，需要混合使用。</p>
-</li>
-</ul>
-<h2 id="WebService">WebService</h2><ul>
-<li><p>SOAP WebService： JAX-WS2.0的注解 + <a href="http://cxf.apache.org/" target="_blank" rel="external">Apache CXF</a> 无疑是最成熟的，一说起Axis1/2我都要打冷颤。</p>
-</li>
-<li><p>Restful Service： JAX-RS 1.0 + Jersey/CXF，够标准。但直接使用Spring MVC能使架构更简单。 如果追求极致的性能标，直接写Servlet也没啥。</p>
-</li>
-<li><p>Restful Client: 刚出来的JAX-RS 2.0标准，实际是用Jersey的client api做蓝本的， 而直接使用Spring的RestTemplate可以减少第三方包的引入。</p>
-</li>
-<li><p>为了隔绝变化影响，隐藏细节，对外暴露的DTO和应用内部的领域对象是不同的类型，用<a href="http://dozer.sourceforge.net/" target="_blank" rel="external">Dozer</a>进行复制。</p>
-</li>
-<li><p>请求参数的校验，JSR303 Bean Validator的实现<a href="http://www.hibernate.org/subprojects/validator.html" target="_blank" rel="external">Hibernate Validator</a>没太多的竞争对手。</p>
-</li>
-</ul>
-<h2 id="Database">Database</h2><ul>
-<li><p>ORM Framework： 快速开发的应用里，领域对象肯定是用JPA标注的。至于API用Hibernate还是JPA，因为那个极简便的，DAO只要写接口就好了的<a href="http://www.springsource.org/spring-data/jpa" target="_blank" rel="external">Spring-Data-JPA</a>，所以选了<a href="http://www.hibernate.org/" target="_blank" rel="external">JPA</a>。 当然，JPA的实现还是用Hibernate。</p>
-</li>
-<li><p>追求高性能的应用，如各种Web服务，当然就是<a href="http://code.google.com/p/mybatis/" target="_blank" rel="external">MyBatis</a>了。如果项目再简单点，Spring JDBC其实也不错。</p>
-</li>
-<li><p>传统数据库: 无非Oracle与MySQL的选择，如果你恨MySQL依然是Oracle家的东西，可以考虑越来越多人用的，语法和Oracle很像的Postgresql。</p>
-</li>
-<li><p>NOSQL数据库: 国内用的比较多的还是<a href="http://www.redis.io/" target="_blank" rel="external">Redis</a>和MongoDB。Redis更像一个数据结构服务器，暴露各种数据结构的专有API。而MongoDB将数据存成BSON格式，也提供类似SQL的查询语句，更像一个schema-less的数据库。</p>
-</li>
-<li><p>数据库连接池: Apache DBCP本来一统江湖，现在被人批评又慢又复杂，所以有了<a href="http://tomcat.apache.org/tomcat-7.0-doc/jdbc-pool.html" target="_blank" rel="external">Tomcat JDBC</a>，另外温少的Druid也是一个选择。</p>
-</li>
-<li><p>Cache： 在JVM里的缓存，最老牌最多人用的依然是Ehcache，一些更强大的DataGrid方案如HazelCast，JBoss的Infinispan反而没什么人用。另外最简单的JVM内缓存是<a href="https://code.google.com/p/guava-libraries/wiki/CachesExplained" target="_blank" rel="external">Guava</a>的Cache。</p>
-</li>
-<li><p>而中央式的缓存，Memcached已经成为了事实标准。而且当主创撒手不管后，社区现在反而有着稳定的更新。 Client方面，比较稳健选择的还是Spymemcached。</p>
-</li>
-</ul>
-<h2 id="Services">Services</h2><ul>
-<li><p>Security Framework： 选择<a href="http://shiro.apache.org/" target="_blank" rel="external">Apache Shiro</a>是因为SpringSecurity的代码复杂度已经超过了它的实际需要，扩展困难痛苦。另一个原因是SpringSecurity的基本API居然只支持基于角色的判断，e.g. hasRole(“Administrator”)，而Shiro同时还支持我们其实更常用的基于Permission的判断，e.g. hasPermission(“User:Edit”)。</p>
-</li>
-<li><p>JMS： <a href="http://activemq.apache.org/" target="_blank" rel="external">ActiveMQ</a>是最多人选用的应用服务器无关的JMS实现，JBoss的HornetQ同样只是JBoss的用户在使用。Spring自带的JMS封装很好用。但还有更高级的如支持跨平台的AMQP协议的RabbmitMQ。</p>
-</li>
-<li><p>Schedule： 对于固定时间间隔的任务，JDK自带的Executor已足够好。Cron式定时执行，Spring的Scheduler也能满足。而且Spring的提供的纯XML配置也让Scheduler变得很简单，<a href="http://quartz-scheduler.org/" target="_blank" rel="external">Quartz</a>更大的优势体现在保证集群中有且仅有一台服务器执行任务。</p>
-</li>
-<li><p>JMX: <a href="http://www.jolokia.org/" target="_blank" rel="external">Jolokia</a>能将JMX中的MBean以Restful+JSON的方式暴露出来，使JMX这个古老的，在平台互通中显得有点封闭的协议重新焕发了青春。而Spring-Jmx将普通POJO注释一下就变成MBean也非常方便。</p>
-</li>
-<li><p>其他Production Feature: 用<a href="https://github.com/Netflix/Hystrix" target="_blank" rel="external">Hystrix</a>对访问资源进行并发、延时、短路控制，防止系统雪崩。</p>
-</li>
-</ul>
-<h2 id="Utilizes">Utilizes</h2><ul>
-<li><p>General： <a href="http://commons.apache.org/lang/" target="_blank" rel="external">Apache Commons Lang</a>说是伴着我们长大的也不为过，3.0版连package名也改了，全面支持泛型。 Guava 是Google新鲜推出的优雅产品。但说它会一桶天下又不定，因为它有时候太新潮了，反而用不惯。比如StringUtils我还是喜欢用Apache的，IO也同样是Apache Commons IO的好使。</p>
-</li>
-<li><p>XML： 用JDK自带的JAXB就算了，不折腾。</p>
-</li>
-<li><p>JSON： GSon虽然系出名门而且接口优雅，但<a href="http://jackson.codehaus.org/" target="_blank" rel="external">Jackson</a>的功能更加丰富到匪夷所思，而且比GSon快很多。</p>
-</li>
-<li><p>Email： Spring自带的Email封装挺好用的。</p>
-</li>
-<li><p>Logging: <a href="http://www.slf4j.org/" target="_blank" rel="external">Slf4j</a>作为入口，早就替代了Apache Common Logging了，下面的实现Log4j 1.x 被批判太多同步方法太慢，Log4j作者的后作Logback就好很多了，但社区似乎不甘心log在一家QOS公司手里，又在推动log4j2.0的发展，目前还是beta版。另外选择<a href="http://logstash.net/" target="_blank" rel="external">Logstash</a>做日志的中央式处理。</p>
-</li>
-<li><p>最后，Freemarker虽然不用来做页面Template，平时用来生成点东西也不错的。JodaTime这种要直接加入JDK的就不多说它了。HttpClient建议用Apache HttpClient好过JDK自带。</p>
-</li>
-</ul>
-<h2 id="Test">Test</h2><ul>
-<li><p>Unit Test： JUnit始终是正统，TestNG的功能如测试用例分组它也慢慢支持了。<a href="http://joel-costigliola.github.io/assertj/" target="_blank" rel="external">AssertJ</a> 是目前最好的Assert语句库。</p>
-</li>
-<li><p>Mock： Mockito的API比老牌的EasyMock更为优雅，而PowerMock则能配合Mockito完成static方法，函数内部new 出来的对象这些Mockito做不了的mock。</p>
-</li>
-<li><p>Functional Test：Selenium与WebDriver的合并后，最大改进是原来基于javascript的方案， 变成了直接调用浏览器的核心API，性能好了。</p>
-</li>
-<li><p>Performance/Stability Test: [Jmeter]作为测试工具是最成熟的，Gatling还需要时间成熟。</p>
-</li>
-</ul>
-<h2 id="Development_Environment">Development Environment</h2><ul>
-<li><p>JDK6这样没什么兼容性问题又成熟得一塌糊涂的版本建议大家都升级吧。JDK7也不错，有G1垃圾收集器和Try-Catch新语法的语法糖。</p>
-</li>
-<li><p>用<a href="http://www.eclipse.org/jetty/" target="_blank" rel="external">Jetty7</a>是因为它的嵌入式版本做得好，集成测试不用部署直接就开跑了。开发时一般也不用Eclipse插件，直接自己在代码里启动了，省下打包拷贝War文件的时间。Tomcat现在也有嵌入式版本了，而Jetty最新版要JDK7。</p>
-</li>
-<li><p>用<a href="http://www.h2database.com/" target="_blank" rel="external">H2 Database</a>，既是嵌入式的，又可以持久化到文件用Web Console查看，性能还是嵌入式中最好的。</p>
-</li>
-<li><p>用<a href="http://maven.apache.org/" target="_blank" rel="external">Maven</a>，在项目构建脚本不复杂的时候的首选，否则就只能ant+ivy了，或者像hibernate和spring一样，用gradle.</p>
-</li>
-<li><p>另外，用<a href="http://code.google.com/p/log4jdbc/" target="_blank" rel="external">Log4jdbc</a>在开发时查看实际执行的SQL。</p>
-</li>
-<li><p>最后，用<a href="http://www.jenkins-ci.org/" target="_blank" rel="external">Jenkins</a>做持续集成, <a href="http://www.sonarsource.org/" target="_blank" rel="external">Sonar</a>做代码质量检查，是大部分好项目的共同爱好。</p>
-</li>
-</ul>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/">java</a></li></ul>
 	</div>
 
       

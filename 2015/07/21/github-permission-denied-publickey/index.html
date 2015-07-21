@@ -3,17 +3,30 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Tag: 架构 | fwwdn&#39;s blog</title>
+  <title>github-permission-denied-publickey | fwwdn&#39;s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description">
-<meta property="og:type" content="website">
-<meta property="og:title" content="fwwdn's blog">
-<meta property="og:url" content="http://yoursite.com/tags/架构/index.html">
+  <meta name="description" content="今天在Mac下使用git提交代码到github时一直失败，错误信息：
+Permission denied (publickey)
+试了各种解决办法，重新生成key，依旧不行，后来发现是因为我的ip地址变了，需要将其添加到know host中，使用下面命令：
+ssh-add ~/.ssh/id_rsa_github
+OK，完美解决。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="github-permission-denied-publickey">
+<meta property="og:url" content="http://yoursite.com/2015/07/21/github-permission-denied-publickey/index.html">
 <meta property="og:site_name" content="fwwdn's blog">
-<meta property="og:description">
+<meta property="og:description" content="今天在Mac下使用git提交代码到github时一直失败，错误信息：
+Permission denied (publickey)
+试了各种解决办法，重新生成key，依旧不行，后来发现是因为我的ip地址变了，需要将其添加到know host中，使用下面命令：
+ssh-add ~/.ssh/id_rsa_github
+OK，完美解决。">
+<meta property="og:updated_time" content="2015-07-21T13:50:39.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="fwwdn's blog">
-<meta name="twitter:description">
+<meta name="twitter:title" content="github-permission-denied-publickey">
+<meta name="twitter:description" content="今天在Mac下使用git提交代码到github时一直失败，错误信息：
+Permission denied (publickey)
+试了各种解决办法，重新生成key，依旧不行，后来发现是因为我的ip地址变了，需要将其添加到know host中，使用下面命令：
+ssh-add ~/.ssh/id_rsa_github
+OK，完美解决。">
   
     <link rel="alternative" href="/atom.xml" title="fwwdn&#39;s blog" type="application/atom+xml">
   
@@ -184,82 +197,107 @@
 		</header>				
 	</div>
 </nav>
-      <div class="body-wrap">
+      <div class="body-wrap"><article id="post-github-permission-denied-publickey" class="article article-type-post" itemscope itemprop="blogPost">
   
-  
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2015" class="archive-year">2015</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2015/06/23/monolithic-vs-microservice/" class="archive-article-date">
-  	<time datetime="2015-06-23T13:49:47.000Z" itemprop="datePublished">Jun 23</time>
+    <div class="article-meta">
+      <a href="/2015/07/21/github-permission-denied-publickey/" class="article-date">
+  	<time datetime="2015-07-21T13:45:54.000Z" itemprop="datePublished">2015-07-21</time>
 </a>
-        </div>
-    	 
+    </div>
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2015/06/23/monolithic-vs-microservice/">monolithic vs microservice</a>
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      github-permission-denied-publickey
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+      </header>
+      
+      <div class="article-info article-info-post">
+        
 	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/架构/">架构</a></li></ul>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Tools/">Tools</a></li></ul>
 	</div>
 
-          
+        
 
-        </div>
         <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
+      </div>
+      
     
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2015/06/09/about-arch-design/" class="archive-article-date">
-  	<time datetime="2015-06-08T16:31:42.000Z" itemprop="datePublished">Jun 9</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2015/06/09/about-arch-design/">架构随想</a>
-    </h1>
-  
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>今天在Mac下使用git提交代码到github时一直失败，错误信息：</p>
+<pre><code>Permission denied <span class="list">(<span class="keyword">publickey</span>)</span>
+</code></pre><p>试了各种解决办法，重新生成key，依旧不行，后来发现是因为我的ip地址变了，需要将其添加到know host中，使用下面命令：</p>
+<pre><code><span class="label">ssh</span>-<span class="keyword">add </span>~/.ssh/id_rsa_github
+</code></pre><p>OK，完美解决。</p>
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/架构/">架构</a></li></ul>
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2015/07/14/hessian_learning/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title"></div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">分享到：</span>
+		<a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+		<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
 	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
 
-          
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
+
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="github-permission-denied-publickey" data-title="github-permission-denied-publickey" data-url="http://yoursite.com/2015/07/21/github-permission-denied-publickey/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"true"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
+
+
 </div>
       <footer id="footer">
   <div class="outer">
@@ -284,9 +322,9 @@
 		mathjax: true,
 		animate: undefined,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
-		isTag: true,
+		isTag: false,
 		isCategory: false,
 		open_in_new: undefined
 	}
