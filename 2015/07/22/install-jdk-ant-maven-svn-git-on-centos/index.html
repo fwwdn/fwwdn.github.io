@@ -3,18 +3,36 @@
 <head>
   <meta charset="utf-8">
   
-  <title>架构随想 | fwwdn&#39;s blog</title>
+  <title>在centos上搭建JDK+ant+Maven+SVN+Git | fwwdn&#39;s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="架构师其实不是建筑设计师，画完图让工人去施工；而是园艺师，要播种、灌溉、剪枝、一直呵护着，让系统不断成长；">
+  <meta name="description" content="有一个新项目，需要重新搭建一个测试服务器，下面纪录下过程，作为备份。
+1、安装JDK下载jdk7，上传到服务器，下载地址：
+http://www.oracle.com/technetwork/java/javase/downloads/jdk7-downloads-1880260.html
+解压: 
+tar -zxvf jdk-7u79-linux-x64.gz
+配置环境变量：
+export JA">
 <meta property="og:type" content="article">
-<meta property="og:title" content="架构随想">
-<meta property="og:url" content="http://yoursite.com/2015/06/09/about-arch-design/index.html">
+<meta property="og:title" content="在centos上搭建JDK+ant+Maven+SVN+Git">
+<meta property="og:url" content="http://yoursite.com/2015/07/22/install-jdk-ant-maven-svn-git-on-centos/index.html">
 <meta property="og:site_name" content="fwwdn's blog">
-<meta property="og:description" content="架构师其实不是建筑设计师，画完图让工人去施工；而是园艺师，要播种、灌溉、剪枝、一直呵护着，让系统不断成长；">
-<meta property="og:updated_time" content="2015-06-14T13:50:32.000Z">
+<meta property="og:description" content="有一个新项目，需要重新搭建一个测试服务器，下面纪录下过程，作为备份。
+1、安装JDK下载jdk7，上传到服务器，下载地址：
+http://www.oracle.com/technetwork/java/javase/downloads/jdk7-downloads-1880260.html
+解压: 
+tar -zxvf jdk-7u79-linux-x64.gz
+配置环境变量：
+export JA">
+<meta property="og:updated_time" content="2015-07-22T14:05:43.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="架构随想">
-<meta name="twitter:description" content="架构师其实不是建筑设计师，画完图让工人去施工；而是园艺师，要播种、灌溉、剪枝、一直呵护着，让系统不断成长；">
+<meta name="twitter:title" content="在centos上搭建JDK+ant+Maven+SVN+Git">
+<meta name="twitter:description" content="有一个新项目，需要重新搭建一个测试服务器，下面纪录下过程，作为备份。
+1、安装JDK下载jdk7，上传到服务器，下载地址：
+http://www.oracle.com/technetwork/java/javase/downloads/jdk7-downloads-1880260.html
+解压: 
+tar -zxvf jdk-7u79-linux-x64.gz
+配置环境变量：
+export JA">
   
     <link rel="alternative" href="/atom.xml" title="fwwdn&#39;s blog" type="application/atom+xml">
   
@@ -185,11 +203,11 @@
 		</header>				
 	</div>
 </nav>
-      <div class="body-wrap"><article id="post-about-arch-design" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-install-jdk-ant-maven-svn-git-on-centos" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2015/06/09/about-arch-design/" class="article-date">
-  	<time datetime="2015-06-08T16:31:42.000Z" itemprop="datePublished">2015-06-09</time>
+      <a href="/2015/07/22/install-jdk-ant-maven-svn-git-on-centos/" class="article-date">
+  	<time datetime="2015-07-22T13:52:54.000Z" itemprop="datePublished">2015-07-22</time>
 </a>
     </div>
   
@@ -202,7 +220,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      架构随想
+      在centos上搭建JDK+ant+Maven+SVN+Git
     </h1>
   
 
@@ -211,7 +229,7 @@
       <div class="article-info article-info-post">
         
 	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/架构/">架构</a></li></ul>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Tools/">Tools</a></li></ul>
 	</div>
 
         
@@ -222,8 +240,50 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>架构师其实不是建筑设计师，画完图让工人去施工；而是园艺师，要播种、灌溉、剪枝、一直呵护着，让系统不断成长；</p>
-
+        <p>有一个新项目，需要重新搭建一个测试服务器，下面纪录下过程，作为备份。</p>
+<h3 id="1、安装JDK">1、安装JDK</h3><p>下载jdk7，上传到服务器，下载地址：</p>
+<pre><code><span class="symbol">http:</span>/<span class="regexp">/www.oracle.com/technetwork</span><span class="regexp">/java/javase</span><span class="regexp">/downloads/jdk</span>7-downloads-<span class="number">1880260</span>.html
+</code></pre><p>解压: </p>
+<pre><code>tar -zxvf jdk-<span class="number">7u</span>79-linux-x64.gz
+</code></pre><p>配置环境变量：</p>
+<pre><code>export <span class="constant">JAVA_HOME</span>=<span class="regexp">/build_home/jdk</span>1.<span class="number">7.0_79</span>
+export <span class="constant">PATH</span>=<span class="variable">$JAVA_HOME</span>/<span class="symbol">bin:</span><span class="variable">$JAVA_HOME</span>/jre/<span class="symbol">bin:</span><span class="variable">$PATH</span>
+export <span class="constant">CLASSPATH</span>=<span class="variable">$CLASSPATH</span><span class="symbol">:</span>.<span class="symbol">:/JAVA_HOME/lib</span><span class="symbol">:</span><span class="variable">$JAVA_HOME</span>/jre/lib
+</code></pre><p>测试是否安装成功：</p>
+<pre><code>java -<span class="property">version</span>
+</code></pre><h3 id="2、安装ant">2、安装ant</h3><p>下载：</p>
+<pre><code>wget <span class="symbol">http:</span>/<span class="regexp">/mirror.bit.edu.cn/apache</span><span class="regexp">//ant</span><span class="regexp">/binaries/apache</span>-ant-<span class="number">1.9</span>.<span class="number">6</span>-bin.tar.gz
+</code></pre><p>解压：</p>
+<pre><code><span class="tag">tar</span> <span class="tag">-zxvf</span> <span class="tag">apache-ant-1</span><span class="class">.9</span><span class="class">.6-bin</span><span class="class">.tar</span><span class="class">.gz</span>
+</code></pre><p>配置环境变量：</p>
+<pre><code><span class="built_in">export</span> ANT_HOME=/build_home/apache-ant-<span class="number">1.9</span>.<span class="number">6</span>
+<span class="built_in">export</span> PATH=<span class="variable">$ANT_HOME</span>/bin:<span class="variable">$PATH</span>
+</code></pre><p>测试是否安装成功：</p>
+<pre><code><span class="keyword">ant</span>
+</code></pre><p>如果显示如下，则说明ant配置成功。</p>
+<pre><code><span class="keyword">Buildfile: </span><span class="keyword">build.xml </span>does not exist!
+<span class="keyword">Build </span>failed
+</code></pre><h3 id="3,_安装maven">3, 安装maven</h3><p>下载：</p>
+<pre><code>wget <span class="symbol">http:</span>/<span class="regexp">/mirrors.hust.edu.cn/apache</span><span class="regexp">/maven/maven</span>-<span class="number">3</span>/<span class="number">3.3</span>.<span class="number">3</span>/binaries/apache-maven-<span class="number">3.3</span>.<span class="number">3</span>-bin.tar.gz
+</code></pre><p>解压：</p>
+<pre><code><span class="tag">tar</span> <span class="tag">-zxvf</span> <span class="tag">apache-maven-3</span><span class="class">.3</span><span class="class">.3-bin</span><span class="class">.tar</span><span class="class">.gz</span>
+</code></pre><p>配置环境变量：</p>
+<pre><code><span class="built_in">export</span> M2_HOME=/build_home/apache-maven-<span class="number">3.3</span>.<span class="number">3</span>
+<span class="built_in">export</span> PATH=<span class="variable">$M2_HOME</span>/bin:<span class="variable">$PATH</span>
+</code></pre><p>检测是否安装成功：</p>
+<pre><code>mvn -<span class="property">version</span>
+</code></pre><h3 id="4、安装subversion">4、安装subversion</h3><p>安装：</p>
+<pre><code>yum <span class="keyword">install</span> -y subversion
+</code></pre><p>检查是否安装成功：</p>
+<pre><code>svn <span class="comment">--version查看是否已经安装</span>
+</code></pre><p>svn mkdir user_center时报错: </p>
+<pre><code>svn: <span class="string">'.'</span> is <span class="operator">not</span> <span class="operator">a</span> working copy <span class="built_in">directory</span>
+</code></pre><p>解决办法，先在server上创建目录，再check out。</p>
+<p>svn检出项目，新建目录，提交相关命令：</p>
+<pre><code>svn <span class="keyword">co</span> svn <span class="keyword">co</span> http<span class="variable">s:</span>//deploy.svn.<span class="keyword">cn</span>/svn/deployment/trunk/puppet/war/ release/ --username deploy --password deploy
+svn <span class="built_in">mkdir</span> test
+svn commit -<span class="keyword">m</span> <span class="string">""</span>
+</code></pre>
       
     </div>
     
@@ -232,18 +292,9 @@
     
 <nav id="article-nav">
   
-    <a href="/2015/06/14/apache-httpclient4-pool/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption"><</strong>
-      <div class="article-nav-title">
-        
-          HttpClient4.0 Http连接池
-        
-      </div>
-    </a>
   
-  
-    <a href="/2015/06/07/hexo-your-blog/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">Hexo安装配置</div>
+    <a href="/2015/07/21/github-permission-denied-publickey/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">github permission denied publickey</div>
       <strong class="article-nav-caption">></strong>
     </a>
   
@@ -272,7 +323,7 @@
 
 <div class="duoshuo">
 	<!-- 多说评论框 start -->
-	<div class="ds-thread" data-thread-key="about-arch-design" data-title="架构随想" data-url="http://yoursite.com/2015/06/09/about-arch-design/"></div>
+	<div class="ds-thread" data-thread-key="install-jdk-ant-maven-svn-git-on-centos" data-title="在centos上搭建JDK+ant+Maven+SVN+Git" data-url="http://yoursite.com/2015/07/22/install-jdk-ant-maven-svn-git-on-centos/"></div>
 	<!-- 多说评论框 end -->
 	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 	<script type="text/javascript">

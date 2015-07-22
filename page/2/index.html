@@ -186,6 +186,95 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-monolithic-vs-microservice" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/06/23/monolithic-vs-microservice/" class="article-date">
+  	<time datetime="2015-06-23T13:49:47.000Z" itemprop="datePublished">2015-06-23</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/06/23/monolithic-vs-microservice/">monolithic vs microservice</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>微服务（ Microservice ）是最近几年出现在架构领域的新的术语，无数的人根据自己的理解去解读微服务，一时间它成了秒杀单体应用（Monolithic ）、解决任何问题的灵丹妙药。</p>
+<p>微服务真的是终极解决方案？单体应用真的没必要？什么时候适合单体应用？什么时候需要拆分服务？一个大的分布式系统如何从简单的单体应用成长为复杂的分布式微服务？本文将尝试回答这些问题。</p>
+<p><img src="http://img2001.static.suishenyun.net/25ece6711a70a7938cb1105810f59bd3/047f460133c6d0f9184d9ebc684867a0.png!w480.jpg" alt=""></p>
+<p>用 1 个程序实现所有的功能，这是一个单体（Monolithic ）应用。运行程序，所有的功能都属于同一个进程，它们之间的调用属于进程内通信。这就保证功能模块之间的同步通信，调用速度快。单体应用可能存在的问题包括：<br>一个进程集成了所有的功能，意味着它需要更多的系统资源。是否存在能够提供这些资源的主机？用户是否能够或者愿意负担这样的主机？<br>修改或者升级任何功能模块，必须先停止运行整个应用，导致应用暂时不可用。</p>
+<p>把所有的功能划分为 n 个部分，分别用 1 个程序实现，这就是一个多体应用。多体应用既可以部署在单机上，也可以部署在多机上。</p>
+<p>分布式应用的不同进程需要相互配合和协调，才能够完成指定的任务。这就要求在承认异步的前提下，提供可靠的故障检测机制、可靠的点对点通信和群组通信、可靠的数据一致性（核心点之一是定义逻辑顺序）等。这正是分布式系统研究的核心内容。</p>
+<p>再看微服务（ Microservice ）的概念。首先，「微」意味着要拆分所有的功能，且分得相对较小，再实现为对应的程序；其次，「服务」意味着这个程序有多个（种）消费者，这些消费者的编程语言、框架和支撑系统不尽相同。这就要求提供标准化的命名和发现机制、访问协议和交换数据格式。像现在流行的一种实现方式，是以 RESTful 风格 API 形式提供微服务，用 DNS 作为服务命名和发现机制， HTTP(S) 作为访问协议， JSON 作为数据格式。</p>
+<p>对于一个分布式系统，在设计架构时，我们需要考虑下列问题：</p>
+<ul>
+<li><p>要不要拆分功能，拆分的粒度多大？</p>
+</li>
+<li><p>拆分后的不同组件，是部署在单机上还是多机上？</p>
+</li>
+<li><p>其中的一些组件，需要为多个（种）消费者提供服务吗？</p>
+</li>
+<li><p>各个服务间如何通信？</p>
+</li>
+<li><p>一个服务挂掉如何保证其他依赖此服务的服务的可用性？</p>
+</li>
+<li><p>分布式事务如何保证？</p>
+</li>
+</ul>
+<p>对于初创公司，要以实现业务功能为先，此时，由于人力、财力都较少，所以适合单体应用，快速开发、部署。</p>
+<p>后面随着业务的发展，人员的增加，开发、运维人员的完整，系统也逐渐发展变大，一些公共的功能可以拆分出去作为独立的服务，交由专门团队维护，这样做，一是提高复用，避免重复造轮子；二是，减少依赖；</p>
+<p>再然后，业务继续发展，人员继续增加，此时我们的系统已经相当庞大了。需要将一些核心功能拆分，将大系统拆分为多个微服务，分开部署。提高开发效率。但这样不可避免的增加了运维的成本；</p>
+<p>基本上，大的互联网系统都是按照上面的路子演化而来。君不见，淘宝最初也只是一个php写的bbs。</p>
+<p>一个大型的分布式系统，最核心是做好下面四点：</p>
+<ul>
+<li><p>大规模分布式缓存系统。单靠数据库当然不可能，几台redis、mongo啥的也不够，需要上百台内存存储。并做好可靠的故障转移，冷然数据处理。</p>
+</li>
+<li><p>高效可靠的队列系统：亿级pv意味随时有大量数据从用户端产生，并且有一套复杂的后端系统，任意数据提交都需要考虑对这些分布式存储、服务的影响。高效可靠的队列服务必不可少。</p>
+</li>
+<li><p>细粒度的数据服务系统：用户数据读写、统一id生成、图片视频的写入读取、核心业务对象(例如电商商品订单)的读写都需要独立服务化与子系统化，并能与其它系统实现高效方便的rpc通讯。</p>
+</li>
+<li><p>强大的线上监控、部署系统。能应对突发故障、流量。</p>
+</li>
+</ul>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/架构/">架构</a></li></ul>
+	</div>
+
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+  
     <article id="post-100-cpu-usage-issue" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -904,83 +993,6 @@ httpclient.setKeepAliveStrategy(<span class="keyword">new</span> ConnectionKeepA
 
 
   
-    <article id="post-install-and-config-git" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2015/06/07/install-and-config-git/" class="article-date">
-  	<time datetime="2015-06-07T14:34:23.000Z" itemprop="datePublished">2015-06-07</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/06/07/install-and-config-git/">Git安装配置</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="安装">安装</h2><p>windows下git客户端我们选择msysgit;下载地址：<a href="https://github.com/msysgit/msysgit/releases/download/Git-1.9.5-preview20141217/Git-1.9.5-preview20141217.exe" target="_blank" rel="external">https://github.com/msysgit/msysgit/releases/download/Git-1.9.5-preview20141217/Git-1.9.5-preview20141217.exe</a></p>
-<h2 id="配置">配置</h2><h3 id="用户信息">用户信息</h3><p>你个人的用户名称和电子邮件地址，用户名可随意修改，git 用于记录是谁提交了更新，以及更新人的联系方式。</p>
-<p><code>git config --global user.name &quot;test&quot;</code></p>
-<p><code>git config --global user.email &quot;test@sina.com&quot;</code></p>
-<h3 id="自动高亮">自动高亮</h3><p><code>git config --global color.ui auto</code></p>
-<h3 id="查看所有配置">查看所有配置</h3><p><code>git config --list</code></p>
-<h2 id="生成SSH_Key">生成SSH Key</h2><ol>
-<li><p>查看是否已经有了ssh密钥：cd ~/.ssh<br>如果没有密钥则不会有此文件夹，有则备份删除；</p>
-</li>
-<li><p>生存密钥：<br><code>ssh-keygen -t rsa -C &quot;test@sina.com&quot;</code><br>按3个回车，密码为空;最后得到了两个文件：id_rsa和id_rsa.pub</p>
-</li>
-<li><p>在github上添加ssh密钥,这要添加的是id_rsa.pub里面的公钥。</p>
-</li>
-<li>测试配置：输入ssh git@github.com，如果提示：Hi defnngj You’ve successfully authenticated, but GitHub does not provide shell access. 说明你连接成功了。</li>
-</ol>
-<h2 id="使用github">使用github</h2><ol>
-<li><p>获取源码：<br><code>git clone git@github.com:billyanyteen/github-services.git</code></p>
-</li>
-<li><p>这样你的机器上就有一个repo了。</p>
-</li>
-<li><p>git于svn所不同的是git是分布式的，没有服务器概念。所有的人的机器上都有一个repo，每次提交都是给自己机器的repo<br>仓库初始化：<br><code>git init</code><br>生成快照并存入项目索引：<br><code>git add</code><br>文件,还有git rm,git mv等等…<br>项目索引提交：<br><code>git commit</code></p>
-</li>
-<li>协作编程：<br>将本地repo于远程的origin的repo合并，<br>推送本地更新到远程：<br><code>git push origin master</code><br>更新远程更新到本地：<br><code>git pull origin master</code></li>
-<li>补充：<br>添加远端repo：<br><code>git remote add upstream git://github.com/pjhyett/github-services.git</code><br>重命名远端repo：<br><code>git://github.com/pjhyett/github-services.git为upstream</code></li>
-</ol>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Tools/">Tools</a></li></ul>
-	</div>
-
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-  
     <article id="post-hexo-your-blog" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -1044,7 +1056,7 @@ httpclient.setKeepAliveStrategy(<span class="keyword">new</span> ConnectionKeepA
   
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
+      <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
     </nav>
   
 </div>
