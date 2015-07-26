@@ -27,7 +27,7 @@ sudo !!执行最近输入的一次命令
 输入错误命令全部取消，重新输入：ctrl+c
 
 set、env、export的区别：set是shell变量，env是环境变量，export是一个将shell变量导入到env变量集合的工具。打开一">
-<meta property="og:updated_time" content="2015-07-06T14:51:30.000Z">
+<meta property="og:updated_time" content="2015-07-26T09:02:41.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="收藏的一些常用Linux命令">
 <meta name="twitter:description" content="抓取某个进程:ps -eaf | grep xxx ，一般用作ps -aux | grep xxx
@@ -284,6 +284,8 @@ set、env、export的区别：set是shell变量，env是环境变量，export是
 <li><p>在一个文件夹中需要找到某个变量的定义，可以使用这个命令（其实是脚本）:<br>for file in ls;do echo $file;grep ‘CQueryFeed’ $file;done</p>
 </li>
 <li><p>在学了find,grep之后，功力暴涨：find ./* -exec grep -Hn ‘keyword’ {} \;</p>
+</li>
+<li><p>从当前目录开始查找所有扩展名为.js的文本文件，并找出包含logout的行<br>find . -type f -name “*.js” | xargs grep “logout”</p>
 </li>
 <li><p>安装源码包后，无法找到动态库：这个首先需要了解动态库和静态库的区别，然后需要了解/etc/ld.so.conf，默认情况下，编译器寻找动态库只会到/lib和/usr/lib下寻找，如果我们我们没有使用—prefix指定安装目录，那么会安装到/usr/local下，这时我们可以把/usr/local/lib加入到/etc/ld.so.conf中，然后用/sbin/ldconfig命令将新安装的库缓存到/etc/ld.so.cache中，这样编译器就能找到新安装的库了。第二种解决方法就是改变PKG_CONFIG_PATH，这个ls /usr/lib/pkgconfig看到的*.pc就会明白这个变量的作用了。</p>
 </li>

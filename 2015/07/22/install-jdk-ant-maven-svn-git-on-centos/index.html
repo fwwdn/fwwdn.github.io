@@ -23,7 +23,7 @@ http://www.oracle.com/technetwork/java/javase/downloads/jdk7-downloads-1880260.h
 tar -zxvf jdk-7u79-linux-x64.gz
 配置环境变量：
 export JA">
-<meta property="og:updated_time" content="2015-07-22T14:05:43.000Z">
+<meta property="og:updated_time" content="2015-07-23T02:06:00.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="在centos上搭建JDK+ant+Maven+SVN+Git">
 <meta name="twitter:description" content="有一个新项目，需要重新搭建一个测试服务器，下面纪录下过程，作为备份。
@@ -280,8 +280,9 @@ export <span class="constant">CLASSPATH</span>=<span class="variable">$CLASSPATH
 <pre><code>svn: <span class="string">'.'</span> is <span class="operator">not</span> <span class="operator">a</span> working copy <span class="built_in">directory</span>
 </code></pre><p>解决办法，先在server上创建目录，再check out。</p>
 <p>svn检出项目，新建目录，提交相关命令：</p>
-<pre><code>svn <span class="keyword">co</span> svn <span class="keyword">co</span> http<span class="variable">s:</span>//deploy.svn.<span class="keyword">cn</span>/svn/deployment/trunk/puppet/war/ release/ --username deploy --password deploy
-svn <span class="built_in">mkdir</span> test
+<pre><code>svn co svn co https:<span class="comment">//deploy.svn.cn/svn/deployment/trunk/puppet/war/ release/ --username deploy --password deploy</span>
+svn <span class="keyword">mkdir</span> <span class="keyword">test</span>
+svn <span class="keyword">rm</span> xxx.war
 svn commit -<span class="keyword">m</span> <span class="string">""</span>
 </code></pre>
       
