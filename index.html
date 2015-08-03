@@ -114,7 +114,7 @@
 				
 				<section class="switch-part switch-part2">
 					<div class="widget tagcloud" id="js-tagcloud">
-						<a href="/tags/NoSQL/" style="font-size: 10px;">NoSQL</a> <a href="/tags/NoSQL-Redis/" style="font-size: 10px;">NoSQL Redis</a> <a href="/tags/Tools/" style="font-size: 20px;">Tools</a> <a href="/tags/java/" style="font-size: 16.67px;">java</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/后端技术/" style="font-size: 10px;">后端技术</a> <a href="/tags/收藏/" style="font-size: 13.33px;">收藏</a> <a href="/tags/架构/" style="font-size: 13.33px;">架构</a> <a href="/tags/电商/" style="font-size: 10px;">电商</a> <a href="/tags/随笔/" style="font-size: 13.33px;">随笔</a>
+						<a href="/tags/NoSQL/" style="font-size: 10px;">NoSQL</a> <a href="/tags/NoSQL-Redis/" style="font-size: 10px;">NoSQL Redis</a> <a href="/tags/Redis/" style="font-size: 10px;">Redis</a> <a href="/tags/Tools/" style="font-size: 20px;">Tools</a> <a href="/tags/java/" style="font-size: 16.67px;">java</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/后端技术/" style="font-size: 10px;">后端技术</a> <a href="/tags/收藏/" style="font-size: 13.33px;">收藏</a> <a href="/tags/架构/" style="font-size: 13.33px;">架构</a> <a href="/tags/电商/" style="font-size: 10px;">电商</a> <a href="/tags/随笔/" style="font-size: 13.33px;">随笔</a>
 					</div>
 				</section>
 				
@@ -185,6 +185,95 @@
 	</div>
 </nav>
       <div class="body-wrap">
+  
+    <article id="post-Optimizing-Redis-Usage-For-Caching" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/08/02/Optimizing-Redis-Usage-For-Caching/" class="article-date">
+  	<time datetime="2015-08-02T09:29:50.000Z" itemprop="datePublished">2015-08-02</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/08/02/Optimizing-Redis-Usage-For-Caching/">Redis缓存使用优化［译］</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>原文：<a href="http://sorentwo.com/2015/07/27/optimizing-redis-usage-for-caching.html?utm_source=redisweekly&amp;utm_medium=email" target="_blank" rel="external">http://sorentwo.com/2015/07/27/optimizing-redis-usage-for-caching.html?utm_source=redisweekly&amp;utm_medium=email</a></p>
+<p>如果你和我一样认为Redis是一个合适的cache工具，那么，通过下面的内容你将学到4个有效的方法来优化Redis作为你的基础缓存设施。即使你使用托管的解决方案，下面的优化方法仍然是有帮助的。</p>
+<h2 id="使用专用的缓存实例">使用专用的缓存实例</h2><p>Redis不像Memcached一样是多线程机制，它是单进程单线程的。考虑到Redis的处理速度，以及它要处理的工作量，如果你使用单实例配置，当你的平台的流量开始上升，需要处理的后台任务持续增加，发布/订阅频道转发超过数以千计的网络负载，缓存命中率持续增加时，就会有大量的Redis请求被阻塞，这时，Redis只能通过丢弃一些后台任务或是增加一组负载均衡服务器来解决当前的瓶颈。</p>
+<p>使用多个独立实例的配置，可以缓解单实例的压力。多个实例：一个用于后台任务，一个用于发布/订阅，另外一个专门用于缓存。不要依赖将数据分割成多个redis数据库！因为这些数据库后面仍然只有一个处理进程，所有上面的警告依然适用。</p>
+<h4 id="总结下:">总结下:</h4><ul>
+<li>对不同的工作负载使用专用的Redis实例；</li>
+<li>不要使用数据库（/ 0，/ 1，/ 2）来分区工作负载。</li>
+</ul>
+<h2 id="放宽持久化策略">放宽持久化策略</h2><blockquote>
+<p>你应该关注持久化和复制这两个Redis特性，即使你的目标只是建立一个缓存，这两个特性有助于当你升级或重启后，你的数据仍然不会丢失。</p>
+<p>—Antirez</p>
+</blockquote>
+<p>Each Redis instance has its own configuration file and can be tuned according to the use-case. Caching servers, for example, can be configured to use RDB persistence to periodically save a single backup instead of AOF persistence logs. By only taking periodic snapshots of the database RDB maximizes performance at the expense of up-to-the-second consistency. For a hybrid Redis instance that may be storing business critical background jobs data consistency is paramount. With a cache it is alright to lose some data in the event of a disaster, after reboot most of the cache will be warm and intact.</p>
+<h4 id="总结下:-1">总结下:</h4><p>Do optimize cache persistence speed by favoring RDB over AOF.<br>Do set stop-writes-on-bgsave-error to no to prevent all writes from failing when snapshotting fails. This requires proper monitoring and alerts for failures, which you are doing anyhow, right?<br>Do not disable persistence entirely, it is valuable for warming the cache after an upgrade or restart.</p>
+<h2 id="有效管理内存">有效管理内存</h2><p>Once you have a Redis instance dedicated to caching you can start to optimize memory management in ways that don’t make sense for a hybrid database. When ephemeral and long-lived data is co-mingled it is imperative that ephemeral keys have a TTL and Redis is free to clean up expired keys.</p>
+<p>Redis can manage memory in a variety of ways. The management policies vary from never evicting keys (noeviction) to randomly evicting a key when memory is full (allkeys-random). Hybridized databases typically use volatile-* policies, which require the presence of expiration values or they behave identically to noeviction. There is another policy that works better for cache data, allkeys-lru. The allkeys-lru policy attempts to remove the less recently used (LRU) keys first in order to make space for the new data added.</p>
+<blockquote>
+<p>It is also worth to note that setting an expire to a key costs memory, so using a policy like allkeys-lru is more memory efficient since there is no need to set an expire for the key to be evicted under memory pressure.</p>
+<p>—Redis Documentation</p>
+</blockquote>
+<p>Redis uses an approximated LRU algorithm instead of an exact algorithm. What this means is that you can conserve memory in favor of inaccuracy by tuning the number of samples to check with each eviction. Set maxmemory-samples to a low level, say around 5, for “good enough” eviction with a low memory footprint. Lastly, and most importantly, set a maxmemory limit to a comfortable amount of RAM. Without a limit Redis can’t function properly as a LRU cache and will start replying with errors when memory consuming commands start failing.</p>
+<h4 id="总结下:-2">总结下:</h4><p>Do set a maxmemory limit.<br>Do use allkeys-lru policies for dedicated cache instances. Let Redis manage key eviction by itself.<br>Do not set expire for keys, it adds additional memory overhead per key.<br>Do tune the precision of the LRU algorithm to favor speed over accuracy. Redis does not pick the best candidate for eviction, it samples a small number of keys and chooses the entry with the oldest access time.</p>
+<h2 id="正确使用缓存">正确使用缓存</h2><blockquote>
+<p>Because of Redis data structures, the usual pattern used with memcached of destroying objects when the cache is invalidated, to recreate it from the DB later, is a primitive way of using Redis.</p>
+<p>—Antirez</p>
+</blockquote>
+<p>Only storing serialized HTML or JSON as strings, the standard way of caching for web applications, doesn’t fully utilize Redis as a cache. One of the great strengths of Redis over Memcached is the rich set of data structures available. Ordered lists, structured hashes, and sorted sets are particularly useful caching tools only available through Redis. Caching is more than stuffing everything into strings.</p>
+<p>Let’s look at the Hash type for a specific example.</p>
+<blockquote>
+<p>Small hashes are encoded in a very small space, so you should try representing your data using hashes every time it is possible. For instance if you have objects representing users in a web application, instead of using different keys for name, surname, email, password, use a single hash with all the required fields.</p>
+<p> —Redis Documentation</p>
+</blockquote>
+<p>Instead of storing objects as a serialized string you can store the object as fields and values available through a single key. Using a Hash saves web servers the work of fetching an entire serialized value, de-serializing it, updating it, re-serializing it, and finally writing it back to the cache. Eliminating that flow for every minor update pushes the work into Redis and out of your applications, where it is supposed to be.</p>
+<h4 id="总结下:-3">总结下:</h4><ul>
+<li>Do use the native Redis types wherever possible (list, set, zset, hash).</li>
+<li>Do not use the string type for structured data, reach for a hash.<br>Happy optimizing. Go forth and cache!</li>
+</ul>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Redis/">Redis</a></li></ul>
+	</div>
+
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
   
     <article id="post-4-most-important-skills" class="article article-type-post" itemscope itemprop="blogPost">
   
@@ -891,69 +980,6 @@ git config user.name <span class="variable">$name</span>
     
     <div class="article-info article-info-index">
       
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-  
-    <article id="post-some-tips-for-using-redis" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2015/06/25/some-tips-for-using-redis/" class="article-date">
-  	<time datetime="2015-06-25T13:58:04.000Z" itemprop="datePublished">2015-06-25</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/06/25/some-tips-for-using-redis/">Redis使用过程中需要注意的几个问题</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="缓存过期策略">缓存过期策略</h2><p>Redis在启动时会把数据加载到内存中，达到最大内存后，Redis会先尝试清除已到期或即将到期的Key，当此方法处理后，仍然到达最大内存设置，将无法再进行写入操作，但仍然可以进行读取操作。</p>
-<h2 id="是否需要redis的持久化能力？">是否需要redis的持久化能力？</h2><p>redis持久化的是数据集的当前快照，于是当你用它来做存储，而不是缓存时，就会很纠结。<br>当数据集很大的时候，比如64G内存，数据集30G，你愿意dump快照或者aof收缩吗？如果这样做，问题就来了，redis的dump是fork一个进程，利用操作系统内存管理的copy-on-write来得到当前内存快照，但如果数据的更新比较频繁，30G内存dump到磁盘的速度又不快，就会导致在dump的时候需要大量的内存来做写时copy，需要的新内存加上原有的30G内存，可能导致操作系统swap，同时因为copy-on-write，主线程在处理请求时也会变慢，redis的整体性能急速下降。所以大数据集把redis当做cache，只有当数据集很小的时候，才用它来做持久存储。</p>
-<h2 id="内存碎片">内存碎片</h2><p>因为redis的malloc方式，导致一个潜在问题，就是当有很多small object放进去，又被频繁的free后，导致了大量的内存碎片，到一定临界点后，你会发现插入新数据的时候redis的性能急剧下降，原因在malloc函数上要花很长时间。</p>
-<h2 id="使用场景">使用场景</h2><p>Redis的数据全部放在内存带来了高速的性能，但是也带来一些不合理之处。比如一个网站有1亿注册用户，如果这些资料要用Redis来存储，内存的容量必须能够容纳这1亿用户。但是业务实际情况是1亿用户只有1000万活跃用户，1周来访问过1次的也只有1500万用户，因此全部1亿用户的数据都放在内存有不合理之处，RAM需要为冷数据买单。</p>
-<p>Redis最首要的实用场景：少量数据存储，高速读写需求。此类应用过程数据全部in-momery 的格式来提供高速读写，同时提供数据持久化的功能。</p>
-<h2 id="一些经验教训：">一些经验教训：</h2><ol>
-<li>使用 Redis 之前，做好容量规划，对数据的使用方式做好规划；</li>
-<li>使用 Redis 的过程中，经常关注内存使用，做好监控报警；</li>
-<li>谨慎选择持久化方案，对可能造成的高延迟要有心理准备；</li>
-<li>小心Redis的内存碎片。</li>
-</ol>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/NoSQL-Redis/">NoSQL Redis</a></li></ul>
-	</div>
-
       
 
       
