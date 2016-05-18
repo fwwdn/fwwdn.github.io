@@ -297,11 +297,15 @@
       
         
           
-            <h1 id="Mac下hexo安装配置">Mac下hexo安装配置</h1><p>如果国内安装失败，请使用下面命令：</p>
-<p>localhost:blog fww$ npm install -g hexo-cli —no-optional<br>^C<br>localhost:blog fww$ ls -l<br>total 0<br>drwxr-xr-x@ 11 fww  staff  374  6 30 23:10 hexo<br>localhost:blog fww$ npm install -g hexo-cli —registry=<a href="http://r.cnpmjs.org" target="_blank" rel="external">http://r.cnpmjs.org</a></p>
-<p>hexo init</p>
+          Mac下hexo安装配置如果国内安装失败，请使用下面命令：
+localhost:blog fww$ npm install -g hexo-cli —no-optional^Clocalhost:blog fww$ ls -ltotal 0drwxr-xr-x@ 11 fww  staff  374
+          ...
 
-          
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2015/06/30/install-and-config-hexo-on-mac/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
         
       
     </div>
@@ -393,19 +397,15 @@
       
         
           
-            <h2 id="缓存过期策略">缓存过期策略</h2><p>Redis在启动时会把数据加载到内存中，达到最大内存后，Redis会先尝试清除已到期或即将到期的Key，当此方法处理后，仍然到达最大内存设置，将无法再进行写入操作，但仍然可以进行读取操作。</p>
-<h2 id="是否需要redis的持久化能力？">是否需要redis的持久化能力？</h2><p>redis持久化的是数据集的当前快照，于是当你用它来做存储，而不是缓存时，就会很纠结。<br>当数据集很大的时候，比如64G内存，数据集30G，你愿意dump快照或者aof收缩吗？如果这样做，问题就来了，redis的dump是fork一个进程，利用操作系统内存管理的copy-on-write来得到当前内存快照，但如果数据的更新比较频繁，30G内存dump到磁盘的速度又不快，就会导致在dump的时候需要大量的内存来做写时copy，需要的新内存加上原有的30G内存，可能导致操作系统swap，同时因为copy-on-write，主线程在处理请求时也会变慢，redis的整体性能急速下降。所以大数据集把redis当做cache，只有当数据集很小的时候，才用它来做持久存储。</p>
-<h2 id="内存碎片">内存碎片</h2><p>因为redis的malloc方式，导致一个潜在问题，就是当有很多small object放进去，又被频繁的free后，导致了大量的内存碎片，到一定临界点后，你会发现插入新数据的时候redis的性能急剧下降，原因在malloc函数上要花很长时间。</p>
-<h2 id="使用场景">使用场景</h2><p>Redis的数据全部放在内存带来了高速的性能，但是也带来一些不合理之处。比如一个网站有1亿注册用户，如果这些资料要用Redis来存储，内存的容量必须能够容纳这1亿用户。但是业务实际情况是1亿用户只有1000万活跃用户，1周来访问过1次的也只有1500万用户，因此全部1亿用户的数据都放在内存有不合理之处，RAM需要为冷数据买单。</p>
-<p>Redis最首要的实用场景：少量数据存储，高速读写需求。此类应用过程数据全部in-momery 的格式来提供高速读写，同时提供数据持久化的功能。</p>
-<h2 id="一些经验教训：">一些经验教训：</h2><ol>
-<li>使用 Redis 之前，做好容量规划，对数据的使用方式做好规划；</li>
-<li>使用 Redis 的过程中，经常关注内存使用，做好监控报警；</li>
-<li>谨慎选择持久化方案，对可能造成的高延迟要有心理准备；</li>
-<li>小心Redis的内存碎片。</li>
-</ol>
+          缓存过期策略Redis在启动时会把数据加载到内存中，达到最大内存后，Redis会先尝试清除已到期或即将到期的Key，当此方法处理后，仍然到达最大内存设置，将无法再进行写入操作，但仍然可以进行读取操作。
+是否需要redis的持久化能力？redis持久化的是数据集的当前快照，于是当你用它来做存储，而不是
+          ...
 
-          
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2015/06/25/some-tips-for-using-redis/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
         
       
     </div>
@@ -497,24 +497,18 @@
       
         
           
-            <h2 id="常见数据结构">常见数据结构</h2><ul>
-<li>线性：数组，链表，队列，堆栈，块状数组（数组+链表），hash表，双端队列，位图（bitmap）</li>
-<li>树：堆（大顶堆、小顶堆），trie树（字母树or字典树），后缀树，后缀树组，二叉排序/查找树，B+/B-，AVL树，Treap，红黑树，splay树，线段树，树状数组</li>
-<li>图：图</li>
-<li>其它：并查集</li>
-</ul>
-<h2 id="常见算法">常见算法</h2><ul>
-<li>基本思想：枚举，递归，分治，模拟，贪心，动态规划，剪枝，回溯</li>
-<li>图算法：深度优先遍历与广度优先遍历， 最短路径，最小生成树，拓扑排序</li>
-<li>字符串算法：字符串查找，hash算法，KMP算法</li>
-<li>排序算法：冒泡，插入，选择，快排，归并排序，堆排序，桶排序</li>
-<li>动态规划：背包问题，最长公共子序列，最优二分检索树</li>
-<li>数论问题：素数问题，整数问题，进制转换，同余模运算，</li>
-<li>排列组合：排列和组合算法</li>
-<li>其它：LCA与RMQ问题</li>
-</ul>
+          常见数据结构
+线性：数组，链表，队列，堆栈，块状数组（数组+链表），hash表，双端队列，位图（bitmap）
+树：堆（大顶堆、小顶堆），trie树（字母树or字典树），后缀树，后缀树组，二叉排序/查找树，B+/B-，AVL树，Treap，红黑树，splay树，线段树，树状数组
+图：图
+其它：并查集
+          ...
 
-          
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2015/06/24/data-structures-and-algorithms/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
         
       
     </div>
@@ -606,45 +600,15 @@
       
         
           
-            <p>微服务（ Microservice ）是最近几年出现在架构领域的新的术语，无数的人根据自己的理解去解读微服务，一时间它成了秒杀单体应用（Monolithic ）、解决任何问题的灵丹妙药。</p>
-<p>微服务真的是终极解决方案？单体应用真的没必要？什么时候适合单体应用？什么时候需要拆分服务？一个大的分布式系统如何从简单的单体应用成长为复杂的分布式微服务？本文将尝试回答这些问题。</p>
-<p><img src="http://img2001.static.suishenyun.net/25ece6711a70a7938cb1105810f59bd3/047f460133c6d0f9184d9ebc684867a0.png!w480.jpg" alt=""></p>
-<p>用 1 个程序实现所有的功能，这是一个单体（Monolithic ）应用。运行程序，所有的功能都属于同一个进程，它们之间的调用属于进程内通信。这就保证功能模块之间的同步通信，调用速度快。单体应用可能存在的问题包括：<br>一个进程集成了所有的功能，意味着它需要更多的系统资源。是否存在能够提供这些资源的主机？用户是否能够或者愿意负担这样的主机？<br>修改或者升级任何功能模块，必须先停止运行整个应用，导致应用暂时不可用。</p>
-<p>把所有的功能划分为 n 个部分，分别用 1 个程序实现，这就是一个多体应用。多体应用既可以部署在单机上，也可以部署在多机上。</p>
-<p>分布式应用的不同进程需要相互配合和协调，才能够完成指定的任务。这就要求在承认异步的前提下，提供可靠的故障检测机制、可靠的点对点通信和群组通信、可靠的数据一致性（核心点之一是定义逻辑顺序）等。这正是分布式系统研究的核心内容。</p>
-<p>再看微服务（ Microservice ）的概念。首先，「微」意味着要拆分所有的功能，且分得相对较小，再实现为对应的程序；其次，「服务」意味着这个程序有多个（种）消费者，这些消费者的编程语言、框架和支撑系统不尽相同。这就要求提供标准化的命名和发现机制、访问协议和交换数据格式。像现在流行的一种实现方式，是以 RESTful 风格 API 形式提供微服务，用 DNS 作为服务命名和发现机制， HTTP(S) 作为访问协议， JSON 作为数据格式。</p>
-<p>对于一个分布式系统，在设计架构时，我们需要考虑下列问题：</p>
-<ul>
-<li><p>要不要拆分功能，拆分的粒度多大？</p>
-</li>
-<li><p>拆分后的不同组件，是部署在单机上还是多机上？</p>
-</li>
-<li><p>其中的一些组件，需要为多个（种）消费者提供服务吗？</p>
-</li>
-<li><p>各个服务间如何通信？</p>
-</li>
-<li><p>一个服务挂掉如何保证其他依赖此服务的服务的可用性？</p>
-</li>
-<li><p>分布式事务如何保证？</p>
-</li>
-</ul>
-<p>对于初创公司，要以实现业务功能为先，此时，由于人力、财力都较少，所以适合单体应用，快速开发、部署。</p>
-<p>后面随着业务的发展，人员的增加，开发、运维人员的完整，系统也逐渐发展变大，一些公共的功能可以拆分出去作为独立的服务，交由专门团队维护，这样做，一是提高复用，避免重复造轮子；二是，减少依赖；</p>
-<p>再然后，业务继续发展，人员继续增加，此时我们的系统已经相当庞大了。需要将一些核心功能拆分，将大系统拆分为多个微服务，分开部署。提高开发效率。但这样不可避免的增加了运维的成本；</p>
-<p>基本上，大的互联网系统都是按照上面的路子演化而来。君不见，淘宝最初也只是一个php写的bbs。</p>
-<p>一个大型的分布式系统，最核心是做好下面四点：</p>
-<ul>
-<li><p>大规模分布式缓存系统。单靠数据库当然不可能，几台redis、mongo啥的也不够，需要上百台内存存储。并做好可靠的故障转移，冷然数据处理。</p>
-</li>
-<li><p>高效可靠的队列系统：亿级pv意味随时有大量数据从用户端产生，并且有一套复杂的后端系统，任意数据提交都需要考虑对这些分布式存储、服务的影响。高效可靠的队列服务必不可少。</p>
-</li>
-<li><p>细粒度的数据服务系统：用户数据读写、统一id生成、图片视频的写入读取、核心业务对象(例如电商商品订单)的读写都需要独立服务化与子系统化，并能与其它系统实现高效方便的rpc通讯。</p>
-</li>
-<li><p>强大的线上监控、部署系统。能应对突发故障、流量。</p>
-</li>
-</ul>
+          微服务（ Microservice ）是最近几年出现在架构领域的新的术语，无数的人根据自己的理解去解读微服务，一时间它成了秒杀单体应用（Monolithic ）、解决任何问题的灵丹妙药。
+微服务真的是终极解决方案？单体应用真的没必要？什么时候适合单体应用？什么时候需要拆分服务？一个大的分布式系统如何
+          ...
 
-          
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2015/06/23/monolithic-vs-microservice/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
         
       
     </div>
@@ -736,32 +700,16 @@
       
         
           
-            <p>今天早晨，发现海外版的一个线上服务响应很慢，接口要刷新半天。ssh上去看了内存、磁盘都正常;用top查看cpu时发现Java进程cpu占用超过100%。tail -f 看了日志，发现几个error和warn但都感觉和cpu占用高关系不大。<br>所以初步怀疑是某些线程有问题：</p>
-<ul>
-<li>使用top查找出最耗cpu的进程号（PID）<br><img src="http://img2001.static.suishenyun.net/25ece6711a70a7938cb1105810f59bd3/acb9edd3e1ad94ea83e38a8ff956653e.jpg!w480.jpg" alt=""></li>
-</ul>
-<p>发现最占CPU的进程是 1414</p>
-<ul>
-<li>使用jstack dump对应PID的堆栈信息保存备查</li>
-</ul>
-<p>jstack是JDK内置的性能调优工具，对于分析线程堆栈非常有用。直接  jstack 1414 &gt; jstack.out</p>
-<p><img src="http://img2001.static.suishenyun.net/25ece6711a70a7938cb1105810f59bd3/bcf29f1958e24af7e7bbe2172a5b658c.jpg!w480.jpg" alt=""></p>
-<ul>
-<li>再次使用top查出对应PID中最耗cpu的子进程（java线程）</li>
-</ul>
-<p>top -p 1414 -H</p>
-<p><img src="http://img2001.static.suishenyun.net/25ece6711a70a7938cb1105810f59bd3/c8a8b0a93c57992b636427f96e6607ee.jpg!w480.jpg" alt=""></p>
-<p>找到1462  1482 2个线程。</p>
-<ul>
-<li>从dump下来的堆栈信息中查找耗费性能的代码块</li>
-</ul>
-<p>从上面开到，我们用top找出来的pid是十进制的。而dump下来的nid是十六进制的。利用printf命令格式化来转换一下进制（当然，也可以用其他方式）：</p>
-<p><img src="http://img2001.static.suishenyun.net/25ece6711a70a7938cb1105810f59bd3/e9199514d71fbe272723db9b1a17c97d.jpg!w480.jpg" alt=""></p>
-<p>通过vim查找之前保存的线程堆栈信息，就能找到问题代码所在了。 </p>
-<p><img src="http://img2001.static.suishenyun.net/25ece6711a70a7938cb1105810f59bd3/4ab6e1bbe2e147681deec8d615ad2721.jpg!w480.jpg" alt=""></p>
-<p>发现是之前的用RabbitMQ来检查业务系统更新的线程有问题， 跟了下代码，这块逻辑之前是国内版用的，海外版有了新的接口，所以直接停掉这个后台任务，部署， cpu降下来了；<br> ​<br><img src="http://img2001.static.suishenyun.net/25ece6711a70a7938cb1105810f59bd3/b60ab6ae60752f709d0c35e7f859787f.jpg!w480.jpg" alt=""></p>
+          今天早晨，发现海外版的一个线上服务响应很慢，接口要刷新半天。ssh上去看了内存、磁盘都正常;用top查看cpu时发现Java进程cpu占用超过100%。tail -f 看了日志，发现几个error和warn但都感觉和cpu占用高关系不大。所以初步怀疑是某些线程有问题：
 
-          
+使用top查找出最耗cpu的
+          ...
+
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2015/06/20/100-cpu-usage-issue/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
         
       
     </div>
@@ -853,102 +801,17 @@
       
         
           
-            <h2 id="Web">Web</h2><ul>
-<li><p>MVC Framwork： SpringMVC3.0 Restful的风格终于回归了MVC框架的简单本质，对比之下Struts2概念太复杂更新又太懒了。</p>
-</li>
-<li><p>Template：JSP2.0且尽量使用JSP EL而不是taglib，万一要写taglib也用纯JSP来编写，一向是SpringSide的推荐，Freemarker们始终有点小众, 而Thymeleaf与美工配合度非常高，可惜也是太少用户了。</p>
-</li>
-<li><p>Layout Decoration： Tiles的配置都太复杂了，<a href="https://github.com/sitemesh/sitemesh2" target="_blank" rel="external">SiteMesh2</a>好些，但Sitemesh3烂尾了。</p>
-</li>
-<li><p>Javascript Library： 随大流用了<a href="http://www.jquery.com/" target="_blank" rel="external">JQuery</a>。其实Dojo的面向对象语法更优美，但用户数和插件社区差了点。</p>
-</li>
-<li><p>CSS Framework： 最热火的<a href="http://twitter.github.com/bootstrap/" target="_blank" rel="external">Twitter Bootstrap</a>，提供了简便的布局能力和基本的页面美化。</p>
-</li>
-<li><p>JavaScript/CSS Compressor: 还是随便选的<a href="http://developer.yahoo.com/yui/compressor/" target="_blank" rel="external">YUI Compressor</a>。</p>
-</li>
-<li><p>Validation: <a href="http://jqueryvalidation.org/" target="_blank" rel="external">JQuery Validation Plugin</a>这种客户端校验的客户体验更好，而Spring MVC集成Hibernate Valiator的服务端校验则可以避免恶意用户跳过页面直接发送请求，校验规则也更多，需要混合使用。</p>
-</li>
-</ul>
-<h2 id="WebService">WebService</h2><ul>
-<li><p>SOAP WebService： JAX-WS2.0的注解 + <a href="http://cxf.apache.org/" target="_blank" rel="external">Apache CXF</a> 无疑是最成熟的，一说起Axis1/2我都要打冷颤。</p>
-</li>
-<li><p>Restful Service： JAX-RS 1.0 + Jersey/CXF，够标准。但直接使用Spring MVC能使架构更简单。 如果追求极致的性能标，直接写Servlet也没啥。</p>
-</li>
-<li><p>Restful Client: 刚出来的JAX-RS 2.0标准，实际是用Jersey的client api做蓝本的， 而直接使用Spring的RestTemplate可以减少第三方包的引入。</p>
-</li>
-<li><p>为了隔绝变化影响，隐藏细节，对外暴露的DTO和应用内部的领域对象是不同的类型，用<a href="http://dozer.sourceforge.net/" target="_blank" rel="external">Dozer</a>进行复制。</p>
-</li>
-<li><p>请求参数的校验，JSR303 Bean Validator的实现<a href="http://www.hibernate.org/subprojects/validator.html" target="_blank" rel="external">Hibernate Validator</a>没太多的竞争对手。</p>
-</li>
-</ul>
-<h2 id="Database">Database</h2><ul>
-<li><p>ORM Framework： 快速开发的应用里，领域对象肯定是用JPA标注的。至于API用Hibernate还是JPA，因为那个极简便的，DAO只要写接口就好了的<a href="http://www.springsource.org/spring-data/jpa" target="_blank" rel="external">Spring-Data-JPA</a>，所以选了<a href="http://www.hibernate.org/" target="_blank" rel="external">JPA</a>。 当然，JPA的实现还是用Hibernate。</p>
-</li>
-<li><p>追求高性能的应用，如各种Web服务，当然就是<a href="http://code.google.com/p/mybatis/" target="_blank" rel="external">MyBatis</a>了。如果项目再简单点，Spring JDBC其实也不错。</p>
-</li>
-<li><p>传统数据库: 无非Oracle与MySQL的选择，如果你恨MySQL依然是Oracle家的东西，可以考虑越来越多人用的，语法和Oracle很像的Postgresql。</p>
-</li>
-<li><p>NOSQL数据库: 国内用的比较多的还是<a href="http://www.redis.io/" target="_blank" rel="external">Redis</a>和MongoDB。Redis更像一个数据结构服务器，暴露各种数据结构的专有API。而MongoDB将数据存成BSON格式，也提供类似SQL的查询语句，更像一个schema-less的数据库。</p>
-</li>
-<li><p>数据库连接池: Apache DBCP本来一统江湖，现在被人批评又慢又复杂，所以有了<a href="http://tomcat.apache.org/tomcat-7.0-doc/jdbc-pool.html" target="_blank" rel="external">Tomcat JDBC</a>，另外温少的Druid也是一个选择。</p>
-</li>
-<li><p>Cache： 在JVM里的缓存，最老牌最多人用的依然是Ehcache，一些更强大的DataGrid方案如HazelCast，JBoss的Infinispan反而没什么人用。另外最简单的JVM内缓存是<a href="https://code.google.com/p/guava-libraries/wiki/CachesExplained" target="_blank" rel="external">Guava</a>的Cache。</p>
-</li>
-<li><p>而中央式的缓存，Memcached已经成为了事实标准。而且当主创撒手不管后，社区现在反而有着稳定的更新。 Client方面，比较稳健选择的还是Spymemcached。</p>
-</li>
-</ul>
-<h2 id="Services">Services</h2><ul>
-<li><p>Security Framework： 选择<a href="http://shiro.apache.org/" target="_blank" rel="external">Apache Shiro</a>是因为SpringSecurity的代码复杂度已经超过了它的实际需要，扩展困难痛苦。另一个原因是SpringSecurity的基本API居然只支持基于角色的判断，e.g. hasRole(“Administrator”)，而Shiro同时还支持我们其实更常用的基于Permission的判断，e.g. hasPermission(“User:Edit”)。</p>
-</li>
-<li><p>JMS： <a href="http://activemq.apache.org/" target="_blank" rel="external">ActiveMQ</a>是最多人选用的应用服务器无关的JMS实现，JBoss的HornetQ同样只是JBoss的用户在使用。Spring自带的JMS封装很好用。但还有更高级的如支持跨平台的AMQP协议的RabbmitMQ。</p>
-</li>
-<li><p>Schedule： 对于固定时间间隔的任务，JDK自带的Executor已足够好。Cron式定时执行，Spring的Scheduler也能满足。而且Spring的提供的纯XML配置也让Scheduler变得很简单，<a href="http://quartz-scheduler.org/" target="_blank" rel="external">Quartz</a>更大的优势体现在保证集群中有且仅有一台服务器执行任务。</p>
-</li>
-<li><p>JMX: <a href="http://www.jolokia.org/" target="_blank" rel="external">Jolokia</a>能将JMX中的MBean以Restful+JSON的方式暴露出来，使JMX这个古老的，在平台互通中显得有点封闭的协议重新焕发了青春。而Spring-Jmx将普通POJO注释一下就变成MBean也非常方便。</p>
-</li>
-<li><p>其他Production Feature: 用<a href="https://github.com/Netflix/Hystrix" target="_blank" rel="external">Hystrix</a>对访问资源进行并发、延时、短路控制，防止系统雪崩。</p>
-</li>
-</ul>
-<h2 id="Utilizes">Utilizes</h2><ul>
-<li><p>General： <a href="http://commons.apache.org/lang/" target="_blank" rel="external">Apache Commons Lang</a>说是伴着我们长大的也不为过，3.0版连package名也改了，全面支持泛型。 Guava 是Google新鲜推出的优雅产品。但说它会一桶天下又不定，因为它有时候太新潮了，反而用不惯。比如StringUtils我还是喜欢用Apache的，IO也同样是Apache Commons IO的好使。</p>
-</li>
-<li><p>XML： 用JDK自带的JAXB就算了，不折腾。</p>
-</li>
-<li><p>JSON： GSon虽然系出名门而且接口优雅，但<a href="http://jackson.codehaus.org/" target="_blank" rel="external">Jackson</a>的功能更加丰富到匪夷所思，而且比GSon快很多。</p>
-</li>
-<li><p>Email： Spring自带的Email封装挺好用的。</p>
-</li>
-<li><p>Logging: <a href="http://www.slf4j.org/" target="_blank" rel="external">Slf4j</a>作为入口，早就替代了Apache Common Logging了，下面的实现Log4j 1.x 被批判太多同步方法太慢，Log4j作者的后作Logback就好很多了，但社区似乎不甘心log在一家QOS公司手里，又在推动log4j2.0的发展，目前还是beta版。另外选择<a href="http://logstash.net/" target="_blank" rel="external">Logstash</a>做日志的中央式处理。</p>
-</li>
-<li><p>最后，Freemarker虽然不用来做页面Template，平时用来生成点东西也不错的。JodaTime这种要直接加入JDK的就不多说它了。HttpClient建议用Apache HttpClient好过JDK自带。</p>
-</li>
-</ul>
-<h2 id="Test">Test</h2><ul>
-<li><p>Unit Test： JUnit始终是正统，TestNG的功能如测试用例分组它也慢慢支持了。<a href="http://joel-costigliola.github.io/assertj/" target="_blank" rel="external">AssertJ</a> 是目前最好的Assert语句库。</p>
-</li>
-<li><p>Mock： Mockito的API比老牌的EasyMock更为优雅，而PowerMock则能配合Mockito完成static方法，函数内部new 出来的对象这些Mockito做不了的mock。</p>
-</li>
-<li><p>Functional Test：Selenium与WebDriver的合并后，最大改进是原来基于javascript的方案， 变成了直接调用浏览器的核心API，性能好了。</p>
-</li>
-<li><p>Performance/Stability Test: [Jmeter]作为测试工具是最成熟的，Gatling还需要时间成熟。</p>
-</li>
-</ul>
-<h2 id="Development_Environment">Development Environment</h2><ul>
-<li><p>JDK6这样没什么兼容性问题又成熟得一塌糊涂的版本建议大家都升级吧。JDK7也不错，有G1垃圾收集器和Try-Catch新语法的语法糖。</p>
-</li>
-<li><p>用<a href="http://www.eclipse.org/jetty/" target="_blank" rel="external">Jetty7</a>是因为它的嵌入式版本做得好，集成测试不用部署直接就开跑了。开发时一般也不用Eclipse插件，直接自己在代码里启动了，省下打包拷贝War文件的时间。Tomcat现在也有嵌入式版本了，而Jetty最新版要JDK7。</p>
-</li>
-<li><p>用<a href="http://www.h2database.com/" target="_blank" rel="external">H2 Database</a>，既是嵌入式的，又可以持久化到文件用Web Console查看，性能还是嵌入式中最好的。</p>
-</li>
-<li><p>用<a href="http://maven.apache.org/" target="_blank" rel="external">Maven</a>，在项目构建脚本不复杂的时候的首选，否则就只能ant+ivy了，或者像hibernate和spring一样，用gradle.</p>
-</li>
-<li><p>另外，用<a href="http://code.google.com/p/log4jdbc/" target="_blank" rel="external">Log4jdbc</a>在开发时查看实际执行的SQL。</p>
-</li>
-<li><p>最后，用<a href="http://www.jenkins-ci.org/" target="_blank" rel="external">Jenkins</a>做持续集成, <a href="http://www.sonarsource.org/" target="_blank" rel="external">Sonar</a>做代码质量检查，是大部分好项目的共同爱好。</p>
-</li>
-</ul>
+          Web
+MVC Framwork： SpringMVC3.0 Restful的风格终于回归了MVC框架的简单本质，对比之下Struts2概念太复杂更新又太懒了。
 
-          
+Template：JSP2.0且尽量使用JSP EL而不是taglib，万一要写taglib也用纯JSP来编写，一向是SpringSid
+          ...
+
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2015/06/19/the-teach-stack-of-java-backend-develop/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
         
       
     </div>
@@ -1040,9 +903,15 @@
       
         
           
-            <h2 id="购买的6个格式">购买的6个格式</h2><p>听说、了解、记住、喜欢、购买、传播，依此循环</p>
+          购买的6个格式听说、了解、记住、喜欢、购买、传播，依此循环
 
           
+
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2015/06/18/users-buy-things/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
         
       
     </div>
@@ -1134,12 +1003,18 @@
       
         
           
-            <p>一个社交属性特别强大的产品的一个典型特征一定是：<strong>在这个地方能泡到妞</strong>；</p>
-<p>对于这点微信是，而微博不是；</p>
-<p>微博是媒体，用户在微博主要是等出事，看热闹，聊明星八卦等；</p>
-<p>微信的社交属性就强的多，朋友圈、IM是熟人交流；漂流瓶、附近的人、摇一摇是陌生人社交；</p>
+          一个社交属性特别强大的产品的一个典型特征一定是：在这个地方能泡到妞；
+对于这点微信是，而微博不是；
+微博是媒体，用户在微博主要是等出事，看热闹，聊明星八卦等；
+微信的社交属性就强的多，朋友圈、IM是熟人交流；漂流瓶、附近的人、摇一摇是陌生人社交；
 
           
+
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2015/06/18/about-weibo/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
         
       
     </div>
@@ -1231,93 +1106,20 @@
       
         
           
-            <p>以下镜像站分原版和非原版，非原版界面有些改变，搜索结果依然是相同的。【来源自互联网】</p>
-<p>非原版：</p>
-<ul>
-<li>Glgoo：<a href="http://www.glgoo.com/" target="_blank" rel="external">http://www.glgoo.com/</a></li>
-<li>九尾搜索：<a href="http://www.jwss.com/" target="_blank" rel="external">http://www.jwss.com/</a></li>
-<li>谷粉搜搜：<a href="http://www.gfsswy.com/" target="_blank" rel="external">http://www.gfsswy.com/</a></li>
-<li>谷粉搜搜：<a href="http://gufensoso.com/" target="_blank" rel="external">http://gufensoso.com/</a></li>
-<li>谷粉恰搜：<a href="http://www.qiasou.com/" target="_blank" rel="external">http://www.qiasou.com/</a></li>
-<li>蝴蝶：<a href="http://www.xiexingwen.com/" target="_blank" rel="external">http://www.xiexingwen.com/</a></li>
-<li>一哥搜：<a href="http://www.egeso.com/" target="_blank" rel="external">http://www.egeso.com/</a></li>
-<li>谷歌搜：<a href="http://www.gugesou.com/" target="_blank" rel="external">http://www.gugesou.com/</a></li>
-<li>谷壳：<a href="http://www.googke.me/" target="_blank" rel="external">http://www.googke.me/</a></li>
-<li>南搜：<a href="http://nan.so/" target="_blank" rel="external">http://nan.so/</a></li>
-<li>白鸽：<a href="http://baigeso.com/" target="_blank" rel="external">http://baigeso.com/</a></li>
-<li>GG搜索：<a href="http://ggsousuo.duapp.com/" target="_blank" rel="external">http://ggsousuo.duapp.com/</a></li>
-<li>大中华：<a href="http://i.forbook.net/" target="_blank" rel="external">http://i.forbook.net/</a></li>
-<li>红杏谷歌：<a href="http://www.hxgoogle.com/" target="_blank" rel="external">http://www.hxgoogle.com/</a></li>
-<li>逆天谷歌：<a href="http://www.go2121.com/" target="_blank" rel="external">http://www.go2121.com/</a></li>
-<li>谷歌363：<a href="http://www.g363.com/" target="_blank" rel="external">http://www.g363.com/</a></li>
-<li>FKDD：<a href="http://fkdd.com/" target="_blank" rel="external">http://fkdd.com/</a></li>
-<li>OpenGG：<a href="http://www.opengg.cn/" target="_blank" rel="external">http://www.opengg.cn/</a></li>
-<li>Avira：<a href="https://safesearch.avira.com/" target="_blank" rel="external">https://safesearch.avira.com/</a></li>
-<li>Suche：<a href="http://suche.web.de/" target="_blank" rel="external">http://suche.web.de/</a></li>
-<li>WOW：<a href="http://www.wow.com/" target="_blank" rel="external">http://www.wow.com/</a></li>
-<li>Ask：<a href="http://home.tb.ask.com/" target="_blank" rel="external">http://home.tb.ask.com/</a></li>
-<li>Googleout：<a href="https://www.out1000.com/" target="_blank" rel="external">https://www.out1000.com/</a></li>
-<li>WebWebWeb：<a href="http://webwebweb.com/" target="_blank" rel="external">http://webwebweb.com/</a></li>
-<li>Disconnect：<a href="https://search.disconnect.me/" target="_blank" rel="external">https://search.disconnect.me/</a></li>
-</ul>
-<p>原版：</p>
-<ul>
-<li><a href="http://carbyne.net.cn/" target="_blank" rel="external">http://carbyne.net.cn/</a></li>
-<li><a href="http://g.itechzero.com/" target="_blank" rel="external">http://g.itechzero.com/</a></li>
-<li><a href="https://g.wen.lu/" target="_blank" rel="external">https://g.wen.lu/</a></li>
-<li><a href="https://s.ets.cc/" target="_blank" rel="external">https://s.ets.cc/</a></li>
-<li><a href="https://www.90r.org/" target="_blank" rel="external">https://www.90r.org/</a></li>
-<li><a href="https://guge.io/" target="_blank" rel="external">https://guge.io/</a></li>
-<li><a href="https://sepu.org/" target="_blank" rel="external">https://sepu.org/</a></li>
-<li><a href="https://gg.avpn.cc/" target="_blank" rel="external">https://gg.avpn.cc/</a></li>
-<li><a href="https://g4w.me/" target="_blank" rel="external">https://g4w.me/</a></li>
-<li><a href="https://s.bt.gg/" target="_blank" rel="external">https://s.bt.gg/</a></li>
-<li><a href="https://duliziyou.com/" target="_blank" rel="external">https://duliziyou.com/</a></li>
-<li><a href="https://www.booo.so/" target="_blank" rel="external">https://www.booo.so/</a></li>
-<li><a href="https://www.muzhiso.com/" target="_blank" rel="external">https://www.muzhiso.com/</a></li>
-<li><a href="http://google1314.com/" target="_blank" rel="external">http://google1314.com/</a></li>
-<li><a href="http://gl.randomk.org/" target="_blank" rel="external">http://gl.randomk.org/</a></li>
-<li><a href="https://www.ggncr.com/" target="_blank" rel="external">https://www.ggncr.com/</a></li>
-<li><a href="https://g.ftfish.com/" target="_blank" rel="external">https://g.ftfish.com/</a></li>
-<li><a href="https://allee.science/" target="_blank" rel="external">https://allee.science/</a></li>
-<li><a href="http://www.kb58.cn/" target="_blank" rel="external">http://www.kb58.cn/</a></li>
-<li><a href="http://google.ihuan.me/" target="_blank" rel="external">http://google.ihuan.me/</a></li>
-<li><a href="http://discus.cf/" target="_blank" rel="external">http://discus.cf/</a></li>
-<li><a href="https://laoshandaoshi.so/" target="_blank" rel="external">https://laoshandaoshi.so/</a></li>
-<li><a href="https://www.gotosearch.info/" target="_blank" rel="external">https://www.gotosearch.info/</a></li>
-<li><a href="http://www.googlestable.cn/" target="_blank" rel="external">http://www.googlestable.cn/</a></li>
-<li><a href="http://www.googleforchina.com/" target="_blank" rel="external">http://www.googleforchina.com/</a></li>
-<li><a href="http://0s.o53xo.m5xw6z3mmuxgizi.erenta.ru/" target="_blank" rel="external">http://0s.o53xo.m5xw6z3mmuxgizi.erenta.ru/</a></li>
-</ul>
-<p>IP直连：</p>
-<ul>
-<li><a href="http://4.31.38.26/" target="_blank" rel="external">http://4.31.38.26/</a></li>
-<li><a href="http://4.31.38.27/" target="_blank" rel="external">http://4.31.38.27/</a></li>
-<li><a href="http://4.31.38.31/" target="_blank" rel="external">http://4.31.38.31/</a></li>
-<li><a href="http://58.123.102.23/" target="_blank" rel="external">http://58.123.102.23/</a></li>
-<li><a href="http://64.233.189.163/" target="_blank" rel="external">http://64.233.189.163/</a></li>
-<li><a href="http://66.185.84.19/" target="_blank" rel="external">http://66.185.84.19/</a></li>
-<li><a href="http://74.125.102.230/" target="_blank" rel="external">http://74.125.102.230/</a></li>
-<li><a href="http://74.125.104.113/" target="_blank" rel="external">http://74.125.104.113/</a></li>
-<li><a href="http://91.213.30.153/" target="_blank" rel="external">http://91.213.30.153/</a></li>
-<li><a href="http://95.173.210.55/" target="_blank" rel="external">http://95.173.210.55/</a></li>
-<li><a href="http://118.174.27.112/" target="_blank" rel="external">http://118.174.27.112/</a></li>
-<li><a href="http://173.194.1.13/" target="_blank" rel="external">http://173.194.1.13/</a></li>
-<li><a href="http://173.194.14.40/" target="_blank" rel="external">http://173.194.14.40/</a></li>
-<li><a href="http://173.194.14.41/" target="_blank" rel="external">http://173.194.14.41/</a></li>
-<li><a href="http://173.194.14.50/" target="_blank" rel="external">http://173.194.14.50/</a></li>
-<li><a href="http://173.194.14.52/" target="_blank" rel="external">http://173.194.14.52/</a></li>
-<li><a href="http://173.194.138.103/" target="_blank" rel="external">http://173.194.138.103/</a></li>
-<li><a href="http://201.163.0.13/" target="_blank" rel="external">http://201.163.0.13/</a></li>
-<li><a href="http://202.152.192.171/" target="_blank" rel="external">http://202.152.192.171/</a></li>
-<li><a href="http://203.211.0.100/" target="_blank" rel="external">http://203.211.0.100/</a></li>
-<li><a href="http://209.85.225.23/" target="_blank" rel="external">http://209.85.225.23/</a></li>
-<li><a href="http://209.85.226.146/" target="_blank" rel="external">http://209.85.226.146/</a></li>
-<li><a href="http://209.85.228.11/" target="_blank" rel="external">http://209.85.228.11/</a></li>
-<li><a href="http://209.85.228.19/" target="_blank" rel="external">http://209.85.228.19/</a></li>
-</ul>
+          以下镜像站分原版和非原版，非原版界面有些改变，搜索结果依然是相同的。【来源自互联网】
+非原版：
 
-          
+Glgoo：http://www.glgoo.com/
+九尾搜索：http://www.jwss.com/
+谷粉搜搜：http://www.gfsswy.com/
+谷粉搜搜：http://gufenso
+          ...
+
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2015/06/17/the-google-mirror/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
         
       
     </div>
@@ -1409,19 +1211,17 @@
       
         
           
-            <h2 id="安装Redis服务器端">安装Redis服务器端</h2><pre><code>sudo apt-get <span class="operator"><span class="keyword">install</span> redis-<span class="keyword">server</span></span>
-</code></pre><p>安装完成后，Redis服务器会自动启动，我们可以检查Redis服务器程序：</p>
-<h3 id="检查Redis服务器系统进程">检查Redis服务器系统进程</h3><pre><code><span class="keyword">ps</span> -aux|<span class="keyword">grep</span> redis
-</code></pre><p>redis     4162  0.1  0.0  10676  1420 ?        Ss   23:24   0:00 /usr/bin/</p>
-<pre><code>redis-<span class="keyword">server</span> /etc/redis/redis.conf
-</code></pre><p>conan     4172  0.0  0.0  11064   924 pts/0    S+   23:26   0:00 grep —color=auto redis</p>
-<h4 id="通过启动命令检查Redis服务器状态">通过启动命令检查Redis服务器状态</h4><pre><code>netstat -nlt<span class="string">|grep 6379</span>
-</code></pre><p>tcp        0      0 127.0.0.1:6379          0.0.0.0:*               LISTEN</p>
-<h4 id="通过启动命令检查Redis服务器状态-1">通过启动命令检查Redis服务器状态</h4><pre><code>sudo /etc/init.d/redis-<span class="keyword">server</span> status
-</code></pre><p>redis-server is running</p>
-<h2 id="卸载Redis">卸载Redis</h2><pre><code>sudo apt-<span class="keyword">get</span> purge <span class="comment">--auto-remove redis-server</span>
-</code></pre>
-          
+          安装Redis服务器端sudo apt-get install redis-server
+安装完成后，Redis服务器会自动启动，我们可以检查Redis服务器程序：
+检查Redis服务器系统进程ps -aux|grep redis
+redis     4162  0.1  0.0  10676  1
+          ...
+
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2015/06/16/redis-install-and-config/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
         
       
     </div>

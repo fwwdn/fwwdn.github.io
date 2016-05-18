@@ -297,507 +297,20 @@
       
         
           
-            <p>HTTP FORM API 允许用户直接上传文件到 UPYUN，而不需要通过客户服务器进行中转。支持 HTTP 和 HTTPS 协议，您可以选择最优的方式提交请求。</p>
-<p>普通上传流程如下：</p>
-<p><img src="http://our80.b0.upaiyun.com/wiki_pic/form_api/normal_form.png" alt="普通上传流程"></p>
-<p>UPYUN FORM API 流程如下：</p>
-<p><img src="http://our80.b0.upaiyun.com/wiki_pic/form_api/upyun_form.png" alt="UPYUN表单流程"></p>
-<p>对比两种流程方式，UPYUN FORM API 具有以下几点<strong>优势</strong>：</p>
-<ul>
-<li>避免了客户服务器的文件中转，减少了不必要的流量、带宽和客户服务器开销</li>
-<li>UPYUN 自动选择最近最快的节点接收客户端上传的文件，文件上传速度更快</li>
-<li>客户服务端无需开发多余的业务代码，减少开发和测试成本，提高开发效率</li>
-</ul>
-<h2 id="API_基本域名">API 基本域名</h2><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">v0<span class="selector-class">.api</span><span class="selector-class">.upyun</span><span class="selector-class">.com</span> <span class="comment">//自动判断最优线路</span></span><br><span class="line">v1<span class="selector-class">.api</span><span class="selector-class">.upyun</span><span class="selector-class">.com</span> <span class="comment">//电信线路</span></span><br><span class="line">v2<span class="selector-class">.api</span><span class="selector-class">.upyun</span><span class="selector-class">.com</span> <span class="comment">//联通（网通）线路</span></span><br><span class="line">v3<span class="selector-class">.api</span><span class="selector-class">.upyun</span><span class="selector-class">.com</span> <span class="comment">//移动（铁通）线路</span></span><br></pre></td></tr></table></figure>
-<p>根据实际情况任选其一</p>
-<h2 id="请求方法">请求方法</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">curl http://v0.api.upyun.com/&lt;bucket-name&gt; \</span><br><span class="line">    -F file=@&lt;filename&gt; \</span><br><span class="line">    -F policy=&lt;policy&gt; \</span><br><span class="line">    -F signature=&lt;signature&gt;</span><br></pre></td></tr></table></figure>
-<h3 id="Signature_和_Policy_算法">Signature 和 Policy 算法</h3><p><strong>Policy</strong></p>
-<p>用于将上传请求相关的参数，例如保存路径，文件类型，预处理结果等，另外，也包含了上传请求授时间等。</p>
-<p>Policy 生成步骤：</p>
-<ol>
-<li>将请求所需的参数键值对转换为 JSON 字符串</li>
-<li>将第 1 步中所得字符串进行 Base64 处理，即得 Policy</li>
-</ol>
-<p><strong>注：</strong></p>
-<blockquote>
-<p> Policy 必须是 UTF-8 编码格式，且不包含换行符，否则可能无法通过签名验证。</p>
-</blockquote>
-<p><strong>Signature</strong></p>
-<p>为了保证空间的安全性，UPYUN 表单 API 的上传需要使用到每个空间对应的「表单 API 验证密钥（form_api_secret）」</p>
-<p>通过将表单 API 与 Policy 组合，并进行 MD5 计算后，所得的 MD5 值将作为 <code>Signature</code> 用于安全校验。</p>
-<p>Signature 生成步骤：</p>
-<ol>
-<li>生成 Policy 字符串</li>
-<li>将第 1 步中所得字符串与您的表单API（可登录 UPYUN 官网获取）字符串用 <code>&amp;</code> 拼接</li>
-<li>将第 2 步中所的的字符串计算 md5，所得即为 Signature</li>
-</ol>
-<p>如，假设一个请求所需的的策略参数如下表:</p>
-<table>
-<thead>
-<tr>
-<th>键</th>
-<th>值</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>bucket</td>
-<td>demobucket</td>
-</tr>
-<tr>
-<td>expiration</td>
-<td>1409200758</td>
-</tr>
-<tr>
-<td>save-key</td>
-<td>/img.jpg</td>
-</tr>
-</tbody>
-</table>
-<p>另设，该空间表单 API 为：<code>cAnyet74l9hdUag34h2dZu8z7gU=</code></p>
-<p>则，<br><strong>计算 <code>policy</code> 相应步骤所得结果如下：</strong></p>
-<p>第一步，将<code>参数组</code>转换为 JSON 字符串后：<br><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;<span class="attr">"bucket"</span>:<span class="string">"demobucket"</span>,<span class="attr">"expiration"</span>:<span class="number">1409200758</span>,<span class="attr">"save-key"</span>:<span class="string">"/img.jpg"</span>&#125;</span><br></pre></td></tr></table></figure></p>
-<p>第二步，将第一步所得字符串 base64 编码后：<br>2.<br><figure class="highlight gcode"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">eyJidW<span class="symbol">NrZXQiOiJkZW1</span>vY<span class="symbol">nVja2</span>V<span class="number">0</span>IiwiZXhwaXJhdGlvbiI<span class="number">6</span>MTQwOTIwMDc<span class="number">1</span>OCwic<span class="number">2</span>F<span class="number">2</span>ZS<span class="number">1</span>rZXkiOiIvaW<span class="number">1</span><span class="symbol">nLmpwZyJ9</span></span><br></pre></td></tr></table></figure></p>
-<p><strong>计算 <code>signature</code> 相应步骤所的结果如下：</strong></p>
-<p>第一步，生成 Policy：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">eyJidWNrZXQiOiJkZW1vYnVja2V0IiwiZXhwaXJhdGlvbiI6MTQwOTIwMDc1OCwic2F2ZS1rZXkiOiIvaW1nLmpwZyJ9</span><br></pre></td></tr></table></figure></p>
-<p>第二步，第一步结果加上表单API后：<br><figure class="highlight gcode"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">eyJidW<span class="symbol">NrZXQiOiJkZW1</span>vY<span class="symbol">nVja2</span>V<span class="number">0</span>IiwiZXhwaXJhdGlvbiI<span class="number">6</span>MTQwOTIwMDc<span class="number">1</span>OCwic<span class="number">2</span>F<span class="number">2</span>ZS<span class="number">1</span>rZXkiOiIvaW<span class="number">1</span><span class="symbol">nLmpwZyJ9</span>&amp;cA<span class="symbol">nyet74</span>l<span class="number">9</span>hdUa<span class="name">g34</span>h<span class="number">2</span>dZu<span class="number">8</span>z<span class="number">7</span>gU=</span><br></pre></td></tr></table></figure></p>
-<p>第三步，将第二步所得字符计算 md5 后：<br><figure class="highlight dns"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">646</span>a6a629c344ce0e6a10cadd<span class="number">49756d4</span></span><br></pre></td></tr></table></figure></p>
-<h3 id="表单_API_参数">表单 API 参数</h3><table>
-<thead>
-<tr>
-<th>参数</th>
-<th>必选</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>bucket</td>
-<td>是</td>
-<td>保存所上传的文件的 UPYUN 空间名</td>
-</tr>
-<tr>
-<td>save-key</td>
-<td>是</td>
-<td>保存路径，如: ‘/path/to/file.ext’，可用占位符 <a href="#note1">[注1]</a></td>
-</tr>
-<tr>
-<td>expiration</td>
-<td>是</td>
-<td>请求的过期时间，UNIX 时间戳（秒）</td>
-</tr>
-<tr>
-<td>allow-file-type</td>
-<td>否</td>
-<td>文件类型限制，制定允许上传的文件扩展名</td>
-</tr>
-<tr>
-<td>content-length-range</td>
-<td>否</td>
-<td>文件大小限制，格式：<code>min,max</code>，单位：字节，如 <code>102400,1024000</code>，允许上传 100Kb～1Mb 的文件</td>
-</tr>
-<tr>
-<td>content-md5</td>
-<td>否</td>
-<td>所上传的文件的 MD5 校验值，UPYUN 根据此来校验文件上传是否正确</td>
-</tr>
-<tr>
-<td>content-secret</td>
-<td>否</td>
-<td>原图访问密钥 <a href="#note2">[注2]</a></td>
-</tr>
-<tr>
-<td>content-type</td>
-<td>否</td>
-<td>UPYUN 默认根据扩展名判断，手动指定可提高精确性</td>
-</tr>
-<tr>
-<td>image-width-range</td>
-<td>否</td>
-<td>图片宽度限制，格式：<code>min,max</code>，单位：像素，如 <code>0,1024</code>，允许上传宽度为 0～1024px 之间</td>
-</tr>
-<tr>
-<td>image-height-range</td>
-<td>否</td>
-<td>图片高度限制，格式：<code>min,max</code>，单位：像素，如 <code>0,1024</code>，允许上传高度在 0～1024px 之间</td>
-</tr>
-<tr>
-<td>notify-url</td>
-<td>否</td>
-<td>异步通知 URL，见 <a href="#notify_return">[通知规则]</a></td>
-</tr>
-<tr>
-<td>return-url</td>
-<td>否</td>
-<td>同步通知 URL，见 <a href="#notify_return">[通知规则]</a></td>
-</tr>
-<tr>
-<td>x-gmkerl-thumbnail</td>
-<td>否</td>
-<td>缩略图版本名称，仅支持图片类空间，可搭配其他 <code>x-gmkerl-*</code> 参数使用 <a href="#note3">[注3]</a></td>
-</tr>
-<tr>
-<td>x-gmkerl-type</td>
-<td>否</td>
-<td>缩略类型 <a href="#note4">[注4]</a></td>
-</tr>
-<tr>
-<td>x-gmkerl-value</td>
-<td>否</td>
-<td>缩略类型对应的参数值 <a href="#note5">[注4]</a></td>
-</tr>
-<tr>
-<td>x-gmkerl-quality</td>
-<td>否</td>
-<td><strong>默认 95</strong>缩略图压缩质量</td>
-</tr>
-<tr>
-<td>x-gmkerl-unsharp</td>
-<td>否</td>
-<td><strong>默认锐化（true）</strong>是否进行锐化处理</td>
-</tr>
-<tr>
-<td>x-gmkerl-rotate</td>
-<td>否</td>
-<td>图片旋转（顺时针），可选：<code>auto</code>，<code>90</code>，<code>180</code>，<code>270</code> 之一</td>
-</tr>
-<tr>
-<td>x-gmkerl-crop</td>
-<td>否</td>
-<td>图片裁剪，格式：<code>x,y,width,height</code>，均需为正整型</td>
-</tr>
-<tr>
-<td>x-gmkerl-exif-switch</td>
-<td>否</td>
-<td>是否保留 exif 信息，仅在搭配 <code>x-gmkerl-crop</code>，<code>x-gmkerl-type</code>，<code>x-gmkerl-thumbnail</code> 时有效。</td>
-</tr>
-<tr>
-<td>ext-param</td>
-<td>否</td>
-<td>额外参数，UTF-8 编码，并小于 255 个字符 <a href="#note5">[注5]</a></td>
-</tr>
-</tbody>
-</table>
-<p><strong>注：</strong></p>
-<blockquote>
-<ul>
-<li>若在上传非图片文件时使用 <code>image-width-range</code>，<code>image-height-range</code>，会返回「不是图片」的错误；</li>
-<li>若请求中带有图片处理参数，最终只保存处理后的图片，上传的原图不保存；</li>
-<li>若同时提交旋转和裁剪参数，系统将按照先旋转，后裁剪的顺序进行处理；</li>
-<li>若原图中包含EXIF信息，那么旋转操作后保存的图片中，EXIF信息的图片方向将被修改；</li>
-<li>图片处理参数仅在上传图片时有效，暂不支持对已保存在UPYUN的原图进行图片处理。</li>
-</ul>
-</blockquote>
-<p><a name="notify_return"></a></p>
-<h3 id="通知规则">通知规则</h3><ul>
-<li>如果没有设置 <code>return-url</code>，那么 UPYUN 处理完上传操作后，将把结果信息返回输出到 body 中。</li>
-<li>如果设置了 <code>return-url</code>，那么 UPYUN 处理完上传操作后，将会把结果信息以 Query String 的形式追加到 <code>return-url</code> 指定的 URL 后，并进行 302 跳转，如，<code>return-url</code> 为 <em><code>http://yourdomain.com/return/</code></em> 那么，所跳转的 URL 可能会如下所示：</li>
-<li>URL 中包括：code、message、url、time 和 sign(或 non-sign) 参数。<a href="#note6">[注6]</a></li>
-</ul>
-<figure class="highlight xquery"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://yourdomain.com/<span class="keyword">return</span>/?code=<span class="number">503</span>&amp;message=<span class="meta">%E6</span><span class="meta">%8E</span><span class="meta">%88</span><span class="meta">%E6</span><span class="meta">%9D</span><span class="meta">%83</span><span class="meta">%E5</span><span class="meta">%B7</span><span class="meta">%B2</span><span class="meta">%E8</span><span class="meta">%BF</span><span class="meta">%87</span><span class="meta">%E6</span><span class="meta">%9C</span><span class="meta">%9F</span>&amp;url=<span class="meta">%2F2011</span><span class="meta">%2F12</span><span class="meta">%2Ffd0e30047f81fa95</span>.bz2&amp;time=<span class="number">1332129461</span>&amp;sign=b11cb84538e884d63e14e52d35a7bd21</span><br></pre></td></tr></table></figure>
-<p>如果是图片类空间，则会额外增加：image-width、image-height、image-frames 和 image-type 四个参数（这四个参数不参与加密签名）。</p>
-<ul>
-<li>如果设置了 <code>notify-url</code>，那么UPYUN处理完上传操作后，服务端将以发送 POST 请求的方式把上传至 <code>notify-url</code> 对应的地址，POST 所提交的参数和上述 <code>return-url</code> 中的相同</li>
-</ul>
-<h3 id="表单API状态代码表">表单API状态代码表</h3><table>
-<thead>
-<tr>
-<th>HTTP 状态码</th>
-<th>返回代码</th>
-<th>含义</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>200</td>
-<td>OK</td>
-<td>文件上传成功</td>
-</tr>
-<tr>
-<td>400</td>
-<td>Is not a multipart request.</td>
-<td>请求方式错误：非表单形式</td>
-</tr>
-<tr>
-<td>400</td>
-<td>Form parameter invalid.</td>
-<td>请求参数不合法</td>
-</tr>
-<tr>
-<td>400</td>
-<td>Not accept, Miss policy.</td>
-<td>缺少 policy 参数</td>
-</tr>
-<tr>
-<td>400</td>
-<td>Not accept, Miss signature.</td>
-<td>缺少 signature 参数</td>
-</tr>
-<tr>
-<td>400</td>
-<td>Not accept, No file data.</td>
-<td>没有上传任何文件数据，请检查表单中文件域的名称是否为 file</td>
-</tr>
-<tr>
-<td>400</td>
-<td>Not accept, Bucket is null.</td>
-<td>空间名参数为空</td>
-</tr>
-<tr>
-<td>400</td>
-<td>Not accept, Save-key is null.</td>
-<td>保存路径参数为空</td>
-</tr>
-<tr>
-<td>400</td>
-<td>Not accept, Expiration is null.</td>
-<td>授权过期参数为空</td>
-</tr>
-<tr>
-<td>400</td>
-<td>Not accept, Ext-param too long.</td>
-<td>额外参数内容长度过长</td>
-</tr>
-<tr>
-<td>403</td>
-<td>Not accept, POST URI error.</td>
-<td>表单提交的 URI 错误</td>
-</tr>
-<tr>
-<td>403</td>
-<td>Authorize has expired.</td>
-<td>上传授权已过期(请检查服务器时间或设置的过期时间是否正确)</td>
-</tr>
-<tr>
-<td>403</td>
-<td>Not accept, Signature error.</td>
-<td>签名错误，可能是表单签名密匙不正确</td>
-</tr>
-<tr>
-<td>403</td>
-<td>Not accept, Form API disabled.</td>
-<td>表单 API 功能未启用</td>
-</tr>
-<tr>
-<td>403</td>
-<td>Not accept, Content-md5 error.</td>
-<td>上传文件内容的 md5 校验值错误，客户端传递的 md5 值与服务器端计算的 md5 值不相同</td>
-</tr>
-<tr>
-<td>403</td>
-<td>Content-Secret only accept [a-zA-Z0-9].</td>
-<td>原图保护密钥使用了不允许的字符</td>
-</tr>
-<tr>
-<td>403</td>
-<td>Not accept, File size too small.</td>
-<td>上传文件过小</td>
-</tr>
-<tr>
-<td>403</td>
-<td>Not accept, File size too large.</td>
-<td>上传文件过大</td>
-</tr>
-<tr>
-<td>403</td>
-<td>Not accept, File type Error.</td>
-<td>上传文件类型不允许，请参考 allow-file-type 参数</td>
-</tr>
-<tr>
-<td>403</td>
-<td>Not accept, Not an image file.</td>
-<td>上传的不是图片文件，请参考 image-width-range 参数</td>
-</tr>
-<tr>
-<td>403</td>
-<td>Not accept, Image width too small.</td>
-<td>上传的图片宽度过小</td>
-</tr>
-<tr>
-<td>403</td>
-<td>Not accept, Image width too large.</td>
-<td>上传的图片宽度过大</td>
-</tr>
-<tr>
-<td>403</td>
-<td>Not accept, Image height too small.</td>
-<td>上传的图片高度过小</td>
-</tr>
-<tr>
-<td>403</td>
-<td>Not accept, Image height too large.</td>
-<td>上传的图片高度过大</td>
-</tr>
-<tr>
-<td>403</td>
-<td>Image Rotate Invalid Parameters.</td>
-<td>图片旋转参数错误</td>
-</tr>
-<tr>
-<td>403</td>
-<td>Image Crop Invalid Parameters.</td>
-<td>图片裁剪参数错误</td>
-</tr>
-<tr>
-<td>403</td>
-<td>Bucket blocked.</td>
-<td>空间已被禁用</td>
-</tr>
-<tr>
-<td>404</td>
-<td>Bucket does not exist.</td>
-<td>空间不存在</td>
-</tr>
-<tr>
-<td>404</td>
-<td>Bucket removed.</td>
-<td>空间已被删除</td>
-</tr>
-<tr>
-<td>503</td>
-<td>System Error, please try again.</td>
-<td>系统错误，请重试</td>
-</tr>
-</tbody>
-</table>
-<h3 id="注释说明">注释说明</h3><p><a name="note1"></a></p>
-<h4 id="注1：save-key详细说明">注1：save-key详细说明</h4><table>
-<thead>
-<tr>
-<th>类型</th>
-<th>格式</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>绝对值</td>
-<td>String</td>
-<td>即手动指定具体的路径，如: <code>/path/to/file.ext</code></td>
-</tr>
-<tr>
-<td>时间类</td>
-<td>{year} {mon} {day} {hour} {min} {sec}</td>
-<td>日期、时间相关内容</td>
-</tr>
-<tr>
-<td>md5类</td>
-<td>{filemd5}</td>
-<td>文件内容的 md5 值</td>
-</tr>
-<tr>
-<td>随机类</td>
-<td>{random} {random32}</td>
-<td>16 位或 32 位随机字符和数字</td>
-</tr>
-<tr>
-<td>文件名</td>
-<td>{filename} {suffix} {.suffix}</td>
-<td>上传文件的文件名及扩展名</td>
-</tr>
-</tbody>
-</table>
-<p><strong>举例说明：</strong></p>
-<pre><code>上传文件名：sample.jpg
-当前时间：<span class="number">2013</span>-<span class="number">01</span>-<span class="number">01</span> <span class="number">00</span>:<span class="number">00</span>:<span class="number">00</span>
-save-key：/<span class="list">{year}</span>/<span class="list">{mon}</span>/<span class="list">{day}</span>/upload_<span class="list">{filename}</span><span class="list">{.suffix}</span>
-那么最终的保存路径为：/<span class="number">2013</span>/<span class="number">01</span>/<span class="number">01</span>/upload_sample.jpg
-</code></pre><p><strong>提示：</strong></p>
-<ul>
-<li>如果你的应用一次授权只允许上传 1 个文件，<code>save-key</code>请使用绝对值；</li>
-<li>如果你的应用一次授权在过期时间内允许上传多个文件，<code>save-key</code>可使用一些命名变量；</li>
-<li>上传多个文件时，为避免发生路径重名导致文件被覆盖的现象，建议使用 <code>random32</code>等重复性较低的命名变量。</li>
-</ul>
-<p><a name="note2"></a></p>
-<h4 id="注2：content-secret详细说明">注2：content-secret详细说明</h4><p><strong>使用场景：</strong></p>
-<p>原图保存在UPYUN后，不允许直接对外提供访问，仅允许以缩略图的方式，或带有水印的原图对外提供访问时，可以使用 <code>content-secret</code> 参数设置一个“访问密钥”。</p>
-<p><strong>使用须知：</strong></p>
-<ul>
-<li>仅支持图片类空间，且必须存在<a href="如何创建自定义缩略图">缩略图版本号</a>！</li>
-<li>若设置了“访问密钥”，则无法根据原文件 URL 直接访问，需在 URL 后面加上 (缩略图间隔标志符+密钥) 进行访问</li>
-</ul>
-<p><strong>举例说明：</strong></p>
-<pre><code>图片类空间名：demobucket
-缩略图间隔标志符：!
-密钥：secret
-保存的文件路径：<span class="regexp">/dir/</span>sample.jpg
-那么该图片的对外访问地址为：<span class="string">http:</span><span class="comment">//demobucket.b0.upaiyun.com/dir/sample.jpg!secret</span>
-</code></pre><p><a name="note3"></a></p>
-<h4 id="注3：图片缩略详细说明">注3：图片缩略详细说明</h4><ul>
-<li>仅支持图片类空间，且只保存处理后的缩略图，不保存原图</li>
-<li>在使用缩略图版本参数(<code>x-gmkerl-thumbnail</code>)前，需要确保已经存在[[如何创建自定义缩略图|缩略图版本号]]，否则将直接错误返回。</li>
-<li>允许在使用缩略图版本参数(<code>x-gmkerl-thumbnail)</code>的同时，再搭配其他 <code>x-gmkerl-*</code> 参数对图片进行处理，优先级为 <code>x-gmkerl-*</code> 参数 &gt; 缩略图版本中对应参数</li>
-<li>因为文件类空间不存在缩略图版本配置，所以如果需要对原图进行缩略处理，可以使用 <code>x-gmkerl-type</code> 和 <code>x-gmkerl-value</code> 两个参数</li>
-</ul>
-<p><a name="note4"></a></p>
-<h4 id="注4：缩略类型详细说明">注4：缩略类型详细说明</h4><table>
-<thead>
-<tr>
-<th>参数</th>
-<th>说明</th>
-<th>单位</th>
-<th>举如</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>fix_max</td>
-<td>限定最长边，短边自适应</td>
-<td>像素值</td>
-<td>如: 150</td>
-</tr>
-<tr>
-<td>fix_min</td>
-<td>限定最短边，长边自适应</td>
-<td>像素值</td>
-<td>如: 150</td>
-</tr>
-<tr>
-<td>fix_width_or_height</td>
-<td>限定宽度和高度，宽高不足时不缩放</td>
-<td>像素值</td>
-<td>width x height，如: 150x130</td>
-</tr>
-<tr>
-<td>fix_width</td>
-<td>限定宽度，高度自适应</td>
-<td>像素值</td>
-<td>如: 150</td>
-</tr>
-<tr>
-<td>fix_height</td>
-<td>限定高度，宽度自适应</td>
-<td>像素值</td>
-<td>如: 150</td>
-</tr>
-<tr>
-<td>fix_both</td>
-<td>固定宽度和高度，宽高不足时强行缩放</td>
-<td>像素值</td>
-<td>width x height，如: 150x130</td>
-</tr>
-<tr>
-<td>fix_scale</td>
-<td>等比例缩放</td>
-<td>比例值（1-99）</td>
-<td>如: 50</td>
-</tr>
-</tbody>
-</table>
-<p><a name="note5"></a></p>
-<h4 id="注5：额外参数详细说明">注5：额外参数详细说明</h4><p><strong>使用场景：</strong></p>
-<p>当用户使用<code>return-url</code>或<code>notify-url</code>参数时，upyun 会将表单操作的结果，以同步或异步的方式返回给用户，结果内容包含 code、message、url、time 和 sign(或 non-sign 见<a href="#notify_return">通知规则</a>，无法回传其他内容。而 <code>ext-param</code> 参数可将用户自定义的内容原封不动的返回给用户。</p>
-<p><strong>使用须知：</strong></p>
-<p>仅支持 UTF-8 格式，最长不超过255个字节。</p>
-<p><strong>举例说明：</strong></p>
-<p>设置过<code>notify-url</code>的表单请求提交后，upyun 将以异步的方式把操作结果返回给用户。用户在接收到这个结果时可能无法得知是之前的哪个请求的结果，所以，在表单提交前可以给 <code>ext-param</code> 参数设置一个clientId_xxx，用户在 upyun 返回的结果中就可以获得这个 clientId_xxx 值并对之前的某个请求做后续的处理了。</p>
-<p><a name="note6"></a></p>
-<h4 id="注6：sign与non-sign参数说明">注6：sign与non-sign参数说明</h4><ul>
-<li>sign 是根据 code、message、url 、time 和表单 API 验证密匙(<code>form_api_secret</code>) 使用 <code>&amp;</code> 拼接后进行 md5 处理得到。</li>
-<li>如果因发生错误，表单 API 未取得，则会特殊的返回 <code>non-sign</code>，其处理方式和上述 <code>sign</code> 相同，只是没有表单 API 验证密匙(<code>form_api_secret</code>)</li>
-</ul>
+          HTTP FORM API 允许用户直接上传文件到 UPYUN，而不需要通过客户服务器进行中转。支持 HTTP 和 HTTPS 协议，您可以选择最优的方式提交请求。
+普通上传流程如下：
 
-          
+UPYUN FORM API 流程如下：
+
+对比两种流程方式，UPYUN FORM API 具有以下几点优势：
+
+          ...
+
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2015/08/03/upyun-form-api-upload-file/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
         
       
     </div>
@@ -889,45 +402,15 @@ save-key：/<span class="list">{year}</span>/<span class="list">{mon}</span>/<sp
       
         
           
-            <p>原文：<a href="http://sorentwo.com/2015/07/27/optimizing-redis-usage-for-caching.html?utm_source=redisweekly&amp;utm_medium=email" target="_blank" rel="external">http://sorentwo.com/2015/07/27/optimizing-redis-usage-for-caching.html?utm_source=redisweekly&amp;utm_medium=email</a></p>
-<p>如果你和我一样认为Redis是一个合适的cache工具，那么，通过下面的内容你将学到4个有效的方法来优化Redis作为你的基础缓存设施。即使你使用托管的解决方案，下面的优化方法仍然是有帮助的。</p>
-<h2 id="使用专用的缓存实例">使用专用的缓存实例</h2><p>Redis不像Memcached一样是多线程机制，它是单进程单线程的。考虑到Redis的处理速度，以及它要处理的工作量，如果你使用单实例配置，当你的平台的流量开始上升，需要处理的后台任务持续增加，发布/订阅频道转发超过数以千计的网络负载，缓存命中率持续增加时，就会有大量的Redis请求被阻塞，这时，Redis只能通过丢弃一些后台任务或是增加一组负载均衡服务器来解决当前的瓶颈。</p>
-<p>使用多个独立实例的配置，可以缓解单实例的压力。多个实例：一个用于后台任务，一个用于发布/订阅，另外一个专门用于缓存。不要依赖将数据分割成多个redis数据库！因为这些数据库后面仍然只有一个处理进程，所有上面的警告依然适用。</p>
-<h4 id="总结下:">总结下:</h4><ul>
-<li>对不同的工作负载使用专用的Redis实例；</li>
-<li>不要使用数据库（/ 0，/ 1，/ 2）来分区工作负载。</li>
-</ul>
-<h2 id="放宽持久化策略">放宽持久化策略</h2><blockquote>
-<p>你应该关注持久化和复制这两个Redis特性，即使你的目标只是建立一个缓存，这两个特性有助于当你升级或重启后，你的数据仍然不会丢失。</p>
-<p>—Antirez</p>
-</blockquote>
-<p>Each Redis instance has its own configuration file and can be tuned according to the use-case. Caching servers, for example, can be configured to use RDB persistence to periodically save a single backup instead of AOF persistence logs. By only taking periodic snapshots of the database RDB maximizes performance at the expense of up-to-the-second consistency. For a hybrid Redis instance that may be storing business critical background jobs data consistency is paramount. With a cache it is alright to lose some data in the event of a disaster, after reboot most of the cache will be warm and intact.</p>
-<h4 id="总结下:-1">总结下:</h4><p>Do optimize cache persistence speed by favoring RDB over AOF.<br>Do set stop-writes-on-bgsave-error to no to prevent all writes from failing when snapshotting fails. This requires proper monitoring and alerts for failures, which you are doing anyhow, right?<br>Do not disable persistence entirely, it is valuable for warming the cache after an upgrade or restart.</p>
-<h2 id="有效管理内存">有效管理内存</h2><p>Once you have a Redis instance dedicated to caching you can start to optimize memory management in ways that don’t make sense for a hybrid database. When ephemeral and long-lived data is co-mingled it is imperative that ephemeral keys have a TTL and Redis is free to clean up expired keys.</p>
-<p>Redis can manage memory in a variety of ways. The management policies vary from never evicting keys (noeviction) to randomly evicting a key when memory is full (allkeys-random). Hybridized databases typically use volatile-* policies, which require the presence of expiration values or they behave identically to noeviction. There is another policy that works better for cache data, allkeys-lru. The allkeys-lru policy attempts to remove the less recently used (LRU) keys first in order to make space for the new data added.</p>
-<blockquote>
-<p>It is also worth to note that setting an expire to a key costs memory, so using a policy like allkeys-lru is more memory efficient since there is no need to set an expire for the key to be evicted under memory pressure.</p>
-<p>—Redis Documentation</p>
-</blockquote>
-<p>Redis uses an approximated LRU algorithm instead of an exact algorithm. What this means is that you can conserve memory in favor of inaccuracy by tuning the number of samples to check with each eviction. Set maxmemory-samples to a low level, say around 5, for “good enough” eviction with a low memory footprint. Lastly, and most importantly, set a maxmemory limit to a comfortable amount of RAM. Without a limit Redis can’t function properly as a LRU cache and will start replying with errors when memory consuming commands start failing.</p>
-<h4 id="总结下:-2">总结下:</h4><p>Do set a maxmemory limit.<br>Do use allkeys-lru policies for dedicated cache instances. Let Redis manage key eviction by itself.<br>Do not set expire for keys, it adds additional memory overhead per key.<br>Do tune the precision of the LRU algorithm to favor speed over accuracy. Redis does not pick the best candidate for eviction, it samples a small number of keys and chooses the entry with the oldest access time.</p>
-<h2 id="正确使用缓存">正确使用缓存</h2><blockquote>
-<p>Because of Redis data structures, the usual pattern used with memcached of destroying objects when the cache is invalidated, to recreate it from the DB later, is a primitive way of using Redis.</p>
-<p>—Antirez</p>
-</blockquote>
-<p>Only storing serialized HTML or JSON as strings, the standard way of caching for web applications, doesn’t fully utilize Redis as a cache. One of the great strengths of Redis over Memcached is the rich set of data structures available. Ordered lists, structured hashes, and sorted sets are particularly useful caching tools only available through Redis. Caching is more than stuffing everything into strings.</p>
-<p>Let’s look at the Hash type for a specific example.</p>
-<blockquote>
-<p>Small hashes are encoded in a very small space, so you should try representing your data using hashes every time it is possible. For instance if you have objects representing users in a web application, instead of using different keys for name, surname, email, password, use a single hash with all the required fields.</p>
-<p> —Redis Documentation</p>
-</blockquote>
-<p>Instead of storing objects as a serialized string you can store the object as fields and values available through a single key. Using a Hash saves web servers the work of fetching an entire serialized value, de-serializing it, updating it, re-serializing it, and finally writing it back to the cache. Eliminating that flow for every minor update pushes the work into Redis and out of your applications, where it is supposed to be.</p>
-<h4 id="总结下:-3">总结下:</h4><ul>
-<li>Do use the native Redis types wherever possible (list, set, zset, hash).</li>
-<li>Do not use the string type for structured data, reach for a hash.<br>Happy optimizing. Go forth and cache!</li>
-</ul>
+          原文：http://sorentwo.com/2015/07/27/optimizing-redis-usage-for-caching.html?utm_source=redisweekly&amp;utm_medium=email
+如果你和我一样认为Redis是一个合适的cache工具，那么，通
+          ...
 
-          
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2015/08/02/Optimizing-Redis-Usage-For-Caching/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
         
       
     </div>
@@ -1019,10 +502,14 @@ save-key：/<span class="list">{year}</span>/<span class="list">{mon}</span>/<sp
       
         
           
-            <p>If you can solve problems, learn things quickly, name things well and deal with people, you will have a much greater level of success in the long run than you will in specializing in any particular technology。</p>
-<p>软件开发工程师最重要的4项技能，不是某种技术，而是：解决问题、自我学习、命名能力、与人合作的能力。</p>
+          If you can solve problems, learn things quickly, name things well and deal with people, you will have a much greater level of success in the long run 
+          ...
 
-          
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2015/07/22/4-most-important-skills/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
         
       
     </div>
@@ -1114,52 +601,17 @@ save-key：/<span class="list">{year}</span>/<span class="list">{mon}</span>/<sp
       
         
           
-            <p>有一个新项目，需要重新搭建一个测试服务器，下面纪录下过程，作为备份。</p>
-<h3 id="1、安装JDK">1、安装JDK</h3><p>下载jdk7，上传到服务器，下载地址：</p>
-<pre><code><span class="symbol">http:</span>/<span class="regexp">/www.oracle.com/technetwork</span><span class="regexp">/java/javase</span><span class="regexp">/downloads/jdk</span>7-downloads-<span class="number">1880260</span>.html
-</code></pre><p>解压: </p>
-<pre><code>tar -zxvf jdk-<span class="number">7u</span>79-linux-x64.gz
-</code></pre><p>配置环境变量：</p>
-<pre><code>export <span class="constant">JAVA_HOME</span>=<span class="regexp">/build_home/jdk</span>1.<span class="number">7.0_79</span>
-export <span class="constant">PATH</span>=<span class="variable">$JAVA_HOME</span>/<span class="symbol">bin:</span><span class="variable">$JAVA_HOME</span>/jre/<span class="symbol">bin:</span><span class="variable">$PATH</span>
-export <span class="constant">CLASSPATH</span>=<span class="variable">$CLASSPATH</span><span class="symbol">:</span>.<span class="symbol">:/JAVA_HOME/lib</span><span class="symbol">:</span><span class="variable">$JAVA_HOME</span>/jre/lib
-</code></pre><p>测试是否安装成功：</p>
-<pre><code>java -<span class="property">version</span>
-</code></pre><h3 id="2、安装ant">2、安装ant</h3><p>下载：</p>
-<pre><code>wget <span class="symbol">http:</span>/<span class="regexp">/mirror.bit.edu.cn/apache</span><span class="regexp">//ant</span><span class="regexp">/binaries/apache</span>-ant-<span class="number">1.9</span>.<span class="number">6</span>-bin.tar.gz
-</code></pre><p>解压：</p>
-<pre><code><span class="tag">tar</span> <span class="tag">-zxvf</span> <span class="tag">apache-ant-1</span><span class="class">.9</span><span class="class">.6-bin</span><span class="class">.tar</span><span class="class">.gz</span>
-</code></pre><p>配置环境变量：</p>
-<pre><code><span class="built_in">export</span> ANT_HOME=/build_home/apache-ant-<span class="number">1.9</span>.<span class="number">6</span>
-<span class="built_in">export</span> PATH=<span class="variable">$ANT_HOME</span>/bin:<span class="variable">$PATH</span>
-</code></pre><p>测试是否安装成功：</p>
-<pre><code><span class="keyword">ant</span>
-</code></pre><p>如果显示如下，则说明ant配置成功。</p>
-<pre><code><span class="keyword">Buildfile: </span><span class="keyword">build.xml </span>does not exist!
-<span class="keyword">Build </span>failed
-</code></pre><h3 id="3,_安装maven">3, 安装maven</h3><p>下载：</p>
-<pre><code>wget <span class="symbol">http:</span>/<span class="regexp">/mirrors.hust.edu.cn/apache</span><span class="regexp">/maven/maven</span>-<span class="number">3</span>/<span class="number">3.3</span>.<span class="number">3</span>/binaries/apache-maven-<span class="number">3.3</span>.<span class="number">3</span>-bin.tar.gz
-</code></pre><p>解压：</p>
-<pre><code><span class="tag">tar</span> <span class="tag">-zxvf</span> <span class="tag">apache-maven-3</span><span class="class">.3</span><span class="class">.3-bin</span><span class="class">.tar</span><span class="class">.gz</span>
-</code></pre><p>配置环境变量：</p>
-<pre><code><span class="built_in">export</span> M2_HOME=/build_home/apache-maven-<span class="number">3.3</span>.<span class="number">3</span>
-<span class="built_in">export</span> PATH=<span class="variable">$M2_HOME</span>/bin:<span class="variable">$PATH</span>
-</code></pre><p>检测是否安装成功：</p>
-<pre><code>mvn -<span class="property">version</span>
-</code></pre><h3 id="4、安装subversion">4、安装subversion</h3><p>安装：</p>
-<pre><code>yum <span class="keyword">install</span> -y subversion
-</code></pre><p>检查是否安装成功：</p>
-<pre><code>svn <span class="comment">--version查看是否已经安装</span>
-</code></pre><p>svn mkdir user_center时报错: </p>
-<pre><code>svn: <span class="string">'.'</span> is <span class="operator">not</span> <span class="operator">a</span> working copy <span class="built_in">directory</span>
-</code></pre><p>解决办法，先在server上创建目录，再check out。</p>
-<p>svn检出项目，新建目录，提交相关命令：</p>
-<pre><code>svn co svn co https:<span class="comment">//deploy.svn.cn/svn/deployment/trunk/puppet/war/ release/ --username deploy --password deploy</span>
-svn <span class="keyword">mkdir</span> <span class="keyword">test</span>
-svn <span class="keyword">rm</span> xxx.war
-svn commit -<span class="keyword">m</span> <span class="string">""</span>
-</code></pre>
-          
+          有一个新项目，需要重新搭建一个测试服务器，下面纪录下过程，作为备份。
+1、安装JDK下载jdk7，上传到服务器，下载地址：
+http://www.oracle.com/technetwork/java/javase/downloads/jdk7-downloads-1880260.html
+解压: 
+          ...
+
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2015/07/22/install-jdk-ant-maven-svn-git-on-centos/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
         
       
     </div>
@@ -1251,13 +703,17 @@ svn commit -<span class="keyword">m</span> <span class="string">""</span>
       
         
           
-            <p>今天在Mac下使用git提交代码到github时一直失败，错误信息：</p>
-<pre><code>Permission denied <span class="list">(<span class="keyword">publickey</span>)</span>
-</code></pre><p>试了各种解决办法，重新生成key，依旧不行，后来发现是因为我的ip地址变了，需要将其添加到know host中，使用下面命令：</p>
-<pre><code><span class="label">ssh</span>-<span class="keyword">add </span>~/.ssh/id_rsa_github
-</code></pre><p>OK，完美解决。</p>
+          今天在Mac下使用git提交代码到github时一直失败，错误信息：
+Permission denied (publickey)
+试了各种解决办法，重新生成key，依旧不行，后来发现是因为我的ip地址变了，需要将其添加到know host中，使用下面命令：
+ssh-add ~/.ssh/id_rsa
+          ...
 
-          
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2015/07/21/github-permission-denied-publickey/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
         
       
     </div>
@@ -1349,23 +805,16 @@ svn commit -<span class="keyword">m</span> <span class="string">""</span>
       
         
           
-            <h2 id="Hessian">Hessian</h2><pre><code>Exception <span class="keyword">in</span> thread <span class="string">"main"</span> java<span class="class">.lang</span><span class="class">.reflect</span><span class="class">.UndeclaredThrowableException</span>
-    at com<span class="class">.sun</span><span class="class">.proxy</span>.<span class="variable">$Proxy0</span>.<span class="function"><span class="title">getUser</span><span class="params">(Unknown Source)</span></span>
-    at com<span class="class">.fwwdn</span><span class="class">.hessian</span><span class="class">.Test</span><span class="class">.main</span>(Test<span class="class">.java</span>:<span class="number">15</span>)
-Caused by: java<span class="class">.io</span><span class="class">.IOException</span>: Premature EOF
-    at sun<span class="class">.net</span><span class="class">.www</span><span class="class">.http</span><span class="class">.ChunkedInputStream</span><span class="class">.readAheadBlocking</span>(ChunkedInputStream<span class="class">.java</span>:<span class="number">565</span>)
-    at sun<span class="class">.net</span><span class="class">.www</span><span class="class">.http</span><span class="class">.ChunkedInputStream</span><span class="class">.readAhead</span>(ChunkedInputStream<span class="class">.java</span>:<span class="number">609</span>)
-    at sun<span class="class">.net</span><span class="class">.www</span><span class="class">.http</span><span class="class">.ChunkedInputStream</span><span class="class">.read</span>(ChunkedInputStream<span class="class">.java</span>:<span class="number">696</span>)
-    at java<span class="class">.io</span><span class="class">.FilterInputStream</span><span class="class">.read</span>(FilterInputStream<span class="class">.java</span>:<span class="number">133</span>)
-    at sun<span class="class">.net</span><span class="class">.www</span><span class="class">.protocol</span><span class="class">.http</span><span class="class">.HttpURLConnection</span><span class="variable">$HttpInputStream</span>.<span class="function"><span class="title">read</span><span class="params">(HttpURLConnection.java:<span class="number">3335</span>)</span></span>
-    at com<span class="class">.caucho</span><span class="class">.hessian</span><span class="class">.io</span><span class="class">.Hessian2Input</span><span class="class">.readBuffer</span>(Hessian2Input<span class="class">.java</span>:<span class="number">2844</span>)
-    at com<span class="class">.caucho</span><span class="class">.hessian</span><span class="class">.io</span><span class="class">.Hessian2Input</span><span class="class">.read</span>(Hessian2Input<span class="class">.java</span>:<span class="number">2816</span>)
-    at com<span class="class">.caucho</span><span class="class">.hessian</span><span class="class">.io</span><span class="class">.Hessian2Input</span><span class="class">.readObject</span>(Hessian2Input<span class="class">.java</span>:<span class="number">1679</span>)
-    at com<span class="class">.caucho</span><span class="class">.hessian</span><span class="class">.io</span><span class="class">.Hessian2Input</span><span class="class">.readReply</span>(Hessian2Input<span class="class">.java</span>:<span class="number">382</span>)
-    at com<span class="class">.caucho</span><span class="class">.hessian</span><span class="class">.client</span><span class="class">.HessianProxy</span><span class="class">.invoke</span>(HessianProxy<span class="class">.java</span>:<span class="number">195</span>)
-    ... <span class="number">2</span> more
-</code></pre>
-          
+          HessianException in thread "main" java.lang.reflect.UndeclaredThrowableException
+    at com.sun.proxy.$Proxy0.getUser(Unknown Source)
+    at com.fwwdn
+          ...
+
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2015/07/14/hessian_learning/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
         
       
     </div>
@@ -1457,12 +906,16 @@ Caused by: java<span class="class">.io</span><span class="class">.IOException</s
       
         
           
-            <p>经常听到很多程序员抱怨自己工作任务重，业务忙，没时间研究自己喜欢的技术。他们总认为这是产品或者运营提的需求太多且不合理。总觉得自己的工作没有创造力，每天都在重复的增、删、改、查。</p>
-<p>确实，有时候我们会碰到一些SB产品，他们不懂技术、不懂业务，经常前一分钟提的需求，后一分钟就改了。</p>
-<p>大部分基层程序员的工作也确实是增删改，没有时髦的前沿技术（生产环境不敢上），没有高大上的技术词汇，大部分的时间也都是在框架中套代码。</p>
-<p>但仔细想想，当我们</p>
+          经常听到很多程序员抱怨自己工作任务重，业务忙，没时间研究自己喜欢的技术。他们总认为这是产品或者运营提的需求太多且不合理。总觉得自己的工作没有创造力，每天都在重复的增、删、改、查。
+确实，有时候我们会碰到一些SB产品，他们不懂技术、不懂业务，经常前一分钟提的需求，后一分钟就改了。
+大部分基层程序员的工
+          ...
 
-          
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2015/07/09/happy-work/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
         
       
     </div>
@@ -1554,28 +1007,27 @@ Caused by: java<span class="class">.io</span><span class="class">.IOException</s
       
         
           
-            <p>总结下平时工作经常翻看的技术网站。</p>
-<h2 id="内容生产者">内容生产者</h2><p><a href="http://www.infoq.com/cn/" target="_blank" rel="external">InfoQ</a> </p>
-<p><a href="http://ifeve.com/" target="_blank" rel="external">并发编程网</a></p>
-<p><a href="http://highscalability.com/" target="_blank" rel="external">highscalability</a></p>
-<p><a href="http://jm-blog.aliapp.com/" target="_blank" rel="external">阿里中间件团队博客</a></p>
-<p><a href="http://tech.meituan.com/" target="_blank" rel="external">美团技术博客</a></p>
-<h2 id="每日文摘">每日文摘</h2><p><a href="http://www.toutiao.io/" target="_blank" rel="external">开发者头条</a></p>
-<p><a href="http://geek.csdn.net/" target="_blank" rel="external">CSDN的极客头条</a></p>
-<p><a href="http://weekly.manong.io/issues/" target="_blank" rel="external">码农周刊</a>及其<a href="https://github.com/nemoTyrant/manong" target="_blank" rel="external">按技术分类的总索引</a></p>
-<p><a href="http://www.tuicool.com/mags" target="_blank" rel="external">编程狂人周刊</a></p>
-<p><a href="http://www.udpwork.com/" target="_blank" rel="external">IT牛人博客聚合</a></p>
-<p><a href="https://news.ycombinator.com/" target="_blank" rel="external">Hacker News</a></p>
-<h2 id="独立博客">独立博客</h2><p><a href="http://coolshell.cn/" target="_blank" rel="external">左耳朵耗子的酷壳</a></p>
-<p><a href="http://timyang.net/" target="_blank" rel="external">Timyang</a></p>
-<p><a href="http://colobu.com/" target="_blank" rel="external">鸟窝</a></p>
-<p><a href="http://blog.2baxb.me/" target="_blank" rel="external">Axb的自我修养</a></p>
-<p><a href="http://www.ruanyifeng.com/blog/" target="_blank" rel="external">阮一峰的网络日志</a></p>
-<p><a href="http://www.cnblogs.com/zhengyun_ustc/" target="_blank" rel="external">旁观者-郑昀</a></p>
-<p><a href="http://antirez.com/latest/0" target="_blank" rel="external">Redis作者antirez的weblog</a></p>
-<p>大家也可在评论中留下你的推荐。</p>
+          总结下平时工作经常翻看的技术网站。
+内容生产者InfoQ 
+并发编程网
+highscalability
+阿里中间件团队博客
+美团技术博客
+每日文摘开发者头条
+CSDN的极客头条
+码农周刊及其按技术分类的总索引
+编程狂人周刊
+IT牛人博客聚合
+Hacker News
+独立博客左耳朵耗子的酷壳
+Timy
+          ...
 
-          
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2015/07/07/daily-sites/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
         
       
     </div>
@@ -1667,128 +1119,23 @@ Caused by: java<span class="class">.io</span><span class="class">.IOException</s
       
         
           
-            <ul>
-<li><p>抓取某个进程:ps -eaf | grep xxx ，一般用作ps -aux | grep xxx</p>
-</li>
-<li><p>ctrl+r:搜索某个以前输入过的命令 或者!command</p>
-</li>
-<li><p>sudo !!执行最近输入的一次命令</p>
-</li>
-<li><p>输入错误命令全部取消，重新输入：ctrl+c</p>
-</li>
-<li><p>set、env、export的区别：<br>set是shell变量，env是环境变量，export是一个将shell变量导入到env变量集合的工具。<br>打开一个shell后，操作系统会分配一个记忆块给shell使用，此内存内的变量可让子进程取用；若在父进程利用export功能，可以让自定义变量的内容写到上述的记忆块中（环境变量）；当加载另一个shell时（启动子shell，离开父shell，可通过echo $$查看该shell的PID），子shell可以将父shell的环境变量所在的记忆块导入自己的环境变量块当中。</p>
-</li>
-<li><p>tar是打包命令，不压缩，但一般使用中有z压缩成gzip和j压缩成bzip2.</p>
-<ul>
-<li>tar -jtv -f a.bzip2 查看包内文件</li>
-<li>tar -jcv -f DES 新建压缩包</li>
-<li>ar -jxv -f DES 解压包</li>
-</ul>
-</li>
-<li><p>scp命令是linux主机间的文件传输命令。格式为</p>
-<ul>
-<li>scp local_file user@remote_ip:$DIR(本地到远端)<ul>
-<li>scp user@remote_ip:file $DIR(远端到本地)</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>linux的rpm机制 在linux下，几乎所有的软件都是通过rpm方式来进行安装、卸载、管理的。RPM的全称为redhat package manager，是由redhat公司提出的，用于管理linux下软件的软件。rpm一般分为5个模式：安装、卸载、升级、查询、验证。</p>
-<ul>
-<li>rpm安装：rpm -ivh example.rpm //安装 example.rpm 包并在安装过程中显示正在安装的文件信息及安装进度；</li>
-<li>rpm卸载：rpm -e tomcat4 //卸载 tomcat4 软件包(一般先使用rpm查询安装包是否存在、安装目录什么的)</li>
-<li>rpm升级：rpm -Uvh example.rpm //升级 example.rpm 软件包</li>
-<li>rpm查询：rpm -qa | grep tomcat4 //查看 tomcat4 是否被安装；rpm -qpl packagename //查看rpm包中的内容</li>
-<li>rpm验证：rpm -Vf /etc/tomcat4/tomcat4.conf //验证rpm包的修改信息等</li>
-</ul>
-</li>
-<li><p>在一个文件夹中需要找到某个变量的定义，可以使用这个命令（其实是脚本）:<br>for file in ls;do echo $file;grep ‘CQueryFeed’ $file;done</p>
-</li>
-<li><p>在学了find,grep之后，功力暴涨：find ./* -exec grep -Hn ‘keyword’ {} \;</p>
-</li>
-<li><p>从当前目录开始查找所有扩展名为.js的文本文件，并找出包含logout的行<br>find . -type f -name “*.js” | xargs grep “logout”</p>
-</li>
-<li><p>安装源码包后，无法找到动态库：这个首先需要了解动态库和静态库的区别，然后需要了解/etc/ld.so.conf，默认情况下，编译器寻找动态库只会到/lib和/usr/lib下寻找，如果我们我们没有使用—prefix指定安装目录，那么会安装到/usr/local下，这时我们可以把/usr/local/lib加入到/etc/ld.so.conf中，然后用/sbin/ldconfig命令将新安装的库缓存到/etc/ld.so.cache中，这样编译器就能找到新安装的库了。第二种解决方法就是改变PKG_CONFIG_PATH，这个ls /usr/lib/pkgconfig看到的*.pc就会明白这个变量的作用了。</p>
-</li>
-<li><p>在Ubuntu中创建新用户，通常会用到两个命令：useradd和adduser。虽然作用一样，但用法却不尽相同：<br>使用useradd时，如果后面不添加任何参数选项，例如：#sudo useradd test创建出来的用户将是默认“三无”用户：一无Home Directory，二无密码，三无系统Shell。<br>使用adduser时，创建用户的过程更像是一种人机对话，系统会提示你输入各种信息，然后会根据这些信息帮你创建新用户。</p>
-</li>
-<li><p>mbr是硬盘的一个引导区，而grub是一个引导程序！在mbr中有一段空间需要编写引导程序！grub只是引导程序的一种！如果grub够小的话，直接写在mbr中，就可以引导操作系统了！如果grub太大，在只能写一部分在mbr了！如果装windows则硬盘中的grub程序就不能运行了！不是不行，而是微软不愿兼容其它操作系统程序！<br>ubuntu下的鼠标有时候设置起来不是很管用，这时候我们可以通过xset m a b来设置，a代表加速多少倍，b代表移动多少像素。这个命令的意思就是在移动b个像素之后鼠标加速a倍。如果你的鼠标灵敏度太高，就可以把b调到很大，这样鼠标肯定就不能加速，鼠标速度就能慢下来了。<br>在命令提示符中输入命令，难免会输错。有几个命令会很常用：</p>
-<ul>
-<li>ctrl + c :直接停止当前命令行编辑，转到下一行</li>
-<li>ctrl + u:删除本行的命令</li>
-<li>ctrl + a:到命令头</li>
-<li>ctrl + e:到命令尾</li>
-<li>ctrl+w:删除当前字段</li>
-</ul>
-</li>
-<li><p>在查看某个服务的log时，经常使用tail -f命令循环查看log的实时信息，同样，还有一个watch -d ls -l命令，默认2秒检测一下ls -l的情况，如果有变动就会高亮显示。另外，在查看进程时，ps是查看某个时间点，而top如tail -f和watch -d一样，也可以动态查看。<br>如果我们需要知道某些服务的进程号时，一般会使用ps aux | grep ssh这样的命令，然后再去看看各个进程的PID，其实有pgrep ssh这个命令，直接查找所有ssh的进程ID。</p>
-</li>
-<li><p>上传文件只需在shell终端仿真器中输入命令“rz”，即可从弹出的对话框中选择本地磁盘上的文件，利用Zmodem上传到服务器。下载文件只需在shell终端仿真器中输入命令“sz 文件名”，即可利用Zmodem将文件下载到“路径\SecureCRT-5.1.3\download\”目录下。通过“File Transfer”可以修改上传和下载的默认路径。</p>
-</li>
-<li><p>cat /proc/cpuinfo | grep name | cut -f2 -d: | uniq -c查看CPU；free -g查看内存<br>当一个文件夹内log信息太多时，使用rm -f .log会显示augument list too long，这时可以使用find -name ‘.log’ | xargs rm -rf应该就可以了，或者写一个for的shell脚本也可以。</p>
-</li>
-<li><p>vim匹配汉字[^\x00-\x7f]+，然后如果替换3个字段中间那个，其他2个保持不变，可使用:1,$s(…)X(…)/\1Y\2/g即可。</p>
-</li>
-<li><p>awk -F “:” ‘/something_to_sum/ {sum += $5}; END {print sum}’ /data1/log/a.log，统计在a.log以：分隔的第五个字段的总和。cat a.log | grep ‘hello’ | wc -l 统计a.log中hello字段出现的总行数。当然，在vim中也可以统计，命令是”:%s/hello//gn”然后下方会提示有多少个match（只统计hello出现次数，与在不在同一行无关。所以统计行数时候有可能2个hello处在同一行，这样结果就不对了）【复制的时候看看双引号是不是被搞成中文了。。】</p>
-</li>
-<li><p>用vim操作后，当需要保存文件时我常用的是:wq命令，看到同事有用:x的。今天查了一下区别：<br>:wq 强制性写入文件并退出。即使文件没有被修改也强制写入，并更新文件的修改时间。<br>:x 写入文件并退出。仅当文件被修改时才写入，并更新文件修改时间，否则不会更新文件修改时间。 区别不大，但是当用make之类根据文件修改时间进行操作的工具时就有了影响。这点考虑到就可以了。<br>有时候用vim会遇到权限问题，比如一个root的文件，你用一个普通用户编辑了半天，等保存时候猛然发现，你没有权限。。。这是多么蛋疼的情景啊。不过当你试过这个命令就笑了“:w !sudo tee %”，解释一下：把当前编辑的文件的内容当做标准输入输入到命令sudo tee 文件名里去也就是sudo保存为当前文件名（%代表当前文件名）</p>
-</li>
-<li><p>在java中一般使用jdbc.properties配置mysql数据库。从中可以得到4个信息：name,pwd,url,port。name/pwd/port都直接标出来了，url就是mysql://:3746中间的部分。然后命令行登陆为&gt; mysql -uname -ppwd -hurl -Pport。</p>
-</li>
-<li><p>对数据库中某个字段（a）的所有记录中的另一个字段求和（b）：select SUM(b) from tablename where (Id=’a’) and (createTime like ‘20130926%’); 其中还用到了like，如果date不是date类型的，而是varchar的，就可以使用like，其中%代表mysql的通配符，然后你懂的。</p>
-</li>
-<li><p>发现/usr的空间全满了，可以使用du -sh * 查看当前目录下某个文件夹的大小。我使用的ll -h，原来以为是列出当前目录下面的所有文件/目录的总大小，其实对文件来说，是列出文件的大小（以人类易读的方式，如2k,3M,5G）,但是对于目录，目录保存的仅仅是下面文件的inode占用空间。（一般一个目录带下为4K），而如<br>果想要知道目录下所有文件占用的总空间，就得使用du（相当于统计的命令）</p>
-</li>
-<li><p>统计最常用的top ten命令：<br>history | awk ‘{CMD[$2]++;count++;} END { for(a in CMD) {print CMD[a] “ “ CMD[a]/count*100 “% “ a}}’ \<br>pipe&gt; | grep -v “./“ | column -c3 -s “ “ -t | sort -nr | nl | head -n10</p>
-</li>
-<li><p>linux查看设置的语言：/etc/sysconfig/i18n下。</p>
-</li>
-<li><p>有时候需要把一个文件排序，但是名字可能是固定的不想修改，你使用&gt;定向（sort 1 &gt; 1会把文件清空），而sort -o选项可以把结果写到原文件。比如sort -n 1 -o 1<br>使用cat合并文件，如cat 1.txt 2.txt 3.txt &gt; 4.txt；如果1/2/3.txt中存在多个空行，最终保存到4.txt时，连续的空行会被替换为1行。如果我们希望去掉空行，可以使用如下：cat -s 1.txt 2.txt 3.txt | sed ‘/^[[:space:]]*$/d’ &gt; 4.txt</p>
-</li>
-<li><p>vim的virtual模式分为3种：</p>
-<ul>
-<li>用v命令进入的字符可视化模式（Characterwise visual mode)。文本选择是以字符为单位的。</li>
-<li>用V命令进入的行可视化模式（Linewise visual mode)。文本选择是以行为单位的。</li>
-<li>用ctrl-V进入的块可视化模式（Blockwise visual mode）。可以选择一个矩形内的文本。（注意：    在Windows中，ctrl-V可能已经被影射为粘贴操作，可以使用ctrl-Q进入块可视化模式。）</li>
-</ul>
-</li>
-<li><p>在使用diff命令的时候有3种显示，但是如果我们仅仅需要查看2个文件所有不同的记录，去掉diff加上的123a124或者&gt;或者&lt;,可以先diff a b &gt; difflog，然后使用grep+sed：cat difflog | grep -v ‘^[0-9]’ | sed -e ‘s/[^ ]* //‘ &gt; difflog2</p>
-</li>
-<li><p>管道是实现“将前面的标准输出作为后面的标准输入”xargs是实现“将标准输入作为命令的参数”</p>
-</li>
-<li><p>我们写完shell脚本一般会使用三种方式来执行</p>
-<ul>
-<li>source 1.sh：当前shell执行</li>
-<li>sh 1.sh：子shell执行</li>
-<li>./1.sh：子shell执行 很明显，子shell执行后对父shell没有任何影响，就好像局部变量。比如你1.sh起作用的是cd /data0/niushuai，那么你用后两种执行后，还是在当前目录（因为子shell进入/data0/niushuai后完成任务退出后，不会给父shell任何影响）；如果想对当前shell影响，就必须使用source。这就是配置.bashrc后需要source的原因。</li>
-</ul>
-</li>
-<li><p>查询数据库某个表的大小（字节为单位）<br>use information_schema;<br>select TABLE_NAME,DATA_LENGTH+INDEX_LENGTH,TABLE_ROWS FROM TABLES WHERE TABLE_SCHEMA=’数据库名’ AND TABLE_NAME=’表名’;</p>
-</li>
-<li><p>mysql通过root新建数据库后，必须给某一用户通过grant授权后，用户才能正常使用。</p>
-</li>
-<li><p>vim将匹配的行全部删除:g/^2013#/d，删除所有以2013#开头的行。:g/^#/d删除空行。</p>
-</li>
-<li><p>获取本机某块网卡IP地址的命令：ifconfig eth0 | grep ‘inet addr’ | sed ‘s/^.addr://‘ | sed ‘s/ B.$//‘ 但是当一台机器有多个网卡且只有一个工作的时候，可以使用这个命令来获得当前机器提供网络服务的IP地址：grep $(hostname) /etc/hosts| awk ‘{print $1}’ 然后又碰到了逆天一样简单的hostname -i</p>
-</li>
-<li><p>有时候查看log日志时候，想抓取随机几行。但是log太大的时候，打开都不容易。我们可以使用sed -n ‘20,60p’ log &gt; temp.log。其中-n是安静模式（不在stdout输出）</p>
-</li>
-<li><p>监控某台服务器的cpu load信息（设置5s）：top -b -d 5 | grep —line-buffered ‘load’ &gt; cpuload &amp;</p>
-</li>
-<li><p>查看服务器CPU数目： cat /proc/cpuinfo | grep -c ‘model name’</p>
-</li>
-<li><p>查看当前内存使用情况可以使用top或者free来查看。</p>
-</li>
-<li><p>查看cpu使用情况：sar -u 5 720 &gt; cpu.out &amp;</p>
-</li>
-<li><p>查看cpu是几核的，详细信息： cat /proc/cpuinfo | grep ‘model name’</p>
-</li>
-<li><p>最新到位了新机器，修改了/etc/profile,root后用non login登陆的话，source /etc/profile发现只在当前shell生效，退出登陆还是不行。然后问了一下运维，才知道这个必须完全切换到root才能全局生效。由之前的sudo su切换变为login的sudo su -然后再source就可以了。</p>
-</li>
-</ul>
-<p>——-   不断更新。。。。</p>
-
           
+抓取某个进程:ps -eaf | grep xxx ，一般用作ps -aux | grep xxx
+
+ctrl+r:搜索某个以前输入过的命令 或者!command
+
+sudo !!执行最近输入的一次命令
+
+输入错误命令全部取消，重新输入：ctrl+c
+
+set、env、export的区别：set是
+          ...
+
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2015/07/06/useful-linux-commands/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
         
       
     </div>
@@ -1880,82 +1227,17 @@ Caused by: java<span class="class">.io</span><span class="class">.IOException</s
       
         
           
-            <h2 id="前言">前言</h2><p>因为公司用gitbucket搭建了自己的代码库，要求使用公司的邮箱作为账号。而我自己又有一些开源代码放在github上，所以必须配置多个git账号，下面总结下我的配置过程：</p>
-<h3 id="SSH配置">SSH配置</h3><p>使用ssh-keygen分别生成gitbucket和 github的密钥：</p>
-<pre><code><span class="keyword">cd</span> ~/.ssh/
-ssh-keygen -C <span class="string">"gitbucket email"</span> -t rsa 
-Enter <span class="keyword">file</span> <span class="keyword">in</span> <span class="keyword">which</span> to <span class="keyword">save</span> the key (/Users/.ssh/id_rsa): id_rsa_gitbucket
+          前言因为公司用gitbucket搭建了自己的代码库，要求使用公司的邮箱作为账号。而我自己又有一些开源代码放在github上，所以必须配置多个git账号，下面总结下我的配置过程：
+SSH配置使用ssh-keygen分别生成gitbucket和 github的密钥：
+cd ~/.ssh/
+ssh-key
+          ...
 
-ssh-keygen -C <span class="string">"github email"</span> -t rsa 
-Enter <span class="keyword">file</span> <span class="keyword">in</span> <span class="keyword">which</span> to <span class="keyword">save</span> the key (/Users/.ssh/id_rsa): id_rsa_github
-</code></pre><p>上传公钥到gitbucket和 Github服务器。</p>
-<p>在~/.ssh目录下创建config文件，进行相应配置：</p>
-<pre><code><span class="comment">#gitbucket</span>
-Host gitbucket
-HostName your_gitbucket_host
-<span class="built_in">User</span> your_email
-IdentityFile ~/.ssh/id_rsa_gitbucket
-
-<span class="comment">#github</span>
-Host github
-HostName github.com
-<span class="built_in">User</span> your_email
-IdentityFile ~/.ssh/id_rsa_github
-</code></pre><h3 id="检出服务端项目代码">检出服务端项目代码</h3><p>这里需要注意，使用.ssh目录下的host代替真实的hostname，这样才能让git识别出来,如：</p>
-<pre><code>git clone git<span class="variable">@github</span><span class="symbol">:fwwdn/sensitive-words</span>.git
-</code></pre><p>这里使用github代替@github.com</p>
-<h3 id="解决commit后不能正常显示头像信息问题">解决commit后不能正常显示头像信息问题</h3><p>按上面的方法配置后，在你执行git commit -m “XXX”命令时会有如下提示：</p>
-<pre><code>Your name <span class="keyword">and</span> email address were configured automatically based
-<span class="literal">on</span> your username <span class="keyword">and</span> hostname. Please check <span class="literal">that</span> they are accurate.
-ou can suppress <span class="keyword">this</span> message <span class="keyword">by</span> setting them <span class="attribute">explicitly</span>:
-
-git config --<span class="built_in">global</span> user.name <span class="string">"Your Name"</span>
-git config --<span class="built_in">global</span> user.email you<span class="property">@example</span>.com
-
-After doing <span class="keyword">this</span>, you may fix the identity used <span class="keyword">for</span> <span class="keyword">this</span> commit <span class="attribute">with</span>:
-
-git commit --amend --reset-author
-</code></pre><p>当然，这并不会影响你push代码，但因为你的user name和你的user email配置有误，所以你的头像将不能在提交日志中正常显示。解决的办法如下：</p>
-<h4 id="1、最笨的办法：">1、最笨的办法：</h4><p>取消git全局设置，很多同学照着网上的教程，都会对git进行全局设置，例如：</p>
-<pre><code>git config --global user<span class="class">.name</span> <span class="string">"username"</span>
-git config --global user<span class="class">.email</span>  <span class="string">"email"</span>
-</code></pre><p>因为我们要配置多个账号，所以我们首先需要取消git的全局设置</p>
-<pre><code><span class="comment">git</span> <span class="comment">config</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">global</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">unset</span> <span class="comment">user</span><span class="string">.</span><span class="comment">name</span>
-<span class="comment">git</span> <span class="comment">config</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">global</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">unset</span> <span class="comment">user</span><span class="string">.</span><span class="comment">email</span>
-</code></pre><p>针对每个项目，单独设置用户名和邮箱</p>
-<p>设置方法如下：</p>
-<pre><code>cd gitbucket/project
-git config user<span class="class">.name</span> <span class="string">"gitbucket_username"</span>
-git config user<span class="class">.email</span> <span class="string">"gitbucket_email"</span>
-
-cd github/project
-git config user<span class="class">.name</span> <span class="string">"github_username"</span>
-git config user<span class="class">.email</span> <span class="string">"github_email"</span>
-</code></pre><h4 id="2、半自动化方法：">2、半自动化方法：</h4><pre><code><span class="keyword">cd</span> ~
-<span class="built_in">mkdir</span> .git-scripts
-<span class="keyword">vim</span> ~/.git-scripts/account-config.<span class="keyword">sh</span>
-</code></pre><p>shell脚本内容如下：</p>
-<pre><code><span class="shebang">#!/bin/bash
-</span>
-remote=`git remote -v | awk <span class="string">'/\(push\)$/ {print $2}'</span>`
-
-email=<span class="string">"gitbucket_email"</span>
-name=<span class="string">"gitbucket_name"</span>
-
-<span class="keyword">if</span> [[ <span class="variable">$remote</span> == *github* ]]; <span class="keyword">then</span>
-    email=<span class="string">"github_email"</span>
-    name=<span class="string">"github_name"</span>
-<span class="keyword">fi</span>
-
-<span class="built_in">echo</span> <span class="string">"Configuring user.email as <span class="variable">$email</span>"</span>
-<span class="built_in">echo</span> <span class="string">"Configuring user.name as <span class="variable">$name</span>"</span>
-
-git config user.email <span class="variable">$email</span>
-git config user.name <span class="variable">$name</span>
-</code></pre><p> 然后只需在每次git clone 项目之后，执行<strong>git account-config</strong> ，即可一步配置git account信息 。</p>
-<p>至此，我们就可以使用多个git账号愉快的玩耍了。:)</p>
-
-          
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2015/07/01/configure-many-git-account/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
         
       
     </div>
