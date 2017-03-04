@@ -1,0 +1,655 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="架构," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.2" />
+
+
+
+
+
+
+<meta name="description" content="什么是负载均衡
+根据维基百科定义，负载平衡（Load balancing）是一种计算机网络技术，用来在多个计算机（计算机集群）、网络连接、CPU、磁盘驱动器或其他资源中分配负载，以达到最优化资源使用、最大化吞吐率、最小化响应时间、同时避免过载的目的。
+
+为什么要使用负载均衡负载平衡最重要的一个应用是利用多台服务器提供单一服务，这种方案有时也称之为服务器农场。
+互联网时代，大流量的网站必须服务数以千">
+<meta property="og:type" content="article">
+<meta property="og:title" content="关于负载均衡，你必须要知道的">
+<meta property="og:url" content="http://yoursite.com/2017/03/04/load_balance/index.html">
+<meta property="og:site_name" content="fwwdn's blog">
+<meta property="og:description" content="什么是负载均衡
+根据维基百科定义，负载平衡（Load balancing）是一种计算机网络技术，用来在多个计算机（计算机集群）、网络连接、CPU、磁盘驱动器或其他资源中分配负载，以达到最优化资源使用、最大化吞吐率、最小化响应时间、同时避免过载的目的。
+
+为什么要使用负载均衡负载平衡最重要的一个应用是利用多台服务器提供单一服务，这种方案有时也称之为服务器农场。
+互联网时代，大流量的网站必须服务数以千">
+<meta property="og:image" content="http://img2001.static.suishenyun.net/25ece6711a70a7938cb1105810f59bd3/6de44a7b3ac28ede057fac08f83f976f.jpg!w480.jpg">
+<meta property="og:image" content="http://img2001.static.suishenyun.net/25ece6711a70a7938cb1105810f59bd3/c7bfd173c74d902d5098fd9a77f23bbb.jpg!w480.jpg">
+<meta property="og:image" content="http://img2001.static.suishenyun.net/25ece6711a70a7938cb1105810f59bd3/9530e48735d0c9c7835e244cb814f874.jpg!w480.jpg">
+<meta property="og:updated_time" content="2017-03-04T14:43:53.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="关于负载均衡，你必须要知道的">
+<meta name="twitter:description" content="什么是负载均衡
+根据维基百科定义，负载平衡（Load balancing）是一种计算机网络技术，用来在多个计算机（计算机集群）、网络连接、CPU、磁盘驱动器或其他资源中分配负载，以达到最优化资源使用、最大化吞吐率、最小化响应时间、同时避免过载的目的。
+
+为什么要使用负载均衡负载平衡最重要的一个应用是利用多台服务器提供单一服务，这种方案有时也称之为服务器农场。
+互联网时代，大流量的网站必须服务数以千">
+<meta name="twitter:image" content="http://img2001.static.suishenyun.net/25ece6711a70a7938cb1105810f59bd3/6de44a7b3ac28ede057fac08f83f976f.jpg!w480.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/03/04/load_balance/"/>
+
+
+  <title> 关于负载均衡，你必须要知道的 | fwwdn's blog </title>
+</head>
+
+<body itemscope itemtype="//schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?1f6c5498366ce3527d94c451e8c61422";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">fwwdn's blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                关于负载均衡，你必须要知道的
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2017-03-04T17:29:50+08:00" content="2017-03-04">
+              2017-03-04
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2017/03/04/load_balance/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/03/04/load_balance/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="什么是负载均衡">什么是负载均衡</h3><blockquote>
+<p>根据维基百科定义，负载平衡（Load balancing）是一种计算机网络技术，用来在多个计算机（计算机集群）、网络连接、CPU、磁盘驱动器或其他资源中分配负载，以达到最优化资源使用、最大化吞吐率、最小化响应时间、同时避免过载的目的。</p>
+</blockquote>
+<h3 id="为什么要使用负载均衡">为什么要使用负载均衡</h3><p>负载平衡最重要的一个应用是利用多台服务器提供单一服务，这种方案有时也称之为服务器农场。</p>
+<p>互联网时代，大流量的网站必须服务数以千万的用户请求，以快速、可靠的方式返回正确的文本、图像、音频、视频等数据。为了节省成本，有效地实现动态扩展，最佳实践通常是添加更多的服务器。负载均衡器在这里充当了“交通警察”的角色，它坐在你的服务器的前端，最大限度地提高速度和产能利用率，并确保没有一台服务器超负荷工作。</p>
+<p>负载平衡器主要的功能是：</p>
+<ul>
+<li>在多个服务器之间高效地分发客户端请求或网络负载；</li>
+<li>通过仅向在线服务器发送请求，确保高可用性和可靠性；</li>
+<li>根据需求提供增加或减少服务器的灵活性；</li>
+</ul>
+<h3 id="怎么实现负载均衡">怎么实现负载均衡</h3><p>通常有三种负载均衡架构，分别是链路负载均衡、集群负载均衡和操作系统负载均衡。</p>
+<p>所谓链路负载均衡就是通过DNS将域名解析成不同的IP，然后用户根据这个IP来访问不同的目标服务器，这种DNS解析的优点是用户会直接访问目标服务器，而不需要经过其他的代理服务器，通常访问速度会更快。缺点是DNS解析的结果会在用户本地有缓存，一旦某台服务器挂掉，用户缓存的域名没有及时更新，那么用户将无法访问这个域名，带来的后果非常严重。</p>
+<p><img src="http://img2001.static.suishenyun.net/25ece6711a70a7938cb1105810f59bd3/6de44a7b3ac28ede057fac08f83f976f.jpg!w480.jpg" alt="链路负载均衡"></p>
+<p>集群负载均衡是另外一种常见的负载均衡方式，它一般分为硬件负载均衡和软件负载均衡。硬件负载均衡一般使用一台专门硬件设备来转发请求，硬件负载均衡的关键就是这台价格非常昂贵的设备，如F5，通常为了安全需要一主一备。它的优点很显然就是性能非常好，缺点就是非常贵，而且不便于动态扩容。</p>
+<p><img src="http://img2001.static.suishenyun.net/25ece6711a70a7938cb1105810f59bd3/c7bfd173c74d902d5098fd9a77f23bbb.jpg!w480.jpg" alt="硬件负载"></p>
+<p>软件负载均衡是使用最普遍的一种负载方式，它的特点是使用成本非常低，直接使用廉价的PC就可以搭建。缺点就是一般一次访问请求要经过多次代理服务器，会增加网络延时。</p>
+<p><img src="http://img2001.static.suishenyun.net/25ece6711a70a7938cb1105810f59bd3/9530e48735d0c9c7835e244cb814f874.jpg!w480.jpg" alt="软件负载"></p>
+<p>上图中上面两台是LVS，使用四层负载均衡，也就是在网络层利用IP地址进行地址转发。下面三台使用HAProxy进行七层负载，也就是可以根据访问用户的HTTP请求头来进行负载均衡，如可以根据不同的URL来将请求转发到特定机器或者根据用户的Cookie信息来指定访问的机器。当然这里的HAProxy也可以换成Nginx。</p>
+<h3 id="负载均衡算法">负载均衡算法</h3><p>不同的负载均衡算法有不同的适用场景，具体选用哪个取决于您的实际需求：</p>
+<ul>
+<li>Round Robin - 按请求顺序轮询，均匀分布。</li>
+<li>最小连接 - 那个Server的连接少，将请求路由到哪个Server。</li>
+<li>IP Hash - 根据客户端请求的IP地址的Hash值来确定由哪个Server接收请求。</li>
+</ul>
+<h3 id="如何保存用户会话？">如何保存用户会话？</h3><p>负载均衡器需要处理的一个重要问题是：如何保存用户会话？如果会话信息保存在后台服务器，用户接下来的请求可能会被分配到不同的后台服务器，此时用户会话就无法继续。负载均衡器可以缓存用户会话，然后将用户请求分发到不同的后台服务器。但是这将带来负载均衡器的负载问题。</p>
+<ul>
+<li><p>一个解决方案是将一个用户会话中的所有请求都发送到同一个后台服务器。这个方法的不足之处在于无法容错failover,如果后台服务器故障，它提供的会话就会无法获取，任何依赖于它的会话都会丢失。</p>
+</li>
+<li><p>第二个方案是依据用户名，客户端IP来分配提供服务的服务器，也可以随机分配。但由于客户端的IP地址可能经常变换，这使得这个方案的服务质量无法保障。</p>
+</li>
+<li><p>另外一个方案是将每一会话信息保存到一个数据库中。这个方案无疑会增加数据库的负载，所以这个方案对性能的提高并不好。不过，可以适用分布式的缓存代替数据库存储会话信息，提高性能。</p>
+</li>
+<li><p>还一种更有效的方法，通常客户浏览器可以保存用户的每个会话信息。例如使用浏览器cookie，但这会带来一些列的安全问题。</p>
+</li>
+</ul>
+<h3 id="小结">小结</h3><p>负载均衡（Load Balance）是分布式系统架构设计中必须考虑的因素之一，理解并且学会负载均衡技术是一个架构师必学的课程。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/架构/" rel="tag">#架构</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/08/03/upyun-form-api-upload-file/" rel="next" title="upyun文件上传">
+                <i class="fa fa-chevron-left"></i> upyun文件上传
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2017/03/04/load_balance/"
+           data-title="关于负载均衡，你必须要知道的" data-url="http://yoursite.com/2017/03/04/load_balance/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="//schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/uploads/avatar.jpg"
+               alt="fwwdn" />
+          <p class="site-author-name" itemprop="name">fwwdn</p>
+          <p class="site-description motion-element" itemprop="description">为年轻吹过的牛逼奋斗终生!</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">25</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是负载均衡"><span class="nav-number">1.</span> <span class="nav-text">什么是负载均衡</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#为什么要使用负载均衡"><span class="nav-number">2.</span> <span class="nav-text">为什么要使用负载均衡</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#怎么实现负载均衡"><span class="nav-number">3.</span> <span class="nav-text">怎么实现负载均衡</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#负载均衡算法"><span class="nav-number">4.</span> <span class="nav-text">负载均衡算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#如何保存用户会话？"><span class="nav-number">5.</span> <span class="nav-text">如何保存用户会话？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#小结"><span class="nav-number">6.</span> <span class="nav-text">小结</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">fwwdn</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.2"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"fwwdn"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    <script src="/vendors/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+</body>
+</html>
