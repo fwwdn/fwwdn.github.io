@@ -1,0 +1,686 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="微服务," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.2" />
+
+
+
+
+
+
+<meta name="description" content="趋势微服务是目前商业应用程序开发中最热门的新事物，它取代了敏捷、DevOps、容器化 和 RESTful，成为了所有简历和大会演讲中都必须提及的新的热门词。
+如果你在搜索引擎中搜索中文【微服务】，得到4400万条结果：
+
+我们再使用英文【microservices】搜索，得到248万条结果
+
+上面的搜索结果充分说明，微服务确实是非常火热。
+微服务的发展历史微服务并不是一个突然出现的新技术。事实上">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java与微服务-初识微服务">
+<meta property="og:url" content="http://yoursite.com/2017/05/02/microservices/index.html">
+<meta property="og:site_name" content="fwwdn's blog">
+<meta property="og:description" content="趋势微服务是目前商业应用程序开发中最热门的新事物，它取代了敏捷、DevOps、容器化 和 RESTful，成为了所有简历和大会演讲中都必须提及的新的热门词。
+如果你在搜索引擎中搜索中文【微服务】，得到4400万条结果：
+
+我们再使用英文【microservices】搜索，得到248万条结果
+
+上面的搜索结果充分说明，微服务确实是非常火热。
+微服务的发展历史微服务并不是一个突然出现的新技术。事实上">
+<meta property="og:image" content="http://img2001.static.suishenyun.net/25ece6711a70a7938cb1105810f59bd3/723022d4b4596eaac4b6a8440558d2da.jpeg!w480.jpg">
+<meta property="og:image" content="http://img2001.static.suishenyun.net/25ece6711a70a7938cb1105810f59bd3/878ebff2942cb558ffc776d07b2480d4.jpeg!w480.jpg">
+<meta property="og:updated_time" content="2017-05-02T14:20:30.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Java与微服务-初识微服务">
+<meta name="twitter:description" content="趋势微服务是目前商业应用程序开发中最热门的新事物，它取代了敏捷、DevOps、容器化 和 RESTful，成为了所有简历和大会演讲中都必须提及的新的热门词。
+如果你在搜索引擎中搜索中文【微服务】，得到4400万条结果：
+
+我们再使用英文【microservices】搜索，得到248万条结果
+
+上面的搜索结果充分说明，微服务确实是非常火热。
+微服务的发展历史微服务并不是一个突然出现的新技术。事实上">
+<meta name="twitter:image" content="http://img2001.static.suishenyun.net/25ece6711a70a7938cb1105810f59bd3/723022d4b4596eaac4b6a8440558d2da.jpeg!w480.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/05/02/microservices/"/>
+
+
+  <title> Java与微服务-初识微服务 | fwwdn's blog </title>
+</head>
+
+<body itemscope itemtype="//schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?1f6c5498366ce3527d94c451e8c61422";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">fwwdn's blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Java与微服务-初识微服务
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2017-05-02T17:29:50+08:00" content="2017-05-02">
+              2017-05-02
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2017/05/02/microservices/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/05/02/microservices/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="趋势">趋势</h3><p>微服务是目前商业应用程序开发中最热门的新事物，它取代了敏捷、DevOps、容器化 和 RESTful，成为了所有简历和大会演讲中都必须提及的新的热门词。</p>
+<p>如果你在搜索引擎中搜索中文【微服务】，得到4400万条结果：</p>
+<p><img src="http://img2001.static.suishenyun.net/25ece6711a70a7938cb1105810f59bd3/723022d4b4596eaac4b6a8440558d2da.jpeg!w480.jpg" alt=""></p>
+<p>我们再使用英文【microservices】搜索，得到248万条结果</p>
+<p><img src="http://img2001.static.suishenyun.net/25ece6711a70a7938cb1105810f59bd3/878ebff2942cb558ffc776d07b2480d4.jpeg!w480.jpg" alt=""></p>
+<p>上面的搜索结果充分说明，微服务确实是非常火热。</p>
+<h3 id="微服务的发展历史">微服务的发展历史</h3><p>微服务并不是一个突然出现的新技术。事实上 ，它是敏捷、DevOps 和 RESTful、分布式、SOA等等所有这些以前的概念的演化结果，是有望解决应用程序开发中许多长期存在的问题的方法。要了解此演变过程，我们需要回到最初，分析微服务是什么、它取代了什么，以及为什么它变得必不可少。</p>
+<h4 id="什么是微服务架构">什么是微服务架构</h4><p>从业界的讨论来看，微服务本身并没有一个严格的定义。不过，ThoughtWorks的首席科学家（Martin Flowler）的描述更加通俗易懂。</p>
+<blockquote>
+<p>In short, the microservice architectural style [1] is an approach to developing a single application as a suite of small services, each running in its own process and communicating with lightweight mechanisms, often an HTTP resource API. These services are built around business capabilities and independently deployable by fully automated deployment machinery. There is a bare minimum of centralized management of these services, which may be written in different programming languages and use different data storage technologies.</p>
+</blockquote>
+<p>核心点包括下面几点：</p>
+<ul>
+<li>suit of small services:由一系列小服务组成，没错，“微”即是小;</li>
+<li>running in its own process:每个服务运行于自己的独立进程; </li>
+<li>built around business capabilities:围绕着业务功能进行建模; </li>
+<li>independently deployable:每个服务可进行独立部署;</li>
+<li>bare minimum of centralized management:最低限度的集中管理。</li>
+</ul>
+<h4 id="微服务的诞生背景">微服务的诞生背景</h4><p>1、互联网行业的快速发展</p>
+<p>互联网时代的产品通常有两类特点：需求变化快和用户群体庞大。在这种情况下，如何从系统架构的角度出发，构建理货、易扩展的系统，快速应对需求的变化；同时，随着用户的增加，如何保证系统的可伸缩性、高可用性，成为系统架构面临的挑战。</p>
+<p>2、敏捷、精益方法论的深入人心</p>
+<p>精益创业（Lean Startup）通过迭代持续改进，帮助组织分析并建立最小可实行产品（Minimum Viable Product）；</p>
+<p>敏捷方法帮助组织消除浪费，通过反馈不断找到正确的方向；</p>
+<p>持续交付帮助组织构建更快、更可靠、可频繁发布的交付机制；</p>
+<p>云、虚拟化和基础实施自动化（Infrastructure As Code）的使用则极大简化了基础设施的创建、配置以及系统的安装和部署；</p>
+<p>DevOps文化的推行更是打破了传统开发与运维之间的壁垒，帮助组织行程全功能化的高效能团队；</p>
+<p>3、单块架构系统面临的挑战</p>
+<ul>
+<li>庞大的代码库，关系错综复杂</li>
+<li>编译构建时间很长，与持续集成配合麻烦</li>
+<li>部署臃肿，影响部署速度与频次</li>
+<li>扩展能力与弹性受限</li>
+<li>新技术与工具框架使用会受限</li>
+</ul>
+<p>4、容器虚拟化技术</p>
+<p>Docker 是一个开源的应用容器（Linux Container）引擎，允许开发者将他们的应用及依赖包打包到一个可移植的容器中，然后发布到任何装有Docker的Linux机器上。</p>
+<p>同传统的虚拟化技术相比，基于容器技术的Docker，不需要额外的hypervisor机制的支持，因此具有更高的性能和效率。另外，Docker的优势也主要体现在以下几个方面：<br>更快速地交付和部署。<br>更轻松的迁移和扩展。<br>更简单地管理。</p>
+<p>Docker的出现，有效的解决了微服务架构下，服务粒度细、服务数量多所导致的开发环境搭建、部署以及运维成本高的问题。同时，利用Docker的容器化技术，能够实现在一个节点上运行成百甚至上千的Docker容器，每个容器都能独立运行一个服务，因此极大降低了随着微服务数量增多导致的节点数量增多的成本。</p>
+<p>如果说之前的敏捷、精益、持续交付以及DevOps是微服务诞生的催化剂，那Docker的出现，则有效解决了微服务的环境搭建、部署以及运维成本高的问题，为微服务朝大规模应用起到了推波助澜的关键作用。</p>
+<h3 id="微服务的特征">微服务的特征</h3><p>1、每个微服务都是业务完整的</p>
+<p>对于每个服务而言，我们希望它处理的业务逻辑能够单一，在服务架构层面遵循单一职责原则。也就是说，微服务架构中的每个服务，都是具有业务逻辑的，符合高内聚、低耦合原则以及单一职责原则的单元，不同的服务通过“管道”的方式灵活组合，从而构建出庞大的系统。</p>
+<p>2、轻量级通信</p>
+<p>服务之间应通过轻量级的通信机制，实现彼此之间的互通互联，互相协作。所谓轻量级通信机制，通常指语言无关、平台无关的交互方式。<br>对于轻量级通信的格式而言，我们熟悉的XML或者JSON，它们的解析和使用基本与语言无关、平台无关。</p>
+<p>对于轻量级通信而言，通常基于HTTP，能让服务间的通信变得标准化并且无状态化。REST（Representational State Transfer），是实现服务之间互相协作的轻量级通信机制之一。</p>
+<p>对于微服务而言通过使用语言无关、平台无关的轻量级通信机制，使服务与服务之间的写作变得更加标准化，也就意味着在保持服务外部通信机制轻量级的情况下，团队可以选择更适合的语言、工具或者平台来开发服务本身。</p>
+<p>3、独立性</p>
+<p>独立性是指在应用的交付过程中，开发、测试以及部署的独立。</p>
+<p>在传统的单块架构应用中，所有功能都存在于同一个代码库中。当修改了代码库中的某个功能，很容易出现功能之间相互影响的情况。尤其是随着代码量、功能的不断增加，风险也会逐渐增加。</p>
+<p>除此之外，当多个特性被不同小组实现完毕，需要经过集成，经过回归测试，团队才有足够的信心，保证功能相互配合、正常工作并且互不影响。因此，测试过程不是一个独立的过程。</p>
+<p>当所有测试验证完毕，单块架构应用将被构建成一个部署包，并标记相应的版本。在部署过程中，单块架构部署包将被部署到生产环境，如果其中某个特性存在缺陷，则有可能导致整个部署过程的失败或回滚。</p>
+<p>在微服务架构中，每个服务都是一个独立的业务单元，当对某个服务进行改变时，对其他的服务不会产生影响。换句话说，服务和服务之间是独立的。对于每个服务，都有独立的代码库。当对当前服务的代码进行修改后，并不会影响其他服务。</p>
+<p>从代码库的层面而言，服务与服务是隔离的。</p>
+<p>对于每个服务，都有独立的测试机制，并不担心破坏其他功能而需要建立大范围的回归测试。<br>由于构建包是独立的，部署流程也就能够独立，因此服务能够运行在不同的进程中。</p>
+<p>4、进程隔离</p>
+<p>所有功能运行在同一个进程中，也就意味着，当对应用进行部署时，必须停掉当前正在运行的应用，部署完成后，再重新启动进程，无法做到对部署。如果当前某应用中包含定时任务的功能，则要考虑在什么时间窗口适合部署，是否先停掉消息队列或者切断与数据源的联系，以防止数据被读入应用程序内存，但还未处理完，应用就被停止而导致的数据不一致性。</p>
+<p>为了提高代码的重用以及可维护性，在应用开发中，我们有时也会将重复的代码提取出来，封装成组件。在传统的单块架构中，组件通常的形态叫共享库。当应用程序在运行期时，所有的组件最终也会被加载到同一个进程中运行。</p>
+<p>在微服务架构中，应用程序由多个服务组成，每个服务都是一个具有高度自治的独立业务实体。通常情况下，每个服务都能运行在一个独立的操作系统进程中，这就意味着不同的服务能非常容易的被部署到不同的主机上。作为运行微服务的环境，我们希望它能够保持高度自治性和隔离型。如果多个服务运行在同一个服务器节点上，虽然省去了节点的开销，但是增加了部署和扩展的复杂度。</p>
+<p>微服务架构其实是将单一的应用程序划分成一组小的服务，每个服务都是具有业务属性的独立单元，同时能够被独立开发、独立运行、独立测试以及独立部署。</p>
+<h3 id="微服务架构与SOA">微服务架构与SOA</h3><p>1、SOA概述</p>
+<p>早在1996年，Gartner就提出了面向服务架构（SOA）。SOA阐述了“对于复杂的企业IT系统，应按照不同的、可重用的粒度划分，将功能相关的一组功能提供者组织在一起为消费者提供服务”，其目的是为解决企业内部不同IT资源之间无法互联而导致的信息孤岛问题。</p>
+<p>2、微服务与SOA</p>
+<p>实际上，微服务架构并不是一个全新的概念。仔细分析SOA的概念，就会发现，其和我们今天所谈到的微服务思想几乎一致。 相比传统SOA的服务实现方式，微服务更具灵活性、可实施性以及可扩展性，其强调的是一种独立测试、独立部署、独立运行的软件架构模式。</p>
+<h3 id="微服务不是银弹">微服务不是银弹</h3>
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/微服务/" rel="tag">#微服务</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/04/14/https/" rel="next" title="">
+                <i class="fa fa-chevron-left"></i> 
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2017/05/02/microservices/"
+           data-title="Java与微服务-初识微服务" data-url="http://yoursite.com/2017/05/02/microservices/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="//schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/uploads/avatar.jpg"
+               alt="fwwdn" />
+          <p class="site-author-name" itemprop="name">fwwdn</p>
+          <p class="site-description motion-element" itemprop="description">为年轻吹过的牛逼奋斗终生!</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">27</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#趋势"><span class="nav-number">1.</span> <span class="nav-text">趋势</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#微服务的发展历史"><span class="nav-number">2.</span> <span class="nav-text">微服务的发展历史</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#什么是微服务架构"><span class="nav-number">2.1.</span> <span class="nav-text">什么是微服务架构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#微服务的诞生背景"><span class="nav-number">2.2.</span> <span class="nav-text">微服务的诞生背景</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#微服务的特征"><span class="nav-number">3.</span> <span class="nav-text">微服务的特征</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#微服务架构与SOA"><span class="nav-number">4.</span> <span class="nav-text">微服务架构与SOA</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#微服务不是银弹"><span class="nav-number">5.</span> <span class="nav-text">微服务不是银弹</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">fwwdn</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.2"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"fwwdn"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    <script src="/vendors/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+</body>
+</html>
