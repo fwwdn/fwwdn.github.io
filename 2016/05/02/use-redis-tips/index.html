@@ -87,14 +87,14 @@
 <meta name="description" content="缓存过期策略Redis在启动时会把数据加载到内存中，达到最大内存后，Redis会先尝试清除已到期或即将到期的Key，当此方法处理后，仍然到达最大内存设置，将无法再进行写入操作，但仍然可以进行读取操作。
 是否需要redis的持久化能力？redis持久化的是数据集的当前快照，于是当你用它来做存储，而不是缓存时，就会很纠结。当数据集很大的时候，比如64G内存，数据集30G，你愿意dump快照或者aof收">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Redis使用的几点建议">
-<meta property="og:url" content="http://yoursite.com/2015/06/25/some-tips-for-using-redis/index.html">
+<meta property="og:title" content="Redis使用中需要注意的一些点">
+<meta property="og:url" content="http://yoursite.com/2016/05/02/use-redis-tips/index.html">
 <meta property="og:site_name" content="fwwdn's blog">
 <meta property="og:description" content="缓存过期策略Redis在启动时会把数据加载到内存中，达到最大内存后，Redis会先尝试清除已到期或即将到期的Key，当此方法处理后，仍然到达最大内存设置，将无法再进行写入操作，但仍然可以进行读取操作。
 是否需要redis的持久化能力？redis持久化的是数据集的当前快照，于是当你用它来做存储，而不是缓存时，就会很纠结。当数据集很大的时候，比如64G内存，数据集30G，你愿意dump快照或者aof收">
-<meta property="og:updated_time" content="2017-05-07T08:40:47.000Z">
+<meta property="og:updated_time" content="2017-05-12T06:13:21.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Redis使用的几点建议">
+<meta name="twitter:title" content="Redis使用中需要注意的一些点">
 <meta name="twitter:description" content="缓存过期策略Redis在启动时会把数据加载到内存中，达到最大内存后，Redis会先尝试清除已到期或即将到期的Key，当此方法处理后，仍然到达最大内存设置，将无法再进行写入操作，但仍然可以进行读取操作。
 是否需要redis的持久化能力？redis持久化的是数据集的当前快照，于是当你用它来做存储，而不是缓存时，就会很纠结。当数据集很大的时候，比如64G内存，数据集30G，你愿意dump快照或者aof收">
 
@@ -117,10 +117,10 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2015/06/25/some-tips-for-using-redis/"/>
+  <link rel="canonical" href="http://yoursite.com/2016/05/02/use-redis-tips/"/>
 
 
-  <title> Redis使用的几点建议 | fwwdn's blog </title>
+  <title> Redis使用中需要注意的一些点 | fwwdn's blog </title>
 </head>
 
 <body itemscope itemtype="//schema.org/WebPage" lang="zh-Hans">
@@ -252,7 +252,7 @@
             
             
               
-                Redis使用的几点建议
+                Redis使用中需要注意的一些点
               
             
           </h1>
@@ -264,8 +264,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-06-25T21:09:21+08:00" content="2015-06-25">
-              2015-06-25
+            <time itemprop="dateCreated" datetime="2016-05-02T13:57:43+08:00" content="2016-05-02">
+              2016-05-02
             </time>
           </span>
 
@@ -275,8 +275,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2015/06/25/some-tips-for-using-redis/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/06/25/some-tips-for-using-redis/" itemprop="commentsCount"></span>
+                <a href="/2016/05/02/use-redis-tips/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/05/02/use-redis-tips/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -341,16 +341,16 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2015/06/24/data-structures-and-algorithms/" rel="next" title="Data Structures And Algorithms">
-                <i class="fa fa-chevron-left"></i> Data Structures And Algorithms
+              <a href="/2015/08/03/upyun-form-api-upload-file/" rel="next" title="upyun文件上传">
+                <i class="fa fa-chevron-left"></i> upyun文件上传
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2015/07/01/configure-many-git-account/" rel="prev" title="动态配置多个Git账号">
-                动态配置多个Git账号 <i class="fa fa-chevron-right"></i>
+              <a href="/2017/03/04/load_balance/" rel="prev" title="关于负载均衡，你必须要知道的">
+                关于负载均衡，你必须要知道的 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -377,8 +377,8 @@
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2015/06/25/some-tips-for-using-redis/"
-           data-title="Redis使用的几点建议" data-url="http://yoursite.com/2015/06/25/some-tips-for-using-redis/">
+      <div class="ds-thread" data-thread-key="2016/05/02/use-redis-tips/"
+           data-title="Redis使用中需要注意的一些点" data-url="http://yoursite.com/2016/05/02/use-redis-tips/">
       </div>
     
   </div>
@@ -423,7 +423,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">26</span>
+              <span class="site-state-item-count">27</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -433,7 +433,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-count">13</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

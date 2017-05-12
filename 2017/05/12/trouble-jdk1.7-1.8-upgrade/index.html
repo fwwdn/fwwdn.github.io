@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Tools," />
+  <meta name="keywords" content="Java," />
 
 
 
@@ -84,19 +84,25 @@
 
 
 
-<meta name="description" content="安装windows下git客户端我们选择msysgit;下载地址：https://github.com/msysgit/msysgit/releases/download/Git-1.9.5-preview20141217/Git-1.9.5-preview20141217.exe
-配置用户信息你个人的用户名称和电子邮件地址，用户名可随意修改，git 用于记录是谁提交了更新，以及更新人的联系方式。">
+<meta name="description" content="Java8升级中的一些坑本文记录一些JDK升级到8的过程中遇到的问题：
+1、JSP编译问题May 10, 2017 3:30:44 PM org.apache.jasper.compiler.JDTCompiler$1 findType
+SEVERE: Compilation error
+org.eclipse.jdt.internal.compiler.classfmt.ClassFormatE">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Git安装配置">
-<meta property="og:url" content="http://yoursite.com/2015/06/07/install-and-config-git/index.html">
+<meta property="og:title" content="Java8升级中的一些坑">
+<meta property="og:url" content="http://yoursite.com/2017/05/12/trouble-jdk1.7-1.8-upgrade/index.html">
 <meta property="og:site_name" content="fwwdn's blog">
-<meta property="og:description" content="安装windows下git客户端我们选择msysgit;下载地址：https://github.com/msysgit/msysgit/releases/download/Git-1.9.5-preview20141217/Git-1.9.5-preview20141217.exe
-配置用户信息你个人的用户名称和电子邮件地址，用户名可随意修改，git 用于记录是谁提交了更新，以及更新人的联系方式。">
-<meta property="og:updated_time" content="2015-06-14T13:51:44.000Z">
+<meta property="og:description" content="Java8升级中的一些坑本文记录一些JDK升级到8的过程中遇到的问题：
+1、JSP编译问题May 10, 2017 3:30:44 PM org.apache.jasper.compiler.JDTCompiler$1 findType
+SEVERE: Compilation error
+org.eclipse.jdt.internal.compiler.classfmt.ClassFormatE">
+<meta property="og:updated_time" content="2017-05-12T06:06:43.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Git安装配置">
-<meta name="twitter:description" content="安装windows下git客户端我们选择msysgit;下载地址：https://github.com/msysgit/msysgit/releases/download/Git-1.9.5-preview20141217/Git-1.9.5-preview20141217.exe
-配置用户信息你个人的用户名称和电子邮件地址，用户名可随意修改，git 用于记录是谁提交了更新，以及更新人的联系方式。">
+<meta name="twitter:title" content="Java8升级中的一些坑">
+<meta name="twitter:description" content="Java8升级中的一些坑本文记录一些JDK升级到8的过程中遇到的问题：
+1、JSP编译问题May 10, 2017 3:30:44 PM org.apache.jasper.compiler.JDTCompiler$1 findType
+SEVERE: Compilation error
+org.eclipse.jdt.internal.compiler.classfmt.ClassFormatE">
 
 
 
@@ -117,10 +123,10 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2015/06/07/install-and-config-git/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/05/12/trouble-jdk1.7-1.8-upgrade/"/>
 
 
-  <title> Git安装配置 | fwwdn's blog </title>
+  <title> Java8升级中的一些坑 | fwwdn's blog </title>
 </head>
 
 <body itemscope itemtype="//schema.org/WebPage" lang="zh-Hans">
@@ -252,7 +258,7 @@
             
             
               
-                Git安装配置
+                Java8升级中的一些坑
               
             
           </h1>
@@ -264,8 +270,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-06-07T22:34:23+08:00" content="2015-06-07">
-              2015-06-07
+            <time itemprop="dateCreated" datetime="2017-05-12T13:57:43+08:00" content="2017-05-12">
+              2017-05-12
             </time>
           </span>
 
@@ -275,8 +281,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2015/06/07/install-and-config-git/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/06/07/install-and-config-git/" itemprop="commentsCount"></span>
+                <a href="/2017/05/12/trouble-jdk1.7-1.8-upgrade/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/05/12/trouble-jdk1.7-1.8-upgrade/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -299,31 +305,17 @@
       
 
       
-        <h2 id="安装">安装</h2><p>windows下git客户端我们选择msysgit;下载地址：<a href="https://github.com/msysgit/msysgit/releases/download/Git-1.9.5-preview20141217/Git-1.9.5-preview20141217.exe" target="_blank" rel="external">https://github.com/msysgit/msysgit/releases/download/Git-1.9.5-preview20141217/Git-1.9.5-preview20141217.exe</a></p>
-<h2 id="配置">配置</h2><h3 id="用户信息">用户信息</h3><p>你个人的用户名称和电子邮件地址，用户名可随意修改，git 用于记录是谁提交了更新，以及更新人的联系方式。</p>
-<p><code>git config --global user.name &quot;test&quot;</code></p>
-<p><code>git config --global user.email &quot;test@sina.com&quot;</code></p>
-<h3 id="自动高亮">自动高亮</h3><p><code>git config --global color.ui auto</code></p>
-<h3 id="查看所有配置">查看所有配置</h3><p><code>git config --list</code></p>
-<h2 id="生成SSH_Key">生成SSH Key</h2><ol>
-<li><p>查看是否已经有了ssh密钥：cd ~/.ssh<br>如果没有密钥则不会有此文件夹，有则备份删除；</p>
-</li>
-<li><p>生存密钥：<br><code>ssh-keygen -t rsa -C &quot;test@sina.com&quot;</code><br>按3个回车，密码为空;最后得到了两个文件：id_rsa和id_rsa.pub</p>
-</li>
-<li><p>在github上添加ssh密钥,这要添加的是id_rsa.pub里面的公钥。</p>
-</li>
-<li>测试配置：输入ssh git@github.com，如果提示：Hi defnngj You’ve successfully authenticated, but GitHub does not provide shell access. 说明你连接成功了。</li>
-</ol>
-<h2 id="使用github">使用github</h2><ol>
-<li><p>获取源码：<br><code>git clone git@github.com:billyanyteen/github-services.git</code></p>
-</li>
-<li><p>这样你的机器上就有一个repo了。</p>
-</li>
-<li><p>git于svn所不同的是git是分布式的，没有服务器概念。所有的人的机器上都有一个repo，每次提交都是给自己机器的repo<br>仓库初始化：<br><code>git init</code><br>生成快照并存入项目索引：<br><code>git add</code><br>文件,还有git rm,git mv等等…<br>项目索引提交：<br><code>git commit</code></p>
-</li>
-<li>协作编程：<br>将本地repo于远程的origin的repo合并，<br>推送本地更新到远程：<br><code>git push origin master</code><br>更新远程更新到本地：<br><code>git pull origin master</code></li>
-<li>补充：<br>添加远端repo：<br><code>git remote add upstream git://github.com/pjhyett/github-services.git</code><br>重命名远端repo：<br><code>git://github.com/pjhyett/github-services.git为upstream</code></li>
-</ol>
+        <h1 id="Java8升级中的一些坑">Java8升级中的一些坑</h1><p>本文记录一些JDK升级到8的过程中遇到的问题：</p>
+<h3 id="1、JSP编译问题">1、JSP编译问题</h3><pre><code>May <span class="number">10</span>, <span class="number">2017</span> <span class="number">3</span>:<span class="number">30</span>:<span class="number">44</span> PM org<span class="class">.apache</span><span class="class">.jasper</span><span class="class">.compiler</span><span class="class">.JDTCompiler</span>$<span class="number">1</span> findType
+SEVERE: Compilation error
+org<span class="class">.eclipse</span><span class="class">.jdt</span><span class="class">.internal</span><span class="class">.compiler</span><span class="class">.classfmt</span><span class="class">.ClassFormatException</span>
+    at org<span class="class">.eclipse</span><span class="class">.jdt</span><span class="class">.internal</span><span class="class">.compiler</span><span class="class">.classfmt</span><span class="class">.ClassFileReader</span>.&lt;init&gt;(ClassFileReader<span class="class">.java</span>:<span class="number">372</span>)
+    at org<span class="class">.apache</span><span class="class">.jasper</span><span class="class">.compiler</span><span class="class">.JDTCompiler</span>$<span class="number">1</span>.<span class="function"><span class="title">findType</span><span class="params">(JDTCompiler.java:<span class="number">232</span>)</span></span>
+    at org<span class="class">.apache</span><span class="class">.jasper</span><span class="class">.compiler</span><span class="class">.JDTCompiler</span>$<span class="number">1</span>.<span class="function"><span class="title">findType</span><span class="params">(JDTCompiler.java:<span class="number">188</span>)</span></span>
+    at org<span class="class">.eclipse</span><span class="class">.jdt</span><span class="class">.internal</span><span class="class">.compiler</span><span class="class">.lookup</span><span class="class">.LookupEnvironment</span><span class="class">.askForType</span>(LookupEnvironment<span class="class">.java</span>:<span class="number">113</span>)
+    at org<span class="class">.eclipse</span><span class="class">.jdt</span><span class="class">.internal</span><span class="class">.compiler</span><span class="class">.lookup</span><span class="class">.UnresolvedReferenceBinding</span><span class="class">.resolve</span>(UnresolvedReferenceBinding<span class="class">.java</span>:<span class="number">49</span>)
+</code></pre><p>JDK升级到8以后，某些JSP页面访问报错，Google发现，需要升级Tomcat到 8.X或 7.0.53版本， 具体见：<a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=56283" target="_blank" rel="external">https://bz.apache.org/bugzilla/show_bug.cgi?id=56283</a></p>
+<p>升级Tomcat到7.0.53版本，问题得到解决。</p>
 
       
     </div>
@@ -346,7 +338,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Tools/" rel="tag">#Tools</a>
+            <a href="/tags/Java/" rel="tag">#Java</a>
           
         </div>
       
@@ -355,17 +347,13 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2015/06/07/hexo-your-blog/" rel="next" title="Hexo安装配置">
-                <i class="fa fa-chevron-left"></i> Hexo安装配置
+              <a href="/2017/05/02/microservices/" rel="next" title="Java与微服务-初识微服务">
+                <i class="fa fa-chevron-left"></i> Java与微服务-初识微服务
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2015/06/09/about-arch-design/" rel="prev" title="架构随想">
-                架构随想 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -391,8 +379,8 @@
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2015/06/07/install-and-config-git/"
-           data-title="Git安装配置" data-url="http://yoursite.com/2015/06/07/install-and-config-git/">
+      <div class="ds-thread" data-thread-key="2017/05/12/trouble-jdk1.7-1.8-upgrade/"
+           data-title="Java8升级中的一些坑" data-url="http://yoursite.com/2017/05/12/trouble-jdk1.7-1.8-upgrade/">
       </div>
     
   </div>
@@ -437,7 +425,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">25</span>
+              <span class="site-state-item-count">27</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -447,7 +435,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-count">13</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -476,7 +464,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#安装"><span class="nav-number">1.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置"><span class="nav-number">2.</span> <span class="nav-text">配置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#用户信息"><span class="nav-number">2.1.</span> <span class="nav-text">用户信息</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#自动高亮"><span class="nav-number">2.2.</span> <span class="nav-text">自动高亮</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查看所有配置"><span class="nav-number">2.3.</span> <span class="nav-text">查看所有配置</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#生成SSH_Key"><span class="nav-number">3.</span> <span class="nav-text">生成SSH Key</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用github"><span class="nav-number">4.</span> <span class="nav-text">使用github</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Java8升级中的一些坑"><span class="nav-number">1.</span> <span class="nav-text">Java8升级中的一些坑</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1、JSP编译问题"><span class="nav-number">1.0.1.</span> <span class="nav-text">1、JSP编译问题</span></a></li></ol></li></ol></li></ol></div>
             
           </div>
         </section>
